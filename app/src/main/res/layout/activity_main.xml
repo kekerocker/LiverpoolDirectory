@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DA0C0C"
+    android:clickable="false"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="362dp"
+        android:layout_height="505dp"
+        android:layout_marginTop="50dp"
+        android:background="#00FFFFFF"
+        android:contentDescription="@string/todo"
+        android:longClickable="false"
+        android:soundEffectsEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/liverpool_fc" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:fontFamily="@font/albertus"
+        android:text="@string/liverpool_football_club"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="212dp"
+        android:layout_height="165dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton"
+        app:srcCompat="@drawable/pngwing_com__1_"
+        android:contentDescription="@string/todo6" />
+
+    <Button
+        android:textColor="@android:color/white"
+        android:id="@+id/fab_stop"
+        android:layout_width="70dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="284dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/buttonstyle"
+        android:text="Стоп"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:textColor="@android:color/white"
+        android:id="@+id/fab_mute"
+        android:layout_width="128dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="56dp"
+        android:fontFamily="@font/albertus"
+        android:text="Без звука"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

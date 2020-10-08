@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".PlayersActivity">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="372dp"
+        android:layout_height="689dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/football_field" />
+
+    <TextView
+        android:id="@+id/textAlisson"
+        android:layout_width="85dp"
+        android:layout_height="17dp"
+        android:layout_marginBottom="25dp"
+        android:background="#8CFB0000"
+        android:text="@string/gk_1_alisson_b"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textMane"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="187dp"
+        android:layout_marginEnd="137dp"
+        android:layout_marginBottom="188dp"
+        android:background="#8CFB0000"
+        android:text="LW 10 Mane S."
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/textHenderson"
+        app:layout_constraintEnd_toStartOf="@+id/textSalah"
+        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.53" />
+
+    <TextView
+        android:id="@+id/textSalah"
+        android:layout_width="100dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="176dp"
+        android:layout_marginBottom="177dp"
+        android:background="#8CFB0000"
+        android:text="RW 11 Salah M."
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/textHenderson"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textMane"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textFirmino"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginBottom="40dp"
+        android:background="#8CFB0000"
+        android:text="9 CF Firmino R."
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/textMane"
+        app:layout_constraintStart_toEndOf="@+id/textMane" />
+
+    <TextView
+        android:id="@+id/textFabinho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        android:background="#8CFB0000"
+        android:text="3 CM Fabinho T."
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/textHenderson"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textWijnaldum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="321dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="324dp"
+        android:background="#8CFB0000"
+        android:text="5 CM Wijnaldum G."
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView4" />
+
+    <TextView
+        android:id="@+id/textHenderson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:background="#8CFB0000"
+        android:text="14 CDM Henderson J."
+        android:textColor="#000000"
+        app:layout_constraintEnd_toStartOf="@+id/textWijnaldum"
+        app:layout_constraintTop_toBottomOf="@+id/textWijnaldum" />
+
+    <TextView
+        android:id="@+id/textRobertson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="163dp"
+        android:background="#8CFB0000"
+        android:text="26 LB Robertson"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toStartOf="@+id/textTAA"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textHenderson" />
+
+    <TextView
+        android:id="@+id/textTAA"
+        android:layout_width="0dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="232dp"
+        android:layout_marginBottom="232dp"
+        android:background="#8CFB0000"
+        android:text="  66 RB T.-A. A."
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textRobertson"
+        app:layout_constraintTop_toBottomOf="@+id/textMane" />
+
+    <TextView
+        android:id="@+id/textGomez"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="49dp"
+        android:layout_marginEnd="20dp"
+        android:background="#8CFB0000"
+        android:text="12 CB Gomez J."
+        android:textColor="#000000"
+        app:layout_constraintEnd_toStartOf="@+id/textVirgil"
+        app:layout_constraintTop_toBottomOf="@+id/textRobertson" />
+
+    <TextView
+        android:id="@+id/textVirgil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="63dp"
+        android:layout_marginEnd="63dp"
+        android:background="#8CFB0000"
+        android:text="4 CB Van Dijk V."
+        android:textColor="#000000"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textGomez"
+        app:layout_constraintEnd_toEndOf="@+id/textTAA"
+        app:layout_constraintStart_toStartOf="@+id/textAlisson" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

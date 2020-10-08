@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="475dp"
+    android:background="@color/cardview_dark_background"
+    android:padding="5dp"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="244dp"
+        android:layout_height="61dp"
+        android:gravity="center"
+        android:text="@string/_29"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.566"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.374" />
+
+    <TextView
+        android:id="@+id/closebutton1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity='end'
+        android:layout_marginStart="315dp"
+        android:layout_marginBottom="440dp"
+        android:background="@drawable/closebutton"
+        android:gravity="center"
+        android:text="@string/x"
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/playstop1"
+        android:layout_width="39dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="148dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView8"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/stop"
+        android:contentDescription="@string/todo" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="260dp"
+        android:layout_height="159dp"
+        android:contentDescription="@string/todo4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.015"
+        app:srcCompat="@drawable/vandijk_biophoto" />
+
+    <ScrollView
+        android:layout_width="314dp"
+        android:layout_height="227dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975">
+
+        <TextView
+            android:id="@+id/textVirgil1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_12_2010_ii_2011_1_28_30_2013_1_2018_75_5_10_5_1_32_84_2_1_90_1_3_2018_2019_31_the_best_fifa_men_s_player_29_2019_20_38_5"
+            android:textColor="@android:color/white" />
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
