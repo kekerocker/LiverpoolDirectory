@@ -32,7 +32,7 @@
         android:layout_marginEnd="45dp"
         android:background="@drawable/buttonstyle"
         android:fontFamily="@font/albertus"
-        android:text="История клуба"
+        android:text="История"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fab_stop"
@@ -108,7 +108,7 @@
     <SeekBar
         android:id="@+id/seekbar"
         android:layout_width="116dp"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="199dp"
         android:layout_marginEnd="45dp"
         app:layout_constraintBottom_toBottomOf="parent"
