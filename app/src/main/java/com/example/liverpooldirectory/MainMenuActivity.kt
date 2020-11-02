@@ -8,18 +8,24 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_library.*
+import kotlinx.android.synthetic.main.activity_mainmenu.*
 
 
-class LibraryActivity : AppCompatActivity() {
+class MainMenuActivity : AppCompatActivity() {
 
     private var mp: MediaPlayer? = null
     private var currentSong: MutableList<Int> = mutableListOf(R.raw.ynwa)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_library)
+        setContentView(R.layout.activity_mainmenu)
         supportActionBar?.hide()
+        val text = "Welcome, to Republic of Liverpool! Tap on LFC logo."
+        val duration = Toast.LENGTH_LONG
+
+        val toast = Toast.makeText(applicationContext, text, duration)
+        toast.show()
 
         val btnHistory = findViewById<Button>(R.id.button4)
         btnHistory.setOnClickListener(this::onHistoryClick)
@@ -48,12 +54,16 @@ class LibraryActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun onNewsClick(view: View) {
+    private fun onNewsClick(@Suppress("UNUSED_PARAMETER") view: View) {
         val intent = Intent(this, NewsActivity::class.java)
         startActivity(intent)
     }
 
     private fun controlSound(id: Int) {
+        mp = MediaPlayer.create(this, id)
+        Log.d("MainActivity", "ID: ${mp!!.audioSessionId}")
+        initialiseSeekBar()
+        mp?.start()
         fab_play.setOnClickListener {
             if (mp == null) {
                 mp = MediaPlayer.create(this, id)
