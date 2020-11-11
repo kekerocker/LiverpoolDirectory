@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.liverpooldirectory.R
 
-class RecyclerAdapter(
+class  RecyclerAdapter(
     private var titles: List<String>,
     private var details: List<String>,
+    private var content: List<String>,
     private var images: List<String>,
     private var links: List<String>
 ) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
@@ -23,6 +24,7 @@ class RecyclerAdapter(
 
         val itemTitle: TextView = itemView.findViewById(R.id.tv_title)
         val itemDetail: TextView = itemView.findViewById(R.id.tv_description)
+        val itemContent: TextView = itemView.findViewById(R.id.tv_content)
         val itemPicture: ImageView = itemView.findViewById(R.id.iv_image)
 
         init {
@@ -47,6 +49,7 @@ class RecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
         holder.itemTitle.text = titles[position]
         holder.itemDetail.text = details[position]
+        holder.itemContent.text = content[position]
 
         Glide.with(holder.itemPicture)
             .load(images[position])
