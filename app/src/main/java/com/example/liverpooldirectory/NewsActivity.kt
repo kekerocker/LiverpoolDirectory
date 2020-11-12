@@ -1,4 +1,4 @@
-package com.example.liverpooldirectory
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             package com.example.liverpooldirectory
 
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -27,7 +27,7 @@ class NewsActivity : AppCompatActivity() {
     private var imagesList = mutableListOf<String>()
     private var linksList = mutableListOf<String>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {        // api key = AIzaSyAPZiaOhFJVyMh9BoXgRxlN38itYcSgCm4
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
         supportActionBar?.hide()
