@@ -23,7 +23,7 @@
         android:layout_height="17dp"
         android:layout_marginBottom="34dp"
         android:background="#8CFB0000"
-        android:text="@string/gk_1_alisson_b"
+        android:text="1 GK Alisson B."
         android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"

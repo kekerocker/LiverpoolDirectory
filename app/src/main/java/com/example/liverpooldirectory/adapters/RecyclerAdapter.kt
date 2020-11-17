@@ -28,7 +28,8 @@ class  RecyclerAdapter(
         val itemPicture: ImageView = itemView.findViewById(R.id.iv_image)
 
         init {
-            itemView.setOnClickListener { v: View ->
+
+            itemView.setOnClickListener {
                 val position: Int = adapterPosition
 
                 val intent = Intent(Intent.ACTION_VIEW)

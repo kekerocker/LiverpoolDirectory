@@ -1,10 +1,14 @@
 package com.example.liverpooldirectory
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.youtube.player.YouTubeInitializationResult
-import com.google.android.youtube.player.YouTubePlayer
-import com.google.android.youtube.player.YouTubePlayerSupportFragment
+import org.jsoup.Jsoup
+import kotlin.concurrent.thread
+
+const val url = "http://www.myliverpool.ru"
 
 class TrophiesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,29 +16,28 @@ class TrophiesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_trophies)
         supportActionBar?.hide()
 
-        var lfctrophies =
-            supportFragmentManager.findFragmentById(R.id.youtube_fragment1) as YouTubePlayerSupportFragment
-        lfctrophies.initialize("AIzaSyAPZiaOhFJVyMh9BoXgRxlN38itYcSgCm4",
-            object : YouTubePlayer.OnInitializedListener {
-                override fun onInitializationSuccess(
-                    provider: YouTubePlayer.Provider?,
-                    player: YouTubePlayer?,
-                    wasRestored: Boolean
-                ) {
-                    if (player == null) return
-                    if (wasRestored)
-                        player.play()
-                    else {
-                        player.cueVideo("yT4AEIcAMz4")
-                        player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT)
-                    }
-                }
+        val tvView = findViewById<TextView>(R.id.textexample)
+        val imgView = findViewById<ImageView>(R.id.imageView2)
+        val button = findViewById<Button>(R.id.button)
 
-                override fun onInitializationFailure(
-                    p0: YouTubePlayer.Provider?,
-                    p1: YouTubeInitializationResult?
-                ) {
+        button.setOnClickListener {
+            thread {
+                val doc = Jsoup.connect(url).get()
+
+                val textElement = doc.getElementsByClass("titlenews")
+                //val imageUrl = url + doc
+                    //.select(".short_img img")
+                    //.first()
+                    //.attr("src")
+
+                this.runOnUiThread {
+                    //Log.d("TAGG", imageUrl)
+                    //Picasso.get()
+                        //.load(imageUrl)
+                        //.into(imgView)
+                    tvView.text = textElement[0].text()
                 }
-            })
+            }
+        }
     }
 }

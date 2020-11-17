@@ -4,7 +4,6 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.SeekBar
@@ -44,10 +43,12 @@ class MainMenuActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+
     private fun onPlayersClick(view: View) {
         val intent = Intent(this, PlayersActivity::class.java)
         startActivity(intent)
     }
+
 
     private fun onTrophiesClick(view: View) {
         val intent = Intent(this, TrophiesActivity::class.java)
@@ -61,26 +62,19 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun controlSound(id: Int) {
         mp = MediaPlayer.create(this, id)
-        Log.d("MainActivity", "ID: ${mp!!.audioSessionId}")
         initialiseSeekBar()
         mp?.start()
+        switchPic()
         fab_play.setOnClickListener {
             if (mp == null) {
-                mp = MediaPlayer.create(this, id)
-                Log.d("LibraryActivity", "ID: ${mp!!.audioSessionId}")
-
-                initialiseSeekBar()
-            }
-            mp?.start()
-            Log.d("LibraryActivity", "Duration: ${mp!!.duration / 1000} seconds")
-        }
-
-        fab_stop.setOnClickListener {
-            if (mp !== null) {
-                mp?.stop()
-                mp?.reset()
-                mp?.release()
-                mp = null
+                mp?.start()
+                switchPic()
+            } else if (mp?.isPlaying!!) {
+                mp?.pause()
+                fab_play.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+            } else {
+                mp?.start()
+                switchPic()
             }
         }
 
@@ -95,6 +89,14 @@ class MainMenuActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
+    }
+
+    private fun switchPic() {
+        if (mp !== null) {
+            fab_play.setImageResource(R.drawable.ic_baseline_pause_24)
+        } else {
+            fab_play.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+        }
     }
 
     private fun initialiseSeekBar() {

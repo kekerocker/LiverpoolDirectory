@@ -12,9 +12,10 @@ class historyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_history)
         supportActionBar?.hide()
 
-        var lfc125years = supportFragmentManager.findFragmentById(R.id.youtube_fragment) as YouTubePlayerSupportFragment
+        val lfc125years =
+            supportFragmentManager.findFragmentById(R.id.youtube_fragment) as YouTubePlayerSupportFragment
         lfc125years.initialize("AIzaSyAPZiaOhFJVyMh9BoXgRxlN38itYcSgCm4",
-            object:YouTubePlayer.OnInitializedListener{
+            object : YouTubePlayer.OnInitializedListener {
                 override fun onInitializationSuccess(
                     provider: YouTubePlayer.Provider?,
                     player: YouTubePlayer?,

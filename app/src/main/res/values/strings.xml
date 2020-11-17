@@ -1,21 +1,13 @@
 <resources>
     <string name="app_name">Liverpool Directory</string>
-    <string name="todo">TODO</string>
-    <string name="start">Play</string>
-    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="play">Play</string>
     <string name="lfc_trophies">LFC Trophies</string>
     <string name="players">Players</string>
-    <string name="club_history">Club history</string>
-    <string name="todo1">TODO</string>
-    <string name="liverpool_football_club">LIVERPOOL FOOTBALL CLUB</string>
-    <string name="todo3">TODO</string>
-    <string name="futField">TODO</string>
-    <string name="alisson">TODO</string>
-    <string name="gk_1_alisson_b">GK 1 Alisson B.</string>
-    <string name="todo6">TODO</string>
-    <string name="stop">Stop</string>
-    <string name="mute">Mute</string>
-    <string name="x">X</string>
-    <string name="todo5">TODO</string>
-    <string name="todo4">TODO3</string>
+    <string name="news">News</string>
+    <string name="history">History</string>
+    <string name="lfc_logo" translatable="false">lfc_logo</string>
+    <string name="close_button" translatable="false">X</string>
+    <string name="players_image" translatable="false">players_image</string>
+    <string name="stop_play_button" translatable="false">stop_play_button</string>
 </resources>
