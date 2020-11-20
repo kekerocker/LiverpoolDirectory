@@ -1,7 +1,6 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              package com.example.liverpooldirectory
 
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -18,8 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 const val BASE_URL = "http://newsapi.org/"
 
 class NewsActivity : AppCompatActivity() {
-
-    lateinit var countDownTimer: CountDownTimer
 
     private var titleList = mutableListOf<String>()
     private var descList = mutableListOf<String>()
@@ -69,7 +66,6 @@ class NewsActivity : AppCompatActivity() {
                 val response = api.getNews()
 
                 for (article in response.articles) {
-                    Log.i("NewsActivity", "Result = $article")
                     addToList(article.title, article.description, article.content, article.urlToImage, article.url)
                 }
                 withContext(Dispatchers.Main){

@@ -4,15 +4,33 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.liverpooldirectory.adapters.RecyclerAdapterTable
 import kotlinx.android.synthetic.main.activity_mainmenu.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jsoup.Jsoup
+
+private var positionList = mutableListOf<String>()
+private var clubList = mutableListOf<String>()
+private var gamesList = mutableListOf<String>()
+private var winList = mutableListOf<String>()
+private var drawList = mutableListOf<String>()
+private var loseList = mutableListOf<String>()
+private var pointsList = mutableListOf<String>()
 
 
 class MainMenuActivity : AppCompatActivity() {
+
+    private var URL_TABLE = "https://liverpoolfc.ru/season/premer-liga"
 
     private var mp: MediaPlayer? = null
     private var currentSong: MutableList<Int> = mutableListOf(R.raw.ynwa)
@@ -36,7 +54,93 @@ class MainMenuActivity : AppCompatActivity() {
         btnNews.setOnClickListener(this::onNewsClick)
 
         controlSound(currentSong[0])
+        downloadTableData()
     }
+
+    private fun setUpRecyclerView() {
+        rv_recyclerView_table.layoutManager = LinearLayoutManager(this)
+        rv_recyclerView_table.adapter = RecyclerAdapterTable(
+            positionList,
+            clubList,
+            gamesList,
+            winList,
+            drawList,
+            loseList,
+            pointsList
+        )
+    }
+
+
+    private fun downloadTableData() {
+        var xClub = 1
+        var xPosition = 0
+        var xGames = 2
+        var xWin = 3
+        var xDraw = 4
+        var xLose = 5
+        var xPoints = 6
+
+        var club: String
+        var position: String
+        var games: String
+        var win: String
+        var draw: String
+        var lose: String
+        var points: String
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val doc = Jsoup.connect(URL_TABLE).get()
+                val td = doc
+                    .select("tbody")
+                    .select("tr")
+                    .select("td")
+
+                do {
+                    club = td.get(xClub).text()
+                    clubList.add(club)
+                    xClub += 9
+                } while (xClub < td.size)
+                do {
+                    position = td.get(xPosition).text()
+                    positionList.add(position)
+                    xPosition += 9
+                } while (xPosition < td.size)
+                do {
+                    games = td.get(xGames).text()
+                    gamesList.add(games)
+                    xGames += 9
+                } while (xGames < td.size)
+                do {
+                    win = td.get(xWin).text()
+                    winList.add(win)
+                    xWin += 9
+                } while (xWin < td.size)
+                do {
+                    draw = td.get(xDraw).text()
+                    drawList.add(draw)
+                    xDraw += 9
+                } while (xDraw < td.size)
+                do {
+                    lose = td.get(xLose).text()
+                    loseList.add(lose)
+                    xLose += 9
+                } while (xLose < td.size)
+                do {
+                    points = td.get(xPoints).text()
+                    pointsList.add(points)
+                    xPoints += 9
+                } while (xPoints < td.size)
+
+                withContext(Dispatchers.Main) {
+                    setUpRecyclerView()
+                }
+            } catch (e: Exception) {
+                Log.e("NewsActivity", e.toString())
+            }
+        }
+    }
+
 
     private fun onHistoryClick(view: View) {
         val intent = Intent(this, historyActivity::class.java)
