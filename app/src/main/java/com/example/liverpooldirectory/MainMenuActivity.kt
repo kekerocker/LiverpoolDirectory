@@ -39,11 +39,8 @@ class MainMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainmenu)
         supportActionBar?.hide()
-        val text = "Welcome, to Republic of Liverpool! Tap on LFC logo."
-        val duration = Toast.LENGTH_LONG
 
-        val toast = Toast.makeText(applicationContext, text, duration)
-        toast.show()
+        Toast.makeText(applicationContext, "Welcome, to Republic of Liverpool! Tap on LFC logo.", Toast.LENGTH_LONG).show()
 
         val btnHistory = findViewById<Button>(R.id.button4)
         btnHistory.setOnClickListener(this::onHistoryClick)
@@ -60,28 +57,11 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun setUpRecyclerView() {
         rv_recyclerView_table.layoutManager = LinearLayoutManager(this)
-        rv_recyclerView_table.adapter = RecyclerAdapterTable(
-            positionList,
-            clubList,
-            gamesList,
-            winList,
-            drawList,
-            loseList,
-            pointsList
-        )
+        rv_recyclerView_table.adapter = RecyclerAdapterTable(positionList, clubList, gamesList, winList, drawList, loseList, pointsList)
     }
 
 
     private fun downloadTableData() {
-        var x: Int
-
-        var club: String
-        var position: String
-        var games: String
-        var win: String
-        var draw: String
-        var lose: String
-        var points: String
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -91,54 +71,24 @@ class MainMenuActivity : AppCompatActivity() {
                     .select("tr")
                     .select("td")
 
-                x = 1
-                do {
-                    club = td[x].text()
-                    clubList.add(club)
-                    x += 9
-                } while (x < td.size)
+                fun getInfo(startPositionInTable: Int, list: MutableList<String>) {
+                    var a = startPositionInTable
+                    var y: String
+                    val columnCount = 9
+                    do {
+                        y = td.get(a).text()
+                        list.add(y)
+                        a += columnCount
+                    } while (a < td.size)
+                }
 
-                x = 0
-                do {
-                    position = td[x].text()
-                    positionList.add(position)
-                    x += 9
-                } while (x < td.size)
-
-                x = 2
-                do {
-                    games = td[x].text()
-                    gamesList.add(games)
-                    x += 9
-                } while (x < td.size)
-
-                x = 3
-                do {
-                    win = td[x].text()
-                    winList.add(win)
-                    x += 9
-                } while (x < td.size)
-
-                x = 4
-                do {
-                    draw = td[x].text()
-                    drawList.add(draw)
-                    x += 9
-                } while (x < td.size)
-
-                x = 5
-                do {
-                    lose = td[x].text()
-                    loseList.add(lose)
-                    x += 9
-                } while (x < td.size)
-
-                x = 6
-                do {
-                    points = td[x].text()
-                    pointsList.add(points)
-                    x += 9
-                } while (x < td.size)
+                getInfo(0, positionList)
+                getInfo(1, clubList)
+                getInfo(2, gamesList)
+                getInfo(3, winList)
+                getInfo(4, drawList)
+                getInfo(5, loseList)
+                getInfo(8, pointsList)
 
                 withContext(Dispatchers.Main) {
                     setUpRecyclerView()
@@ -148,7 +98,6 @@ class MainMenuActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun onHistoryClick(view: View) {
         val intent = Intent(this, historyActivity::class.java)
