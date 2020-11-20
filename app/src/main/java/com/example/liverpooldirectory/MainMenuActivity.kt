@@ -28,6 +28,7 @@ private var loseList = mutableListOf<String>()
 private var pointsList = mutableListOf<String>()
 
 
+@Suppress("DEPRECATION")
 class MainMenuActivity : AppCompatActivity() {
 
     private var URL_TABLE = "https://liverpoolfc.ru/season/premer-liga"
@@ -72,13 +73,7 @@ class MainMenuActivity : AppCompatActivity() {
 
 
     private fun downloadTableData() {
-        var xClub = 1
-        var xPosition = 0
-        var xGames = 2
-        var xWin = 3
-        var xDraw = 4
-        var xLose = 5
-        var xPoints = 6
+        var x: Int
 
         var club: String
         var position: String
@@ -96,41 +91,54 @@ class MainMenuActivity : AppCompatActivity() {
                     .select("tr")
                     .select("td")
 
+                x = 1
                 do {
-                    club = td.get(xClub).text()
+                    club = td[x].text()
                     clubList.add(club)
-                    xClub += 9
-                } while (xClub < td.size)
+                    x += 9
+                } while (x < td.size)
+
+                x = 0
                 do {
-                    position = td.get(xPosition).text()
+                    position = td[x].text()
                     positionList.add(position)
-                    xPosition += 9
-                } while (xPosition < td.size)
+                    x += 9
+                } while (x < td.size)
+
+                x = 2
                 do {
-                    games = td.get(xGames).text()
+                    games = td[x].text()
                     gamesList.add(games)
-                    xGames += 9
-                } while (xGames < td.size)
+                    x += 9
+                } while (x < td.size)
+
+                x = 3
                 do {
-                    win = td.get(xWin).text()
+                    win = td[x].text()
                     winList.add(win)
-                    xWin += 9
-                } while (xWin < td.size)
+                    x += 9
+                } while (x < td.size)
+
+                x = 4
                 do {
-                    draw = td.get(xDraw).text()
+                    draw = td[x].text()
                     drawList.add(draw)
-                    xDraw += 9
-                } while (xDraw < td.size)
+                    x += 9
+                } while (x < td.size)
+
+                x = 5
                 do {
-                    lose = td.get(xLose).text()
+                    lose = td[x].text()
                     loseList.add(lose)
-                    xLose += 9
-                } while (xLose < td.size)
+                    x += 9
+                } while (x < td.size)
+
+                x = 6
                 do {
-                    points = td.get(xPoints).text()
+                    points = td[x].text()
                     pointsList.add(points)
-                    xPoints += 9
-                } while (xPoints < td.size)
+                    x += 9
+                } while (x < td.size)
 
                 withContext(Dispatchers.Main) {
                     setUpRecyclerView()
@@ -170,15 +178,19 @@ class MainMenuActivity : AppCompatActivity() {
         mp?.start()
         switchPic()
         fab_play.setOnClickListener {
-            if (mp == null) {
-                mp?.start()
-                switchPic()
-            } else if (mp?.isPlaying!!) {
-                mp?.pause()
-                fab_play.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-            } else {
-                mp?.start()
-                switchPic()
+            when {
+                mp == null -> {
+                    mp?.start()
+                    switchPic()
+                }
+                mp?.isPlaying!! -> {
+                    mp?.pause()
+                    fab_play.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                }
+                else -> {
+                    mp?.start()
+                    switchPic()
+                }
             }
         }
 
