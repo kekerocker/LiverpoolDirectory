@@ -94,7 +94,7 @@ class MainMenuActivity : AppCompatActivity() {
                     setUpRecyclerView()
                 }
             } catch (e: Exception) {
-                Log.e("NewsActivity", e.toString())
+                Log.e("downloadTableData", e.toString())
             }
         }
     }
