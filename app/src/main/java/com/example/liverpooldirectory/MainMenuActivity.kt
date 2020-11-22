@@ -38,6 +38,7 @@ private var tournamentLogoList = mutableListOf<String>()
 private var teamLogo1List = mutableListOf<String>()
 private var teamLogo2List = mutableListOf<String>()
 private var matchTypeList = mutableListOf<String>()
+private var imagesList = mutableListOf<Int>()
 
 
 class MainMenuActivity : AppCompatActivity() {
@@ -47,6 +48,7 @@ class MainMenuActivity : AppCompatActivity() {
 
     private var mp: MediaPlayer? = null
     private var currentSong: MutableList<Int> = mutableListOf(R.raw.ynwa)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainmenu)
@@ -62,6 +64,7 @@ class MainMenuActivity : AppCompatActivity() {
         btnNews.setOnClickListener(this::onNewsClick)
 
         controlSound(currentSong[0])
+
         downloadTableData()
         downloadCloseGameData()
     }
@@ -83,7 +86,7 @@ class MainMenuActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val doc = Jsoup.connect(urlCloseGame).get()
-                val td = doc.select("tr").select("td")
+                val td = doc.select("tr td")
                 val teamImgInfo = doc.select(".embl img")
                 val tournamentImgInfo = doc.select(".score img")
                 val blockTitleInfo = doc.getElementsByClass("blocktitle2")
@@ -155,9 +158,7 @@ class MainMenuActivity : AppCompatActivity() {
             try {
                 val doc = Jsoup.connect(urlTable).get()
                 val td = doc
-                    .select("tbody")
-                    .select("tr")
-                    .select("td")
+                    .select("tbody tr td")
 
                 fun getInfo(startPositionInTable: Int, list: MutableList<String>) {
                     var a = startPositionInTable
@@ -188,7 +189,7 @@ class MainMenuActivity : AppCompatActivity() {
     }
 
     private fun onHistoryClick(view: View) {
-        val intent = Intent(this, historyActivity::class.java)
+        val intent = Intent(this, HistoryActivity::class.java)
         startActivity(intent)
     }
 

@@ -17,7 +17,7 @@ class ViewPagerAdapter (
     private var tournamentLogo: List<String>,
     private var teamLogo1: List<String>,
     private var teamLogo2: List<String>,
-    private var matchType: List<String>
+    private var matchType: List<String>,
 ) : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>() {
 
     inner class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
