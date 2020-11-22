@@ -11,12 +11,15 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.liverpooldirectory.adapters.RecyclerAdapterTable
+import com.example.liverpooldirectory.adapters.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_mainmenu.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.relex.circleindicator.CircleIndicator3
 import org.jsoup.Jsoup
 
 private var positionList = mutableListOf<String>()
@@ -27,11 +30,20 @@ private var drawList = mutableListOf<String>()
 private var loseList = mutableListOf<String>()
 private var pointsList = mutableListOf<String>()
 
+private var teamName1List = mutableListOf<String>()
+private var teamName2List = mutableListOf<String>()
+private var scoreList = mutableListOf<String>()
+private var dateList = mutableListOf<String>()
+private var tournamentLogoList = mutableListOf<String>()
+private var teamLogo1List = mutableListOf<String>()
+private var teamLogo2List = mutableListOf<String>()
+private var matchTypeList = mutableListOf<String>()
 
-@Suppress("DEPRECATION")
+
 class MainMenuActivity : AppCompatActivity() {
 
-    private var URL_TABLE = "https://liverpoolfc.ru/season/premer-liga"
+    private var urlTable = "https://www.sports.ru/epl/table"
+    private var urlCloseGame = "http://www.myliverpool.ru/"
 
     private var mp: MediaPlayer? = null
     private var currentSong: MutableList<Int> = mutableListOf(R.raw.ynwa)
@@ -42,30 +54,106 @@ class MainMenuActivity : AppCompatActivity() {
 
         Toast.makeText(applicationContext, "Welcome, to Republic of Liverpool! Tap on LFC logo.", Toast.LENGTH_LONG).show()
 
-        val btnHistory = findViewById<Button>(R.id.button4)
+        val btnHistory = findViewById<Button>(R.id.history)
         btnHistory.setOnClickListener(this::onHistoryClick)
-        val btnPlayers = findViewById<Button>(R.id.button5)
+        val btnPlayers = findViewById<Button>(R.id.players)
         btnPlayers.setOnClickListener(this::onPlayersClick)
-        val btnTrophies = findViewById<Button>(R.id.button6)
-        btnTrophies.setOnClickListener(this::onTrophiesClick)
-        val btnNews = findViewById<Button>(R.id.button7)
+        val btnNews = findViewById<Button>(R.id.news)
         btnNews.setOnClickListener(this::onNewsClick)
 
         controlSound(currentSong[0])
         downloadTableData()
+        downloadCloseGameData()
     }
 
-    private fun setUpRecyclerView() {
+    private fun setUpViewPager() {
+        view_pager2.adapter = ViewPagerAdapter(teamName1List, teamName2List, scoreList, dateList, tournamentLogoList, teamLogo1List, teamLogo2List, matchTypeList)
+        view_pager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        val indicator = findViewById<CircleIndicator3>(R.id.indicator)
+        indicator.setViewPager(view_pager2)
+    }
+
+    private fun setUpRecyclerViewTable() {
         rv_recyclerView_table.layoutManager = LinearLayoutManager(this)
         rv_recyclerView_table.adapter = RecyclerAdapterTable(positionList, clubList, gamesList, winList, drawList, loseList, pointsList)
     }
 
-
-    private fun downloadTableData() {
+    private fun downloadCloseGameData() {
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val doc = Jsoup.connect(URL_TABLE).get()
+                val doc = Jsoup.connect(urlCloseGame).get()
+                val td = doc.select("tr").select("td")
+                val teamImgInfo = doc.select(".embl img")
+                val tournamentImgInfo = doc.select(".score img")
+                val blockTitleInfo = doc.getElementsByClass("blocktitle2")
+
+                fun getInfo(startPosition: Int, list: MutableList<String>) {
+                    var a = startPosition
+                    var y: String
+                    val columnCount = 7
+                    do {
+                        y = td[a].text()
+                        list.add(y)
+                        a += columnCount
+                    } while (a < 21)
+                }
+
+                fun getBlockTitle(startPosition: Int, list: MutableList<String>) {
+                    var a = startPosition
+                    var y: String
+                    val columnCount = 1
+                    do {
+                        y = blockTitleInfo[a].text()
+                        list.add(y)
+                        a += columnCount
+                    } while (a < 3)
+                }
+
+                fun getTournamentsPicsInfo(startPosition: Int, list: MutableList<String>) {
+                    var y: String
+                    var a = startPosition
+                    val columnCount = 1
+                    do {
+                        y = tournamentImgInfo[a].attr("src")
+                        list.add(y)
+                        a += columnCount
+                    } while (a < tournamentImgInfo.size)
+                }
+
+                fun getPicsInfo(startPosition: Int, list: MutableList<String>) {
+                    var y: String
+                    var a = startPosition
+                    val columnCount = 2
+                    do {
+                        y = teamImgInfo[a].attr("src")
+                        list.add(y)
+                        a += columnCount
+                    } while (a < teamImgInfo.size)
+                }
+
+                getInfo(3, teamName1List)
+                getInfo(5, teamName2List)
+                getInfo(4, scoreList)
+                getInfo(6, dateList)
+                getBlockTitle(0, matchTypeList)
+                getPicsInfo(0, teamLogo1List)
+                getPicsInfo(1, teamLogo2List)
+                getTournamentsPicsInfo(0, tournamentLogoList)
+
+                withContext(Dispatchers.Main) {
+                    setUpViewPager()
+                }
+            } catch (e: Exception) {
+                Log.e("downloadTableData", e.toString())
+            }
+        }
+    }
+
+    private fun downloadTableData() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val doc = Jsoup.connect(urlTable).get()
                 val td = doc
                     .select("tbody")
                     .select("tr")
@@ -76,22 +164,22 @@ class MainMenuActivity : AppCompatActivity() {
                     var y: String
                     val columnCount = 9
                     do {
-                        y = td.get(a).text()
+                        y = td[a].text()
                         list.add(y)
                         a += columnCount
                     } while (a < td.size)
                 }
 
-                getInfo(0, positionList)
-                getInfo(1, clubList)
-                getInfo(2, gamesList)
-                getInfo(3, winList)
-                getInfo(4, drawList)
-                getInfo(5, loseList)
-                getInfo(8, pointsList)
+                getInfo(2, positionList)
+                getInfo(3, clubList)
+                getInfo(4, gamesList)
+                getInfo(5, winList)
+                getInfo(6, drawList)
+                getInfo(7, loseList)
+                getInfo(10, pointsList)
 
                 withContext(Dispatchers.Main) {
-                    setUpRecyclerView()
+                    setUpRecyclerViewTable()
                 }
             } catch (e: Exception) {
                 Log.e("downloadTableData", e.toString())
@@ -110,13 +198,7 @@ class MainMenuActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-
-    private fun onTrophiesClick(view: View) {
-        val intent = Intent(this, TrophiesActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun onNewsClick(@Suppress("UNUSED_PARAMETER") view: View) {
+    private fun onNewsClick(view: View) {
         val intent = Intent(this, NewsActivity::class.java)
         startActivity(intent)
     }
@@ -141,6 +223,10 @@ class MainMenuActivity : AppCompatActivity() {
                     switchPic()
                 }
             }
+        }
+
+        if (mp?.isPlaying == false) {
+            mp?.seekTo(0)
         }
 
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

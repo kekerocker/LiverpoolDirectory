@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TableRow>
 
         <TextView
             android:id="@+id/tv_position"
-            android:text="1"
+            tools:text="1"
             android:width="20dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginStart="1dp"
+            android:background="#DA0C0C"
+            android:textColor="@android:color/white"
             android:textSize="12sp"
             android:gravity="center"
             android:layout_weight="1"/>
@@ -17,44 +21,63 @@
         <TextView
             android:id="@+id/tv_club"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="left"
+            android:background="#DA0C0C"
+            android:textColor="@android:color/white"
             android:width="70dp"
-            android:maxLines="2"
-            android:maxLength="15"
-            android:text="Ливерпуль"
+            android:layout_marginBottom="1dp"
+            android:maxLines="1"
+            android:maxLength="17"
+            tools:text="Ливерпуль"
             android:textSize="12sp" />
         <TextView
             android:id="@+id/tv_games"
-            android:text="38"
+            tools:text="38"
             android:textSize="12sp"
+            android:background="#DA0C0C"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="1dp"
             android:width="20dp"
             android:gravity="center"
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/tv_wins"
-            android:text="30"
+            tools:text="30"
+            android:background="#DA0C0C"
+            android:textColor="@android:color/white"
             android:textSize="12sp"
+            android:layout_marginBottom="1dp"
             android:width="20dp"
             android:gravity="center"
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/tv_draws"
-            android:text="6"
+            tools:text="6"
             android:textSize="12sp"
+            android:layout_marginBottom="1dp"
+            android:textColor="@android:color/white"
+            android:background="#DA0C0C"
             android:width="20dp"
             android:gravity="center"
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/tv_loses"
-            android:text="2"
+            tools:text="2"
             android:textSize="12sp"
+            android:layout_marginBottom="1dp"
+            android:textColor="@android:color/white"
+            android:background="#DA0C0C"
             android:width="20dp"
             android:gravity="center"
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/tv_points"
-            android:text="96"
+            tools:text="96"
             android:textSize="12sp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="1dp"
+            android:textColor="@android:color/white"
+            android:background="#DA0C0C"
             android:gravity="center"
             android:width="20dp"
             android:layout_weight="1"/>

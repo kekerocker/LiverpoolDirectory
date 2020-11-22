@@ -7,120 +7,106 @@
     android:background="#DA0C0C"
     tools:context=".MainMenuActivity">
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="327dp"
-        android:layout_height="295dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="17dp"
-        android:contentDescription="@string/lfc_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <me.relex.circleindicator.CircleIndicator3
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#DA0C0C"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/liverpool_fc" />
+        app:layout_constraintTop_toBottomOf="@+id/view_pager2" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="130dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="17dp"
-        android:background="@drawable/buttonstyle"
-        android:fontFamily="@font/albertus"
-        android:text="@string/history"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.609" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="130dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="17dp"
-        android:background="@drawable/buttonstyle"
-        android:fontFamily="@font/albertus"
-        android:text="@string/news"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="130dp"
-        android:layout_height="44dp"
-        android:background="@drawable/buttonstyle"
-        android:fontFamily="@font/albertus"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:text="@string/players"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager2"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
+        android:layout_above="@+id/indicator"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.723" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="130dp"
-        android:layout_height="44dp"
-        android:background="@drawable/buttonstyle"
-        android:fontFamily="@font/albertus"
-        android:text="@string/lfc_trophies"
-        android:textColor="@android:color/white"
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="238dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.835" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/history"
+            android:layout_width="130dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="17dp"
+            android:background="@drawable/buttonstyle"
+            android:fontFamily="@font/albertus"
+            android:text="@string/history"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/news"
+            android:layout_width="130dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="17dp"
+            android:background="@drawable/buttonstyle"
+            android:fontFamily="@font/albertus"
+            android:text="@string/news"
+            android:textColor="@android:color/white"
+            app:layout_constraintVertical_bias="0.937" />
+
+        <Button
+            android:id="@+id/players"
+            android:layout_width="130dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="17dp"
+            android:layout_marginBottom="17dp"
+            android:background="@drawable/buttonstyle"
+            android:fontFamily="@font/albertus"
+            android:text="@string/players"
+            android:textColor="@android:color/white" />
+
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/fab_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="288dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar"
         app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
 
     <SeekBar
         android:id="@+id/seekbar"
         android:layout_width="116dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="122dp"
-        android:layout_marginEnd="122dp"
-        app:layout_constraintBottom_toTopOf="@+id/fab_play"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/indicator" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="180dp"
         android:layout_height="238dp"
-        android:layout_marginTop="51dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+
         android:background="@android:color/white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TableLayout
             android:layout_width="match_parent"
@@ -131,74 +117,81 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
                     android:width="20dp"
                     android:background="#DA0C0C"
                     android:gravity="center"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginStart="1dp"
-                    android:textColor="@android:color/white"
-                    android:text="№"/>
+                    android:text="№"
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/testClub"
-                    android:width="70dp"
-                    android:background="#DA0C0C"
-                    android:textColor="@android:color/white"
-                    android:gravity="center"
                     android:layout_marginTop="1dp"
-                    android:text="Клуб"/>
+                    android:layout_marginBottom="1dp"
+                    android:width="64dp"
+                    android:background="#DA0C0C"
+                    android:gravity="center"
+                    android:text="Клуб"
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
                     android:width="20dp"
                     android:background="#DA0C0C"
-                    android:textColor="@android:color/white"
                     android:gravity="center"
-                    android:layout_marginTop="1dp"
-                    android:text="И"/>
+                    android:text="М"
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
                     android:width="20dp"
                     android:background="#DA0C0C"
-                    android:layout_marginTop="1dp"
-                    android:textColor="@android:color/white"
                     android:gravity="center"
-                    android:text="В" />
+                    android:text="В"
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
                     android:width="20dp"
                     android:background="#DA0C0C"
                     android:gravity="center"
-                    android:layout_marginTop="1dp"
-                    android:textColor="@android:color/white"
-                    android:text="Н" />
+                    android:text="Н"
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:width="20dp"
-                    android:background="#DA0C0C"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
                     android:layout_weight="1"
-                    android:layout_marginTop="1dp"
-                    android:textColor="@android:color/white"
+                    android:width="20dp"
+                    android:background="#DA0C0C"
                     android:gravity="center"
-                    android:text="П" />
+                    android:text="П"
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:width="20dp"
                     android:layout_marginTop="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:width="20dp"
                     android:background="#DA0C0C"
-                    android:textColor="@android:color/white"
                     android:gravity="center"
                     android:text="О"
-                    android:layout_marginEnd="1dp"/>
+                    android:textColor="@android:color/white" />
 
             </TableRow>
 
@@ -208,10 +201,9 @@
             android:id="@+id/rv_recyclerView_table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:itemCount="5"
-            tools:listitem="@layout/table_layout">
-
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_marginBottom="1dp"
+            tools:itemCount="15"
+            tools:listitem="@layout/table_layout" />
 
     </LinearLayout>
 
