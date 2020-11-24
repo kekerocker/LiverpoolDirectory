@@ -8,10 +8,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.example.liverpooldirectory.DBHelper.DBHelper2
+import com.example.liverpooldirectory.DBHelper.Table
 import com.example.liverpooldirectory.adapters.RecyclerAdapterTable
 import com.example.liverpooldirectory.adapters.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_mainmenu.*
@@ -38,8 +39,9 @@ private var tournamentLogoList = mutableListOf<String>()
 private var teamLogo1List = mutableListOf<String>()
 private var teamLogo2List = mutableListOf<String>()
 private var matchTypeList = mutableListOf<String>()
-private var imagesList = mutableListOf<Int>()
 
+internal lateinit var db: DBHelper2
+internal var lstTables: List<Table> = ArrayList()
 
 class MainMenuActivity : AppCompatActivity() {
 
@@ -54,7 +56,7 @@ class MainMenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_mainmenu)
         supportActionBar?.hide()
 
-        Toast.makeText(applicationContext, "Welcome, to Republic of Liverpool! Tap on LFC logo.", Toast.LENGTH_LONG).show()
+        db = DBHelper2(this)
 
         val btnHistory = findViewById<Button>(R.id.history)
         btnHistory.setOnClickListener(this::onHistoryClick)
@@ -62,17 +64,25 @@ class MainMenuActivity : AppCompatActivity() {
         btnPlayers.setOnClickListener(this::onPlayersClick)
         val btnNews = findViewById<Button>(R.id.news)
         btnNews.setOnClickListener(this::onNewsClick)
+        val btnTest = findViewById<Button>(R.id.test_button)
+        btnTest.setOnClickListener(this::onTestClick)
+
+        Handler().postDelayed({
+
+        }, 3000)
 
         controlSound(currentSong[0])
 
         downloadTableData()
         downloadCloseGameData()
+
     }
 
     private fun setUpViewPager() {
         view_pager2.adapter = ViewPagerAdapter(teamName1List, teamName2List, scoreList, dateList, tournamentLogoList, teamLogo1List, teamLogo2List, matchTypeList)
         view_pager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         val indicator = findViewById<CircleIndicator3>(R.id.indicator)
+        view_pager2
         indicator.setViewPager(view_pager2)
     }
 
@@ -201,6 +211,11 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun onNewsClick(view: View) {
         val intent = Intent(this, NewsActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun onTestClick(view: View) {
+        val intent = Intent(this, TestActivity::class.java)
         startActivity(intent)
     }
 
