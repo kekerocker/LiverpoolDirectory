@@ -29,6 +29,7 @@ class MainMenuActivity : AppCompatActivity() {
     private var textList = mutableListOf<String>()
     private var likesList = mutableListOf<String>()
     private var commentsList = mutableListOf<String>()
+    private var viewsList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,13 +80,11 @@ class MainMenuActivity : AppCompatActivity() {
                     addToTextList(item.text)
                 }
 
-                for (j in response.response.items.map {
-                    addToCommentsList(it.comments.count.toString())
-                })
+                for (j in response.response.items.map { addToCommentsList(it.comments.count.toString()) })
 
-                    for (j in response.response.items.map {
-                        addToLikesList(it.likes.count.toString())
-                    })
+                    for (j in response.response.items.map { addToLikesList(it.likes.count.toString()) })
+
+                        for (j in response.response.items.map { addToViewsList(it.views.count.toString()) })
                         Log.d("TEST432", "TEST: $textList")
                 withContext(Dispatchers.Main) {
                     tv_vk_text.visibility = View.GONE
@@ -100,9 +99,11 @@ class MainMenuActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun setUpRecyclerView() {
         social_recycler_view.layoutManager = LinearLayoutManager(applicationContext)
-        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList)
+        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList)
     }
 
     private fun addToTextList(text: String) {
@@ -115,6 +116,9 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun addToCommentsList(comments: String) {
         commentsList.add(comments)
+    }
+    private fun addToViewsList(views: String) {
+        viewsList.add(views)
     }
 
 }

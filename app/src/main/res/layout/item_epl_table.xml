@@ -17,7 +17,7 @@
             android:fontFamily="@font/albertus"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
             tools:text="1" />
 
         <TextView
@@ -31,8 +31,8 @@
             android:maxLength="17"
             android:maxLines="2"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
-            tools:text="Шеффилд Юнайтед" />
+            android:textSize="11sp"
+            tools:text="Саутгемптон" />
 
         <TextView
             android:id="@+id/tv_matches"
@@ -44,7 +44,7 @@
             android:fontFamily="@font/albertus"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
             tools:text="38" />
 
         <TextView
@@ -57,7 +57,7 @@
             android:fontFamily="@font/albertus"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
             tools:text="30" />
 
         <TextView
@@ -70,7 +70,7 @@
             android:fontFamily="@font/albertus"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
             tools:text="6" />
 
         <TextView
@@ -83,7 +83,7 @@
             android:fontFamily="@font/albertus"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
             tools:text="2" />
 
         <TextView
@@ -97,7 +97,7 @@
             android:fontFamily="@font/albertus"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
+            android:textSize="11sp"
             tools:text="96" />
 
     </TableRow>

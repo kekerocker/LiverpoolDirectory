@@ -17,22 +17,22 @@
         android:text="Посты взяты из паблика\nLiverpool FC | Ливерпуль"
         android:textColor="@android:color/white"
         android:textSize="24sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/social_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_social_title"
-        tools:listitem="@layout/item_social_news"
-        android:visibility="gone"/>
+        tools:listitem="@layout/item_social_news" />
 
     <ImageView
         android:id="@+id/iv_vk"
@@ -48,12 +48,12 @@
         android:id="@+id/tv_vk_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Нажмите, чтобы войти в свой VK аккаунт."
         android:layout_marginBottom="15dp"
-        android:textSize="24sp"
-        android:gravity="center"
         android:fontFamily="@font/albertus"
+        android:gravity="center"
+        android:text="Нажмите, чтобы войти в свой VK аккаунт."
         android:textColor="@android:color/white"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/iv_vk"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

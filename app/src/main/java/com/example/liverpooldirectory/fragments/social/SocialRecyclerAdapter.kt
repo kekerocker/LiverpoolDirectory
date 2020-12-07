@@ -11,13 +11,15 @@ import com.example.liverpooldirectory.R
 class SocialRecyclerAdapter(
     private var text: List<String>,
     private var likes: List<String>,
-    private var comments: List<String>
+    private var comments: List<String>,
+    private var views: List<String>
 ) : RecyclerView.Adapter<SocialRecyclerAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemTitle: TextView = itemView.findViewById(R.id.tv_social_text)
         val itemLikes: TextView = itemView.findViewById(R.id.tv_likes)
         val itemComments: TextView = itemView.findViewById(R.id.tv_comments)
+        val itemViews: TextView = itemView.findViewById(R.id.tv_views)
     }
 
     override fun onCreateViewHolder(
@@ -32,6 +34,7 @@ class SocialRecyclerAdapter(
         holder.itemTitle.text = text[position]
         holder.itemLikes.text = likes[position]
         holder.itemComments.text = comments[position]
+        holder.itemViews.text = views[position]
     }
 
     override fun getItemCount(): Int {
