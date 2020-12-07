@@ -1,284 +1,120 @@
 package com.example.liverpooldirectory
 
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
-import com.example.liverpooldirectory.DBHelper.DBHelper2
-import com.example.liverpooldirectory.DBHelper.Table
-import com.example.liverpooldirectory.adapters.RecyclerAdapterTable
-import com.example.liverpooldirectory.adapters.ViewPagerAdapter
-import kotlinx.android.synthetic.main.activity_mainmenu.*
+import com.example.liverpooldirectory.fragments.social.SocialRecyclerAdapter
+import com.example.liverpooldirectory.vk.VKAPIRequest
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKAccessToken
+import com.vk.api.sdk.auth.VKAuthCallback
+import kotlinx.android.synthetic.main.fragment_social.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import me.relex.circleindicator.CircleIndicator3
-import org.jsoup.Jsoup
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-private var positionList = mutableListOf<String>()
-private var clubList = mutableListOf<String>()
-private var gamesList = mutableListOf<String>()
-private var winList = mutableListOf<String>()
-private var drawList = mutableListOf<String>()
-private var loseList = mutableListOf<String>()
-private var pointsList = mutableListOf<String>()
-
-private var teamName1List = mutableListOf<String>()
-private var teamName2List = mutableListOf<String>()
-private var scoreList = mutableListOf<String>()
-private var dateList = mutableListOf<String>()
-private var tournamentLogoList = mutableListOf<String>()
-private var teamLogo1List = mutableListOf<String>()
-private var teamLogo2List = mutableListOf<String>()
-private var matchTypeList = mutableListOf<String>()
-
-internal lateinit var db: DBHelper2
-internal var lstTables: List<Table> = ArrayList()
+private const val VK_BASE_URL = "https://api.vk.com/method/"
 
 class MainMenuActivity : AppCompatActivity() {
 
-    private var urlTable = "https://www.sports.ru/epl/table"
-    private var urlCloseGame = "http://www.myliverpool.ru/"
-
-    private var mp: MediaPlayer? = null
-    private var currentSong: MutableList<Int> = mutableListOf(R.raw.ynwa)
+    private var textList = mutableListOf<String>()
+    private var likesList = mutableListOf<String>()
+    private var commentsList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainmenu)
         supportActionBar?.hide()
-
-        db = DBHelper2(this)
-
-        val btnHistory = findViewById<Button>(R.id.history)
-        btnHistory.setOnClickListener(this::onHistoryClick)
-        val btnPlayers = findViewById<Button>(R.id.players)
-        btnPlayers.setOnClickListener(this::onPlayersClick)
-        val btnNews = findViewById<Button>(R.id.news)
-        btnNews.setOnClickListener(this::onNewsClick)
-        val btnTest = findViewById<Button>(R.id.test_button)
-        btnTest.setOnClickListener(this::onTestClick)
-
-        Handler().postDelayed({
-
-        }, 3000)
-
-        controlSound(currentSong[0])
-
-        downloadTableData()
-        downloadCloseGameData()
-
+        setupActionBarWithNavController(findNavController(R.id.fragment))
     }
 
-    private fun setUpViewPager() {
-        view_pager2.adapter = ViewPagerAdapter(teamName1List, teamName2List, scoreList, dateList, tournamentLogoList, teamLogo1List, teamLogo2List, matchTypeList)
-        view_pager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        val indicator = findViewById<CircleIndicator3>(R.id.indicator)
-        view_pager2
-        indicator.setViewPager(view_pager2)
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.fragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    private fun setUpRecyclerViewTable() {
-        rv_recyclerView_table.layoutManager = LinearLayoutManager(this)
-        rv_recyclerView_table.adapter = RecyclerAdapterTable(positionList, clubList, gamesList, winList, drawList, loseList, pointsList)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val callback = object : VKAuthCallback {
+            override fun onLogin(token: VKAccessToken) {
+                Toast.makeText(
+                    applicationContext,
+                    "Авторизация прошла успешно: Welcome to Republic of Liverpool!",
+                    Toast.LENGTH_LONG
+                ).show()
+                makeAPIRequest()
+            }
+
+            override fun onLoginFailed(errorCode: Int) {
+                Toast.makeText(
+                    applicationContext,
+                    "Неудачная попытка авторизации", Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
-    private fun downloadCloseGameData() {
+    private fun makeAPIRequest() {
+        val api = Retrofit.Builder()
+            .baseUrl(VK_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(VKAPIRequest::class.java)
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val doc = Jsoup.connect(urlCloseGame).get()
-                val td = doc.select("tr td")
-                val teamImgInfo = doc.select(".embl img")
-                val tournamentImgInfo = doc.select(".score img")
-                val blockTitleInfo = doc.getElementsByClass("blocktitle2")
-
-                fun getInfo(startPosition: Int, list: MutableList<String>) {
-                    var a = startPosition
-                    var y: String
-                    val columnCount = 7
-                    do {
-                        y = td[a].text()
-                        list.add(y)
-                        a += columnCount
-                    } while (a < 21)
+                val response = api.getWall()
+                for (item in response.response.items) {
+                    addToTextList(item.text)
                 }
 
-                fun getBlockTitle(startPosition: Int, list: MutableList<String>) {
-                    var a = startPosition
-                    var y: String
-                    val columnCount = 1
-                    do {
-                        y = blockTitleInfo[a].text()
-                        list.add(y)
-                        a += columnCount
-                    } while (a < 3)
-                }
+                for (j in response.response.items.map {
+                    addToCommentsList(it.comments.count.toString())
+                })
 
-                fun getTournamentsPicsInfo(startPosition: Int, list: MutableList<String>) {
-                    var y: String
-                    var a = startPosition
-                    val columnCount = 1
-                    do {
-                        y = tournamentImgInfo[a].attr("src")
-                        list.add(y)
-                        a += columnCount
-                    } while (a < tournamentImgInfo.size)
-                }
-
-                fun getPicsInfo(startPosition: Int, list: MutableList<String>) {
-                    var y: String
-                    var a = startPosition
-                    val columnCount = 2
-                    do {
-                        y = teamImgInfo[a].attr("src")
-                        list.add(y)
-                        a += columnCount
-                    } while (a < teamImgInfo.size)
-                }
-
-                getInfo(3, teamName1List)
-                getInfo(5, teamName2List)
-                getInfo(4, scoreList)
-                getInfo(6, dateList)
-                getBlockTitle(0, matchTypeList)
-                getPicsInfo(0, teamLogo1List)
-                getPicsInfo(1, teamLogo2List)
-                getTournamentsPicsInfo(0, tournamentLogoList)
-
+                    for (j in response.response.items.map {
+                        addToLikesList(it.likes.count.toString())
+                    })
+                        Log.d("TEST432", "TEST: $textList")
                 withContext(Dispatchers.Main) {
-                    setUpViewPager()
+                    tv_vk_text.visibility = View.GONE
+                    iv_vk.visibility = View.GONE
+                    tv_social_title.visibility = View.VISIBLE
+                    social_recycler_view.visibility = View.VISIBLE
+                    setUpRecyclerView()
                 }
             } catch (e: Exception) {
-                Log.e("downloadTableData", e.toString())
+                Log.e("NewsActivity", e.toString())
             }
         }
     }
 
-    private fun downloadTableData() {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val doc = Jsoup.connect(urlTable).get()
-                val td = doc
-                    .select("tbody tr td")
-
-                fun getInfo(startPositionInTable: Int, list: MutableList<String>) {
-                    var a = startPositionInTable
-                    var y: String
-                    val columnCount = 9
-                    do {
-                        y = td[a].text()
-                        list.add(y)
-                        a += columnCount
-                    } while (a < td.size)
-                }
-
-                getInfo(2, positionList)
-                getInfo(3, clubList)
-                getInfo(4, gamesList)
-                getInfo(5, winList)
-                getInfo(6, drawList)
-                getInfo(7, loseList)
-                getInfo(10, pointsList)
-
-                withContext(Dispatchers.Main) {
-                    setUpRecyclerViewTable()
-                }
-            } catch (e: Exception) {
-                Log.e("downloadTableData", e.toString())
-            }
-        }
+    private fun setUpRecyclerView() {
+        social_recycler_view.layoutManager = LinearLayoutManager(applicationContext)
+        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList)
     }
 
-    private fun onHistoryClick(view: View) {
-        val intent = Intent(this, HistoryActivity::class.java)
-        startActivity(intent)
+    private fun addToTextList(text: String) {
+        textList.add(text)
     }
 
-
-    private fun onPlayersClick(view: View) {
-        val intent = Intent(this, PlayersActivity::class.java)
-        startActivity(intent)
+    private fun addToLikesList(likes: String) {
+        likesList.add(likes)
     }
 
-    private fun onNewsClick(view: View) {
-        val intent = Intent(this, NewsActivity::class.java)
-        startActivity(intent)
+    private fun addToCommentsList(comments: String) {
+        commentsList.add(comments)
     }
 
-    private fun onTestClick(view: View) {
-        val intent = Intent(this, TestActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun controlSound(id: Int) {
-        mp = MediaPlayer.create(this, id)
-        initialiseSeekBar()
-        mp?.start()
-        switchPic()
-        fab_play.setOnClickListener {
-            when {
-                mp == null -> {
-                    mp?.start()
-                    switchPic()
-                }
-                mp?.isPlaying!! -> {
-                    mp?.pause()
-                    fab_play.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-                }
-                else -> {
-                    mp?.start()
-                    switchPic()
-                }
-            }
-        }
-
-        if (mp?.isPlaying == false) {
-            mp?.seekTo(0)
-        }
-
-        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) mp?.seekTo(progress)
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
-        })
-    }
-
-    private fun switchPic() {
-        if (mp !== null) {
-            fab_play.setImageResource(R.drawable.ic_baseline_pause_24)
-        } else {
-            fab_play.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-        }
-    }
-
-    private fun initialiseSeekBar() {
-        seekbar.max = mp!!.duration
-
-        val handler = Handler()
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                try {
-                    seekbar.progress = mp!!.currentPosition
-                    handler.postDelayed(this, 1000)
-                } catch (e: Exception) {
-                    seekbar.progress = 0
-                }
-            }
-        }, 0)
-    }
 }

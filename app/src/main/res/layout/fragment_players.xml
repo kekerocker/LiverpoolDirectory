@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DA0C0C"
+    android:orientation="vertical"
+    tools:context=".fragments.players.PlayersFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/albertus"
+        android:gravity="center"
+        android:text="Окно Игроки в разработке."
+        android:textColor="@android:color/white"
+        android:textSize="40sp" />
+
+</FrameLayout>

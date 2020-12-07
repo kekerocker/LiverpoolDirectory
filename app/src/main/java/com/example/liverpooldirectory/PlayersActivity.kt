@@ -3,7 +3,8 @@ package com.example.liverpooldirectory
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.liverpooldirectory.players.Player
+import com.example.liverpooldirectory.fragments.players.Player
+import com.example.liverpooldirectory.fragments.players.PlayerDialogFragment
 import kotlinx.android.synthetic.main.activity_players.*
 
 class PlayersActivity : AppCompatActivity() {
@@ -13,7 +14,7 @@ class PlayersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_players)
         supportActionBar?.hide()
 
-        val text = "Tap on players name, to read his bio."
+        val text = "Tap on players name, to read his biography."
         val duration = Toast.LENGTH_LONG
         val toast = Toast.makeText(applicationContext, text, duration)
         toast.show()

@@ -13,13 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TestActivity"></activity>
-        <activity android:name=".NewsActivity" />
         <activity
             android:name=".PlayersActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".HistoryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainMenuActivity"
