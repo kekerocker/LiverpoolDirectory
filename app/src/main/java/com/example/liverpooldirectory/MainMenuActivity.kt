@@ -46,8 +46,9 @@ class MainMenuActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
+                val tor = token.accessToken
                 Toast.makeText(applicationContext, "Авторизация прошла успешно: Welcome to Republic of Liverpool!", Toast.LENGTH_LONG).show()
-                makeVKAPIRequest()
+                makeVKAPIRequest(tor)
             }
 
             override fun onLoginFailed(errorCode: Int) {
@@ -59,7 +60,8 @@ class MainMenuActivity : AppCompatActivity() {
         }
     }
 
-    private fun makeVKAPIRequest() {
+    private fun makeVKAPIRequest(token: String) {
+
         val api = Retrofit.Builder()
             .baseUrl(VK_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -68,7 +70,7 @@ class MainMenuActivity : AppCompatActivity() {
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val response = api.getWall()
+                val response = api.getWall(token)
 
                 for (item in response.response.items.map {
                     addList(
