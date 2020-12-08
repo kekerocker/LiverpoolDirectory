@@ -46,19 +46,12 @@ class MainMenuActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                Toast.makeText(
-                    applicationContext,
-                    "Авторизация прошла успешно: Welcome to Republic of Liverpool!",
-                    Toast.LENGTH_LONG
-                ).show()
-                makeAPIRequest()
+                Toast.makeText(applicationContext, "Авторизация прошла успешно: Welcome to Republic of Liverpool!", Toast.LENGTH_LONG).show()
+                makeVKAPIRequest()
             }
 
             override fun onLoginFailed(errorCode: Int) {
-                Toast.makeText(
-                    applicationContext,
-                    "Неудачная попытка авторизации", Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(applicationContext, "Неудачная попытка авторизации", Toast.LENGTH_LONG).show()
             }
         }
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
@@ -66,7 +59,7 @@ class MainMenuActivity : AppCompatActivity() {
         }
     }
 
-    private fun makeAPIRequest() {
+    private fun makeVKAPIRequest() {
         val api = Retrofit.Builder()
             .baseUrl(VK_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -76,49 +69,38 @@ class MainMenuActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getWall()
-                for (item in response.response.items) {
-                    addToTextList(item.text)
-                }
 
-                for (j in response.response.items.map { addToCommentsList(it.comments.count.toString()) })
+                for (item in response.response.items.map {
+                    addList(
+                        it.text,
+                        it.comments.count.toString(),
+                        it.likes.count.toString(),
+                        it.views.count.toString() )
+                })
 
-                    for (j in response.response.items.map { addToLikesList(it.likes.count.toString()) })
-
-                        for (j in response.response.items.map { addToViewsList(it.views.count.toString()) })
-                        Log.d("TEST432", "TEST: $textList")
-                withContext(Dispatchers.Main) {
-                    tv_vk_text.visibility = View.GONE
-                    iv_vk.visibility = View.GONE
-                    tv_social_title.visibility = View.VISIBLE
-                    social_recycler_view.visibility = View.VISIBLE
-                    setUpRecyclerView()
-                }
+                    withContext(Dispatchers.Main) {
+                        tv_vk_text.visibility = View.GONE
+                        iv_vk.visibility = View.GONE
+                        tv_social_title.visibility = View.VISIBLE
+                        social_recycler_view.visibility = View.VISIBLE
+                        setUpRecyclerView()
+                    }
             } catch (e: Exception) {
                 Log.e("NewsActivity", e.toString())
             }
         }
     }
 
-
-
     private fun setUpRecyclerView() {
         social_recycler_view.layoutManager = LinearLayoutManager(applicationContext)
-        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList)
+        social_recycler_view.adapter =
+            SocialRecyclerAdapter(textList, likesList, commentsList, viewsList)
     }
 
-    private fun addToTextList(text: String) {
+    private fun addList(text: String, likes: String, comments: String, views: String) {
         textList.add(text)
-    }
-
-    private fun addToLikesList(likes: String) {
         likesList.add(likes)
-    }
-
-    private fun addToCommentsList(comments: String) {
         commentsList.add(comments)
-    }
-    private fun addToViewsList(views: String) {
         viewsList.add(views)
     }
-
 }
