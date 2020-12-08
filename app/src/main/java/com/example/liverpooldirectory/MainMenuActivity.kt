@@ -79,10 +79,7 @@ class MainMenuActivity : AppCompatActivity() {
                 })
 
                     withContext(Dispatchers.Main) {
-                        tv_vk_text.visibility = View.GONE
-                        iv_vk.visibility = View.GONE
-                        tv_social_title.visibility = View.VISIBLE
-                        social_recycler_view.visibility = View.VISIBLE
+                        removeLoginViews()
                         setUpRecyclerView()
                     }
             } catch (e: Exception) {
@@ -102,5 +99,12 @@ class MainMenuActivity : AppCompatActivity() {
         likesList.add(likes)
         commentsList.add(comments)
         viewsList.add(views)
+    }
+
+    private fun removeLoginViews() {
+        tv_vk_text.visibility = View.GONE
+        iv_vk.visibility = View.GONE
+        tv_social_title.visibility = View.VISIBLE
+        social_recycler_view.visibility = View.VISIBLE
     }
 }
