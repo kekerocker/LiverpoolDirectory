@@ -46,9 +46,9 @@ class MainMenuActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                val tor = token.accessToken
+                val accessToken = token.accessToken
                 Toast.makeText(applicationContext, "Авторизация прошла успешно: Welcome to Republic of Liverpool!", Toast.LENGTH_LONG).show()
-                makeVKAPIRequest(tor)
+                makeVKAPIRequest(accessToken)
             }
 
             override fun onLoginFailed(errorCode: Int) {
