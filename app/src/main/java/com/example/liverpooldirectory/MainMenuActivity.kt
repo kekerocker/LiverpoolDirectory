@@ -49,6 +49,7 @@ class MainMenuActivity : AppCompatActivity() {
                 val accessToken = token.accessToken
                 Toast.makeText(applicationContext, "Авторизация прошла успешно: Welcome to Republic of Liverpool!", Toast.LENGTH_LONG).show()
                 makeVKAPIRequest(accessToken)
+                Log.d("TEST212", "$accessToken")
             }
 
             override fun onLoginFailed(errorCode: Int) {
@@ -72,11 +73,13 @@ class MainMenuActivity : AppCompatActivity() {
             try {
                 val response = api.getWall(token)
 
+                Log.d("TEST423", "TEST: ${response.response.items}")
+
                 for (item in response.response.items.map {
                     addList(
                         it.text,
-                        it.comments.count.toString(),
                         it.likes.count.toString(),
+                        it.comments.count.toString(),
                         it.views.count.toString() )
                 })
 
