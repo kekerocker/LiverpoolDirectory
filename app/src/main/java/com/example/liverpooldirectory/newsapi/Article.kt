@@ -1,4 +1,4 @@
-package com.example.liverpooldirectory.retrofit
+package com.example.liverpooldirectory.newsapi
 
 data class Article(
     val author: String,

@@ -1,7 +1,7 @@
-package com.example.liverpooldirectory.vk
+package com.example.liverpooldirectory.socialapi
 
 data class Item(
-    val attachments: List<Attachment>,
+    val attachments: List<Attachment>?,
     val carousel_offset: Int,
     val comments: Comments,
     val copyright: Copyright,

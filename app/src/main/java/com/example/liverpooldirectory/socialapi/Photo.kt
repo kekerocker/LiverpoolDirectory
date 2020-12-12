@@ -1,4 +1,4 @@
-package com.example.liverpooldirectory.vk
+package com.example.liverpooldirectory.socialapi
 
 data class Photo(
     val access_key: String,

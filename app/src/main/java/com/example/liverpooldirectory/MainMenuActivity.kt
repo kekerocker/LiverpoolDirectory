@@ -10,7 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liverpooldirectory.fragments.social.SocialRecyclerAdapter
-import com.example.liverpooldirectory.vk.VKAPIRequest
+import com.example.liverpooldirectory.socialapi.VKAPIRequest
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
@@ -30,6 +30,7 @@ class MainMenuActivity : AppCompatActivity() {
     private var likesList = mutableListOf<String>()
     private var commentsList = mutableListOf<String>()
     private var viewsList = mutableListOf<String>()
+    private var imagesList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +48,9 @@ class MainMenuActivity : AppCompatActivity() {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
                 val accessToken = token.accessToken
+                Log.d("TOKEN", "Access token is $accessToken")
                 Toast.makeText(applicationContext, "Авторизация прошла успешно: Welcome to Republic of Liverpool!", Toast.LENGTH_LONG).show()
                 makeVKAPIRequest(accessToken)
-                Log.d("TEST212", "$accessToken")
             }
 
             override fun onLoginFailed(errorCode: Int) {
@@ -72,31 +73,38 @@ class MainMenuActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getWall(token)
+                val images = response.response.items.flatMap { it.attachments ?: emptyList() }.flatMap { it.photo.sizes }.map { it.url }
 
-                Log.d("TEST423", "TEST: ${response.response.items}")
+                fun addImagesList(startPosition: Int, list: MutableList<String>) {
+                    var a = startPosition
+                    var y: String
+                    val columnCount = 10
+                    do {
+                        y = images[a]
+                        list.add(y)
+                        a += columnCount
+                    } while (a < images.size)
+                }
 
-                for (item in response.response.items.map {
-                    addList(
-                        it.text,
-                        it.likes.count.toString(),
-                        it.comments.count.toString(),
-                        it.views.count.toString() )
-                })
+                addImagesList(4, imagesList)
+                Log.d("TEST95", "${imagesList.size}")
+                for (item in response.response.items) {
+                    addList(item.text, item.likes.count.toString(), item.comments.count.toString(), item.views.count.toString())
+                }
 
                     withContext(Dispatchers.Main) {
                         removeLoginViews()
                         setUpRecyclerView()
                     }
             } catch (e: Exception) {
-                Log.e("NewsActivity", e.toString())
+                Log.e("Social95", e.toString())
             }
         }
     }
 
     private fun setUpRecyclerView() {
         social_recycler_view.layoutManager = LinearLayoutManager(applicationContext)
-        social_recycler_view.adapter =
-            SocialRecyclerAdapter(textList, likesList, commentsList, viewsList)
+        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList, imagesList)
     }
 
     private fun addList(text: String, likes: String, comments: String, views: String) {
@@ -110,6 +118,6 @@ class MainMenuActivity : AppCompatActivity() {
         tv_vk_text.visibility = View.GONE
         iv_vk.visibility = View.GONE
         tv_social_title.visibility = View.VISIBLE
-        social_recycler_view.visibility = View.VISIBLE
+        recycler_layout.visibility = View.VISIBLE
     }
 }

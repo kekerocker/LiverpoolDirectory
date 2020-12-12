@@ -1,4 +1,4 @@
-package com.example.liverpooldirectory.retrofit
+package com.example.liverpooldirectory.newsapi
 
 import retrofit2.http.GET
 

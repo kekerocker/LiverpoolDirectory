@@ -1,4 +1,4 @@
-package com.example.liverpooldirectory.vk
+package com.example.liverpooldirectory.socialapi
 
 data class Copyright(
     val link: String,
