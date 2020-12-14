@@ -73,21 +73,7 @@ class MainMenuActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getWall(token)
-                val images = response.response.items.flatMap { it.attachments ?: emptyList() }.flatMap { it.photo.sizes }.map { it.url }
 
-                fun addImagesList(startPosition: Int, list: MutableList<String>) {
-                    var a = startPosition
-                    var y: String
-                    val columnCount = 10
-                    do {
-                        y = images[a]
-                        list.add(y)
-                        a += columnCount
-                    } while (a < images.size)
-                }
-
-                addImagesList(4, imagesList)
-                Log.d("TEST95", "${imagesList.size}")
                 for (item in response.response.items) {
                     addList(item.text, item.likes.count.toString(), item.comments.count.toString(), item.views.count.toString())
                 }
@@ -104,7 +90,7 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun setUpRecyclerView() {
         social_recycler_view.layoutManager = LinearLayoutManager(applicationContext)
-        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList, imagesList)
+        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList)
     }
 
     private fun addList(text: String, likes: String, comments: String, views: String) {
