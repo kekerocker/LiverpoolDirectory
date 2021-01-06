@@ -1,6 +1,7 @@
-package com.example.liverpooldirectory.data
+package com.example.liverpooldirectory.data.epltable
 
 import androidx.lifecycle.LiveData
+import com.example.liverpooldirectory.model.Table
 
 class TableRepository(private val tableDao: TableDao) {
 
@@ -8,5 +9,9 @@ class TableRepository(private val tableDao: TableDao) {
 
     suspend fun addTable(table: Table) {
         tableDao.addTable(table)
+    }
+
+    suspend fun deleteAllTableData() {
+        tableDao.deleteAllTableData()
     }
 }

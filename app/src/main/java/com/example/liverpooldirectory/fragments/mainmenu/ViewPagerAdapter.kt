@@ -8,17 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.liverpooldirectory.R
+import com.example.liverpooldirectory.model.CloseGames
 
-class ViewPagerAdapter (
-    private var teamName1: List<String>,
-    private var teamName2: List<String>,
-    private var score_time: List<String>,
-    private var date: List<String>,
-    private var tournamentLogo: List<String>,
-    private var teamLogo1: List<String>,
-    private var teamLogo2: List<String>,
-    private var matchType: List<String>,
-) : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>() {
+class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>() {
+
+    private var closeGames = emptyList<CloseGames>()
 
     inner class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemTeamName1: TextView = itemView.findViewById(R.id.teamName1)
@@ -36,26 +30,72 @@ class ViewPagerAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewPagerAdapter.Pager2ViewHolder, position: Int) {
-        holder.itemTeamName1.text = teamName1[position]
-        holder.itemTeamName2.text = teamName2[position]
-        holder.itemScoreTime.text = score_time[position]
-        holder.itemDate.text = date[position]
-        holder.itemMatchType.text = matchType[position]
+        val currentItem = closeGames[position]
+        holder.itemTeamName1.text = currentItem.teamName1
+        holder.itemTeamName2.text = currentItem.teamName2
+        holder.itemScoreTime.text = currentItem.score
+        holder.itemDate.text = currentItem.date
+        holder.itemMatchType.text = currentItem.matchType
 
         Glide.with(holder.itemTournamentLogo)
-            .load(tournamentLogo[position])
+            .load(currentItem.tournamentLogo)
             .into(holder.itemTournamentLogo)
 
-        Glide.with(holder.itemTeamLogo1)
-            .load(teamLogo1[position])
-            .into(holder.itemTeamLogo1)
-
-        Glide.with(holder.itemTeamLogo2)
-            .load(teamLogo2[position])
-            .into(holder.itemTeamLogo2)
+        fun putPicture() {
+            when (holder.itemTeamName1.text) {
+                "Ливерпуль" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_liverpool)
+                "Манчестер Юнайтед" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_manutd)
+                "Лестер" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_leicester)
+                "Тоттенхэм" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_tottenham)
+                "Манчестер Сити" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_mancity_logo)
+                "Саутгемптон" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_southampton)
+                "Эвертон" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_everton)
+                "Астон Вилла" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_avilla)
+                "Челси" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_chelsea)
+                "Вест Хэм" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_westhamutd)
+                "Арсенал" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_arsenal)
+                "Лидс" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_leedsutd)
+                "Вулверхэмптон" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_wolverhampton)
+                "Кристал Пэлас" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_crystal_palace)
+                "Ньюкасл" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_newcastleutd)
+                "Бернли" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_burnley)
+                "Брайтон" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_brighton)
+                "Фулхэм" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_fullham)
+                "Вест Бромвич" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_westbrom)
+                "Шеффилд Юнайтед" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_sheffieldutd)
+            }
+            when (holder.itemTeamName2.text) {
+                "Ливерпуль" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_liverpool)
+                "Манчестер Юнайтед" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_manutd)
+                "Лестер" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_leicester)
+                "Тоттенхэм" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_tottenham)
+                "Манчестер Сити" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_mancity_logo)
+                "Саутгемптон" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_southampton)
+                "Эвертон" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_everton)
+                "Астон Вилла" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_avilla)
+                "Челси" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_chelsea)
+                "Вест Хэм" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_westhamutd)
+                "Арсенал" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_arsenal)
+                "Лидс" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_leedsutd)
+                "Вулверхэмптон" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_wolverhampton)
+                "Кристал Пэлас" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_crystal_palace)
+                "Ньюкасл" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_newcastleutd)
+                "Бернли" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_burnley)
+                "Брайтон" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_brighton)
+                "Фулхэм" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_fullham)
+                "Вест Бромвич" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_westbrom)
+                "Шеффилд Юнайтед" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_sheffieldutd)
+            }
+        }
+        putPicture()
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return closeGames.size
+    }
+
+    fun setData(closeGames: List<CloseGames>) {
+        this.closeGames = closeGames
+        notifyDataSetChanged()
     }
 }

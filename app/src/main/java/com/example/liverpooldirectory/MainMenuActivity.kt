@@ -1,6 +1,8 @@
 package com.example.liverpooldirectory
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -32,6 +34,9 @@ class MainMenuActivity : AppCompatActivity() {
     private var viewsList = mutableListOf<String>()
     private var imagesList = mutableListOf<String>()
 
+    var connectivity: ConnectivityManager? = null
+    var info: NetworkInfo? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainmenu)
@@ -49,12 +54,20 @@ class MainMenuActivity : AppCompatActivity() {
             override fun onLogin(token: VKAccessToken) {
                 val accessToken = token.accessToken
                 Log.d("TOKEN", "Access token is $accessToken")
-                Toast.makeText(applicationContext, "Авторизация прошла успешно: Welcome to Republic of Liverpool!", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    "Авторизация прошла успешно: Welcome to Republic of Liverpool!",
+                    Toast.LENGTH_LONG
+                ).show()
                 makeVKAPIRequest(accessToken)
             }
 
             override fun onLoginFailed(errorCode: Int) {
-                Toast.makeText(applicationContext, "Неудачная попытка авторизации", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    "Неудачная попытка авторизации",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
@@ -63,7 +76,6 @@ class MainMenuActivity : AppCompatActivity() {
     }
 
     private fun makeVKAPIRequest(token: String) {
-
         val api = Retrofit.Builder()
             .baseUrl(VK_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -75,13 +87,17 @@ class MainMenuActivity : AppCompatActivity() {
                 val response = api.getWall(token)
 
                 for (item in response.response.items) {
-                    addList(item.text, item.likes.count.toString(), item.comments.count.toString(), item.views.count.toString())
+                    addList(
+                        item.text,
+                        item.likes.count.toString(),
+                        item.comments.count.toString(),
+                        item.views.count.toString()
+                    )
                 }
-
-                    withContext(Dispatchers.Main) {
-                        removeLoginViews()
-                        setUpRecyclerView()
-                    }
+                withContext(Dispatchers.Main) {
+                    removeLoginViews()
+                    setUpRecyclerView()
+                }
             } catch (e: Exception) {
                 Log.e("Social95", e.toString())
             }
@@ -90,7 +106,8 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun setUpRecyclerView() {
         social_recycler_view.layoutManager = LinearLayoutManager(applicationContext)
-        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList)
+        social_recycler_view.adapter =
+            SocialRecyclerAdapter(textList, likesList, commentsList, viewsList)
     }
 
     private fun addList(text: String, likes: String, comments: String, views: String) {
