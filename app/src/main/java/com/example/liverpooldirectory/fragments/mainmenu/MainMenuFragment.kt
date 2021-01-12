@@ -19,10 +19,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.liverpooldirectory.R
 import com.example.liverpooldirectory.data.closegames.CloseGamesViewModel
 import com.example.liverpooldirectory.data.epltable.TableViewModel
+import com.example.liverpooldirectory.databinding.FragmentMainMenuBinding
 import com.example.liverpooldirectory.model.CloseGames
 import com.example.liverpooldirectory.model.Table
 import kotlinx.android.synthetic.main.fragment_main_menu.*
-import kotlinx.android.synthetic.main.fragment_main_menu.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,6 +31,8 @@ import org.jsoup.Jsoup
 
 
 class MainMenuFragment : Fragment() {
+
+    private lateinit var binding: FragmentMainMenuBinding
 
     var connectivity: ConnectivityManager? = null
     var info: NetworkInfo? = null
@@ -71,27 +73,27 @@ class MainMenuFragment : Fragment() {
         //CloseGames ViewModel
         mCloseGamesViewModel = ViewModelProvider(this).get(CloseGamesViewModel::class.java)
 
-        view.button_news.setOnClickListener {
+        binding.buttonNews.setOnClickListener {
             findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
         }
 
-        view.button_history.setOnClickListener {
+        binding.buttonHistory.setOnClickListener {
             findNavController().navigate(R.id.action_MainMenuFragment_to_historyFragment)
         }
 
-        view.button_players.setOnClickListener {
+        binding.buttonPlayers.setOnClickListener {
             findNavController().navigate(R.id.action_MainMenuFragment_to_playersFragment)
         }
 
-        view.button_social.setOnClickListener {
+        binding.buttonSocial.setOnClickListener {
             findNavController().navigate(R.id.action_MainMenuFragment_to_socialFragment)
         }
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentMainMenuBinding.bind(view)
 
         connectivity =
             requireContext().getSystemService(Service.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -119,6 +121,10 @@ class MainMenuFragment : Fragment() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
     private fun fadeInFromBlack(view: View, timer: Long) {
         view.animate().apply {
             alpha(0f)
@@ -127,15 +133,16 @@ class MainMenuFragment : Fragment() {
     }
 
     private fun hideLoadingScreen(timer: Long) {
-            fadeInFromBlack(main_loading_screen, timer)
+            fadeInFromBlack(binding.mainLoadingScreen, timer)
     }
 
     private fun setUpViewPager() {
+        val viewPager2 = binding.viewPager2
         val adapter = ViewPagerAdapter()
-        view_pager2.adapter = adapter
-        view_pager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        viewPager2.adapter = adapter
+        viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        indicator.setViewPager(view_pager2)
+        binding.indicator.setViewPager(viewPager2)
         adapter.registerAdapterDataObserver(indicator.adapterDataObserver)
 
         mCloseGamesViewModel.readAllData.observe(viewLifecycleOwner, { closeGames ->
@@ -143,13 +150,11 @@ class MainMenuFragment : Fragment() {
                 closeGames
             )
         })
-
-
     }
 
     private fun setUpRecyclerViewTable() {
         val adapter = RecyclerAdapterTable()
-        val recyclerView = rv_recyclerView_table
+        val recyclerView = binding.rvRecyclerViewTable
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

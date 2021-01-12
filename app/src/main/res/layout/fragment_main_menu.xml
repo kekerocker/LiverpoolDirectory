@@ -7,263 +7,263 @@
     android:background="#DA0C0C"
     tools:context=".fragments.mainmenu.MainMenuFragment">
 
-    <me.relex.circleindicator.CircleIndicator3
-        android:id="@+id/indicator"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relative_layout" />
-
-    <RelativeLayout
-        android:id="@+id/relative_layout"
-        android:layout_width="350dp"
-        android:layout_height="250dp"
-        android:layout_above="@+id/indicator"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager2"
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/indicator"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:id="@+id/menu_layout"
-        android:layout_width="150dp"
-        android:layout_height="238dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
-        android:weightSum="4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/button_history"
-            android:layout_width="135dp"
-            android:layout_height="44dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:background="@drawable/buttonstyle"
-            android:fontFamily="@font/albertus"
-            android:text="@string/history"
-            android:textColor="@android:color/white" />
-
-        <Button
-            android:id="@+id/button_social"
-            android:layout_width="135dp"
-            android:layout_height="44dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:background="@drawable/buttonstyle"
-            android:fontFamily="@font/albertus"
-            android:text="@string/Social"
-            android:textColor="@android:color/white" />
-
-        <Button
-            android:id="@+id/button_news"
-            android:layout_width="135dp"
-            android:layout_height="44dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:background="@drawable/buttonstyle"
-            android:fontFamily="@font/albertus"
-            android:text="@string/news"
-            android:textColor="@android:color/white"
-            app:layout_constraintVertical_bias="0.937" />
-
-        <Button
-            android:id="@+id/button_players"
-            android:layout_width="135dp"
-            android:layout_height="44dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:background="@drawable/buttonstyle"
-            android:fontFamily="@font/albertus"
-            android:text="@string/players"
-            android:textColor="@android:color/white" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="185dp"
-        android:layout_height="238dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff">
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-                    android:width="20dp"
-                    android:background="#DA0C0C"
-                    android:fontFamily="@font/albertus"
-                    android:gravity="center"
-                    android:text="№"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/testClub"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-                    android:width="64dp"
-                    android:background="#DA0C0C"
-                    android:fontFamily="@font/albertus"
-                    android:gravity="center"
-                    android:text="Клуб"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-                    android:width="20dp"
-                    android:background="#DA0C0C"
-                    android:fontFamily="@font/albertus"
-                    android:gravity="center"
-                    android:text="М"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-                    android:width="20dp"
-                    android:background="#DA0C0C"
-                    android:fontFamily="@font/albertus"
-                    android:gravity="center"
-                    android:text="В"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-                    android:width="20dp"
-                    android:background="#DA0C0C"
-                    android:fontFamily="@font/albertus"
-                    android:gravity="center"
-                    android:text="Н"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-                    android:layout_weight="1"
-                    android:width="20dp"
-                    android:background="#DA0C0C"
-                    android:fontFamily="@font/albertus"
-                    android:gravity="center"
-                    android:text="П"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginEnd="1dp"
-                    android:layout_marginBottom="1dp"
-                    android:width="20dp"
-                    android:background="#DA0C0C"
-                    android:fontFamily="@font/albertus"
-                    android:gravity="center"
-                    android:text="О"
-                    android:textColor="@android:color/white" />
-
-            </TableRow>
-
-        </TableLayout>
+            android:layout_height="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relative_layout" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/relative_layout"
+            android:layout_width="350dp"
+            android:layout_height="250dp"
+            android:layout_above="@+id/indicator"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_recyclerView_table"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                tools:itemCount="15"
-                tools:listitem="@layout/item_epl_table" />
+                android:layout_height="match_parent" />
 
         </RelativeLayout>
 
-    </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_loading_screen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#DA0C0C"
-        tools:visibility="gone">
+        <LinearLayout
+            android:id="@+id/menu_layout"
+            android:layout_width="150dp"
+            android:layout_height="238dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            android:weightSum="4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
-            android:id="@+id/lfc_logo"
-            android:layout_width="222dp"
-            android:layout_height="311dp"
-            android:layout_marginTop="64dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/fc_liverpool"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/button_history"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/buttonstyle"
+                android:fontFamily="@font/albertus"
+                android:text="@string/history"
+                android:textColor="@android:color/white" />
 
-        <TextView
-            android:id="@+id/tv_wait_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Ждите, идёт загрузка..."
-            android:fontFamily="@font/albertus"
-            android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_progressBar" />
+            <Button
+                android:id="@+id/button_social"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/buttonstyle"
+                android:fontFamily="@font/albertus"
+                android:text="@string/Social"
+                android:textColor="@android:color/white" />
 
-        <ProgressBar
-            android:id="@+id/first_progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lfc_logo" />
+            <Button
+                android:id="@+id/button_news"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/buttonstyle"
+                android:fontFamily="@font/albertus"
+                android:text="@string/news"
+                android:textColor="@android:color/white"
+                app:layout_constraintVertical_bias="0.937" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/button_players"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/buttonstyle"
+                android:fontFamily="@font/albertus"
+                android:text="@string/players"
+                android:textColor="@android:color/white" />
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="185dp"
+            android:layout_height="238dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:width="20dp"
+                        android:background="#DA0C0C"
+                        android:fontFamily="@font/albertus"
+                        android:gravity="center"
+                        android:text="№"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/testClub"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:width="64dp"
+                        android:background="#DA0C0C"
+                        android:fontFamily="@font/albertus"
+                        android:gravity="center"
+                        android:text="Клуб"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:width="20dp"
+                        android:background="#DA0C0C"
+                        android:fontFamily="@font/albertus"
+                        android:gravity="center"
+                        android:text="М"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:width="20dp"
+                        android:background="#DA0C0C"
+                        android:fontFamily="@font/albertus"
+                        android:gravity="center"
+                        android:text="В"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:width="20dp"
+                        android:background="#DA0C0C"
+                        android:fontFamily="@font/albertus"
+                        android:gravity="center"
+                        android:text="Н"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:width="20dp"
+                        android:background="#DA0C0C"
+                        android:fontFamily="@font/albertus"
+                        android:gravity="center"
+                        android:text="П"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:width="20dp"
+                        android:background="#DA0C0C"
+                        android:fontFamily="@font/albertus"
+                        android:gravity="center"
+                        android:text="О"
+                        android:textColor="@android:color/white" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_recyclerView_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    tools:itemCount="15"
+                    tools:listitem="@layout/item_epl_table" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_loading_screen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#DA0C0C"
+            tools:visibility="gone">
+
+            <ImageView
+                android:id="@+id/lfc_logo"
+                android:layout_width="222dp"
+                android:layout_height="311dp"
+                android:layout_marginTop="64dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/fc_liverpool"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_wait_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/albertus"
+                android:text="Ждите, идёт загрузка..."
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/first_progressBar" />
+
+            <ProgressBar
+                android:id="@+id/first_progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lfc_logo" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
