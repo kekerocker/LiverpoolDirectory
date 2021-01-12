@@ -121,10 +121,6 @@ class MainMenuFragment : Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
-
     private fun fadeInFromBlack(view: View, timer: Long) {
         view.animate().apply {
             alpha(0f)
