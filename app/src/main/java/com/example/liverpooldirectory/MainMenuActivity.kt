@@ -1,8 +1,6 @@
 package com.example.liverpooldirectory
 
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -32,10 +30,6 @@ class MainMenuActivity : AppCompatActivity() {
     private var likesList = mutableListOf<String>()
     private var commentsList = mutableListOf<String>()
     private var viewsList = mutableListOf<String>()
-    private var imagesList = mutableListOf<String>()
-
-    var connectivity: ConnectivityManager? = null
-    var info: NetworkInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

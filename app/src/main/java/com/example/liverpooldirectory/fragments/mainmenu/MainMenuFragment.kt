@@ -4,6 +4,7 @@ import android.app.Service
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -84,6 +85,7 @@ class MainMenuFragment : Fragment() {
         view.button_social.setOnClickListener {
             findNavController().navigate(R.id.action_MainMenuFragment_to_socialFragment)
         }
+
         return view
     }
 
@@ -98,20 +100,33 @@ class MainMenuFragment : Fragment() {
 
             if (info != null) {
                 if (info!!.state == NetworkInfo.State.CONNECTED) {
-                    Toast.makeText(requireContext(), "CONNECTED", Toast.LENGTH_SHORT).show()
+                    //Do when online
                     mCloseGamesViewModel.deleteAllData()
                     mTableViewModel.deleteAllTableData()
-                    downloadCloseGameData()
-                    downloadTableData()
+                    downloadDataFromInternet()
                 }
             } else {
-                Toast.makeText(requireContext(), "NOT CONNECTED", Toast.LENGTH_SHORT).show()
+                //Do when offline
+                Toast.makeText(requireContext(), "Нет соединения с интернетом.", Toast.LENGTH_SHORT).show()
                 setUpViewPager()
                 setUpRecyclerViewTable()
-                progressBar_matches.visibility = View.GONE
-                progressBar_table.visibility = View.GONE
+                val handler = Handler()
+                handler.postDelayed({
+                    hideLoadingScreen(750)
+                },1500)
             }
         }
+    }
+
+    private fun fadeInFromBlack(view: View, timer: Long) {
+        view.animate().apply {
+            alpha(0f)
+            duration = timer
+        }.start()
+    }
+
+    private fun hideLoadingScreen(timer: Long) {
+            fadeInFromBlack(main_loading_screen, timer)
     }
 
     private fun setUpViewPager() {
@@ -122,6 +137,8 @@ class MainMenuFragment : Fragment() {
         mCloseGamesViewModel.readAllData.observe(viewLifecycleOwner, { closeGames -> adapter.setData(closeGames) })
 
         indicator.setViewPager(view_pager2)
+        progressBar_matches.visibility = View.GONE
+
     }
 
     private fun setUpRecyclerViewTable() {
@@ -133,28 +150,16 @@ class MainMenuFragment : Fragment() {
         mTableViewModel.readAllData.observe(viewLifecycleOwner, Observer { table ->
             adapter.setData(table)
         })
+        progressBar_table.visibility = View.GONE
     }
 
-    private fun checkInternet() {
-        connectivity =
-            requireContext().getSystemService(Service.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        if (connectivity != null) {
-            info = connectivity!!.activeNetworkInfo
-
-            if (info != null) {
-                if (info!!.state == NetworkInfo.State.CONNECTED) {
-                }
-            } else {
-            }
-        }
-    }
-
-    private fun downloadCloseGameData() {
+    private fun downloadDataFromInternet() {
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
+                //Downloading CloseGames Data
                 val doc = Jsoup.connect(urlCloseGame).get()
+
                 val td = doc.select("tr td")
                 val teamImgInfo = doc.select(".embl img")
                 val tournamentImgInfo = doc.select(".score img")
@@ -204,7 +209,7 @@ class MainMenuFragment : Fragment() {
                     } while (a < teamImgInfo.size)
                 }
 
-                fun addInfoToDatabase() {
+                fun addCloseGamesInfoToDatabase() {
                     var a = 0
                     do {
                         val closeGames1 = CloseGames(
@@ -230,24 +235,11 @@ class MainMenuFragment : Fragment() {
                 getPicsInfo(1, teamLogo2List)
                 getTournamentsPicsInfo(0, tournamentLogoList)
 
-                addInfoToDatabase()
+                addCloseGamesInfoToDatabase()
 
-                withContext(Dispatchers.Main) {
-                    setUpViewPager()
-                }
-            } catch (e: Exception) {
-                Log.e("downloadTableData", e.toString())
-            }
-        }
-    }
+                //Downloading Table Data
 
-    private fun downloadTableData() {
-        progressBar_table.visibility = View.VISIBLE
-
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val doc = Jsoup.connect(urlTable).get()
-                val td = doc
+                val tdTable = Jsoup.connect(urlTable).get()
                     .select("tbody tr td")
 
                 fun getPosition(startPositionInTable: Int, list: MutableList<Int>) {
@@ -255,21 +247,21 @@ class MainMenuFragment : Fragment() {
                     var y: Int
                     val columnCount = 9
                     do {
-                        y = td[a].text().toInt()
+                        y = tdTable[a].text().toInt()
                         list.add(y)
                         a += columnCount
-                    } while (a < td.size)
+                    } while (a < tdTable.size)
                 }
 
-                fun getInfo(startPositionInTable: Int, list: MutableList<String>) {
+                fun getTableInfo(startPositionInTable: Int, list: MutableList<String>) {
                     var a = startPositionInTable
                     var y: String
                     val columnCount = 9
                     do {
-                        y = td[a].text()
+                        y = tdTable[a].text()
                         list.add(y)
                         a += columnCount
-                    } while (a < td.size)
+                    } while (a < tdTable.size)
                 }
 
                 fun addInfoToDatabase() {
@@ -282,18 +274,23 @@ class MainMenuFragment : Fragment() {
                 }
 
                 getPosition(2, positionList)
-                getInfo(3, clubList)
-                getInfo(4, matchesList)
-                getInfo(5, winList)
-                getInfo(6, drawList)
-                getInfo(7, loseList)
-                getInfo(10, pointsList)
+                getTableInfo(3, clubList)
+                getTableInfo(4, matchesList)
+                getTableInfo(5, winList)
+                getTableInfo(6, drawList)
+                getTableInfo(7, loseList)
+                getTableInfo(10, pointsList)
 
                 addInfoToDatabase()
 
+
                 withContext(Dispatchers.Main) {
+                    setUpViewPager()
                     setUpRecyclerViewTable()
-                    progressBar_table.visibility = View.GONE
+                    val handler = Handler()
+                    handler.postDelayed({
+                        hideLoadingScreen(750)
+                    },1500)
                 }
             } catch (e: Exception) {
                 Log.e("downloadTableData", e.toString())
