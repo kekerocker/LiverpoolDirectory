@@ -32,14 +32,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ProgressBar
-            android:id="@+id/progressBar_matches"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:visibility="visible" />
-
     </RelativeLayout>
 
 
@@ -227,14 +219,6 @@
                 tools:itemCount="15"
                 tools:listitem="@layout/item_epl_table" />
 
-            <ProgressBar
-                android:id="@+id/progressBar_table"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:visibility="visible" />
-
         </RelativeLayout>
 
     </LinearLayout>
@@ -263,7 +247,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Ждите, идёт загрузка.//"
+            android:text="Ждите, идёт загрузка..."
+            android:fontFamily="@font/albertus"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

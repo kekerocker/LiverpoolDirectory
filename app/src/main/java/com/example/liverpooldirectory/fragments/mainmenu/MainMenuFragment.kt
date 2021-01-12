@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
+
 class MainMenuFragment : Fragment() {
 
     var connectivity: ConnectivityManager? = null
@@ -113,7 +114,7 @@ class MainMenuFragment : Fragment() {
                 val handler = Handler()
                 handler.postDelayed({
                     hideLoadingScreen(750)
-                },1500)
+                }, 1500)
             }
         }
     }
@@ -134,10 +135,15 @@ class MainMenuFragment : Fragment() {
         view_pager2.adapter = adapter
         view_pager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        mCloseGamesViewModel.readAllData.observe(viewLifecycleOwner, { closeGames -> adapter.setData(closeGames) })
-
         indicator.setViewPager(view_pager2)
-        progressBar_matches.visibility = View.GONE
+        adapter.registerAdapterDataObserver(indicator.adapterDataObserver)
+
+        mCloseGamesViewModel.readAllData.observe(viewLifecycleOwner, { closeGames ->
+            adapter.setData(
+                closeGames
+            )
+        })
+
 
     }
 
@@ -150,7 +156,6 @@ class MainMenuFragment : Fragment() {
         mTableViewModel.readAllData.observe(viewLifecycleOwner, Observer { table ->
             adapter.setData(table)
         })
-        progressBar_table.visibility = View.GONE
     }
 
     private fun downloadDataFromInternet() {
@@ -267,7 +272,15 @@ class MainMenuFragment : Fragment() {
                 fun addInfoToDatabase() {
                     var a = 0
                     do {
-                        val table1 = Table(positionList[a], clubList[a], matchesList[a], winList[a], drawList[a], loseList[a], pointsList[a])
+                        val table1 = Table(
+                            positionList[a],
+                            clubList[a],
+                            matchesList[a],
+                            winList[a],
+                            drawList[a],
+                            loseList[a],
+                            pointsList[a]
+                        )
                         mTableViewModel.addTable(table1)
                         a++
                     } while (a < positionList.size)
@@ -290,7 +303,7 @@ class MainMenuFragment : Fragment() {
                     val handler = Handler()
                     handler.postDelayed({
                         hideLoadingScreen(750)
-                    },1500)
+                    }, 1500)
                 }
             } catch (e: Exception) {
                 Log.e("downloadTableData", e.toString())
