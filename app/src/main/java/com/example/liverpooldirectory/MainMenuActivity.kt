@@ -10,12 +10,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liverpooldirectory.fragments.social.SocialRecyclerAdapter
-import com.example.liverpooldirectory.socialapi.VKAPIRequest
+import com.example.liverpooldirectory.internet.socialapi.VKAPIRequest
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
-import kotlinx.android.synthetic.main.activity_mainmenu.*
-import kotlinx.android.synthetic.main.fragment_main_menu.*
 import kotlinx.android.synthetic.main.fragment_social.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -50,29 +48,17 @@ class MainMenuActivity : AppCompatActivity() {
             override fun onLogin(token: VKAccessToken) {
                 val accessToken = token.accessToken
                 Log.d("TOKEN", "Access token is $accessToken")
-                Toast.makeText(
-                    applicationContext,
-                    "Авторизация прошла успешно: Welcome to Republic of Liverpool!",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(applicationContext, "Авторизация прошла успешно: Welcome to Republic of Liverpool!", Toast.LENGTH_LONG).show()
                 makeVKAPIRequest(accessToken)
             }
 
             override fun onLoginFailed(errorCode: Int) {
-                Toast.makeText(
-                    applicationContext,
-                    "Неудачная попытка авторизации",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(applicationContext, "Неудачная попытка авторизации", Toast.LENGTH_LONG).show()
             }
         }
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data)
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
     }
 
     private fun makeVKAPIRequest(token: String) {
@@ -106,8 +92,7 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun setUpRecyclerView() {
         social_recycler_view.layoutManager = LinearLayoutManager(applicationContext)
-        social_recycler_view.adapter =
-            SocialRecyclerAdapter(textList, likesList, commentsList, viewsList)
+        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList)
     }
 
     private fun addList(text: String, likes: String, comments: String, views: String) {

@@ -26,7 +26,7 @@ class TableViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun deleteAllTableData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch (Dispatchers.IO) {
             repository.deleteAllTableData()
         }
     }

@@ -9,11 +9,7 @@
         android:id="@+id/newsFragment"
         android:name="com.example.liverpooldirectory.fragments.news.NewsFragment"
         android:label="News"
-        tools:layout="@layout/fragment_news" >
-        <action
-            android:id="@+id/action_newsFragment_to_mainMenuFragment"
-            app:destination="@id/MainMenuFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/MainMenuFragment"
         android:name="com.example.liverpooldirectory.fragments.mainmenu.MainMenuFragment"
@@ -23,40 +19,12 @@
             android:id="@+id/action_mainMenuFragment_to_newsFragment"
             app:destination="@id/newsFragment" />
         <action
-            android:id="@+id/action_MainMenuFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
-        <action
-            android:id="@+id/action_MainMenuFragment_to_playersFragment"
-            app:destination="@id/playersFragment" />
-        <action
             android:id="@+id/action_MainMenuFragment_to_socialFragment"
             app:destination="@id/socialFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/historyFragment"
-        android:name="com.example.liverpooldirectory.fragments.history.HistoryFragment"
-        android:label="fragment_history"
-        tools:layout="@layout/fragment_history" >
-        <action
-            android:id="@+id/action_historyFragment_to_MainMenuFragment"
-            app:destination="@id/MainMenuFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/playersFragment"
-        android:name="com.example.liverpooldirectory.fragments.players.PlayersFragment"
-        android:label="fragment_players"
-        tools:layout="@layout/fragment_players" >
-        <action
-            android:id="@+id/action_playersFragment_to_MainMenuFragment"
-            app:destination="@id/MainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/socialFragment"
         android:name="com.example.liverpooldirectory.fragments.social.SocialFragment"
         android:label="fragment_social"
-        tools:layout="@layout/fragment_social" >
-        <action
-            android:id="@+id/action_socialFragment_to_MainMenuFragment"
-            app:destination="@id/MainMenuFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_social" />
 </navigation>

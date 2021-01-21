@@ -73,27 +73,20 @@ class MainMenuFragment : Fragment() {
         //CloseGames ViewModel
         mCloseGamesViewModel = ViewModelProvider(this).get(CloseGamesViewModel::class.java)
 
-        binding.buttonNews.setOnClickListener {
-            findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
-        }
-
-        binding.buttonHistory.setOnClickListener {
-            findNavController().navigate(R.id.action_MainMenuFragment_to_historyFragment)
-        }
-
-        binding.buttonPlayers.setOnClickListener {
-            findNavController().navigate(R.id.action_MainMenuFragment_to_playersFragment)
-        }
-
-        binding.buttonSocial.setOnClickListener {
-            findNavController().navigate(R.id.action_MainMenuFragment_to_socialFragment)
-        }
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainMenuBinding.bind(view)
+
+        binding.buttonNews.setOnClickListener {
+            findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
+        }
+
+        binding.buttonSocial.setOnClickListener {
+            findNavController().navigate(R.id.action_MainMenuFragment_to_socialFragment)
+        }
 
         connectivity =
             requireContext().getSystemService(Service.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -273,15 +266,7 @@ class MainMenuFragment : Fragment() {
                 fun addInfoToDatabase() {
                     var a = 0
                     do {
-                        val table1 = Table(
-                            positionList[a],
-                            clubList[a],
-                            matchesList[a],
-                            winList[a],
-                            drawList[a],
-                            loseList[a],
-                            pointsList[a]
-                        )
+                        val table1 = Table(positionList[a], clubList[a], matchesList[a], winList[a], drawList[a], loseList[a], pointsList[a])
                         mTableViewModel.addTable(table1)
                         a++
                     } while (a < positionList.size)

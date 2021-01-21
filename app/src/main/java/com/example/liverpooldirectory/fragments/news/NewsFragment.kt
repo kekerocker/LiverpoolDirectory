@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.liverpooldirectory.R
-import com.example.liverpooldirectory.newsapi.APIRequest
+import com.example.liverpooldirectory.internet.newsapi.APIRequest
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
