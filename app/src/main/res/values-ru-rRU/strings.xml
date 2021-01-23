@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Справочник ЛФК</string>
-    <string name="stop">Стоп</string>
-    <string name="play">Играть</string>
-    <string name="lfc_trophies">Трофеи ЛФК</string>
-    <string name="players">Игроки</string>
-    <string name="news">Новости</string>
-    <string name="history">История</string>
-    <string name="Social">Сообщество</string>
 </resources>

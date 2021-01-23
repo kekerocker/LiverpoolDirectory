@@ -1,10 +1,11 @@
-package com.example.liverpooldirectory.data.closegames
+package com.example.liverpooldirectory.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.liverpooldirectory.data.CloseGamesDatabase
+import com.example.liverpooldirectory.data.closegames.CloseGamesRepository
 import com.example.liverpooldirectory.model.CloseGames
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -17,11 +17,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.liverpooldirectory.R
-import com.example.liverpooldirectory.data.closegames.CloseGamesViewModel
-import com.example.liverpooldirectory.data.epltable.TableViewModel
 import com.example.liverpooldirectory.databinding.FragmentMainMenuBinding
 import com.example.liverpooldirectory.model.CloseGames
 import com.example.liverpooldirectory.model.Table
+import com.example.liverpooldirectory.viewmodel.CloseGamesViewModel
+import com.example.liverpooldirectory.viewmodel.TableViewModel
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -112,6 +112,10 @@ class MainMenuFragment : Fragment() {
                 }, 1500)
             }
         }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
     }
 
     private fun fadeInFromBlack(view: View, timer: Long) {
@@ -266,7 +270,15 @@ class MainMenuFragment : Fragment() {
                 fun addInfoToDatabase() {
                     var a = 0
                     do {
-                        val table1 = Table(positionList[a], clubList[a], matchesList[a], winList[a], drawList[a], loseList[a], pointsList[a])
+                        val table1 = Table(
+                            positionList[a],
+                            clubList[a],
+                            matchesList[a],
+                            winList[a],
+                            drawList[a],
+                            loseList[a],
+                            pointsList[a]
+                        )
                         mTableViewModel.addTable(table1)
                         a++
                     } while (a < positionList.size)

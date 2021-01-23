@@ -9,11 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.liverpooldirectory.databinding.ActivityMainmenuBinding
 import com.example.liverpooldirectory.fragments.social.SocialRecyclerAdapter
 import com.example.liverpooldirectory.internet.socialapi.VKAPIRequest
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
+import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.YandexMetricaConfig
 import kotlinx.android.synthetic.main.fragment_social.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -31,13 +34,22 @@ class MainMenuActivity : AppCompatActivity() {
     private var commentsList = mutableListOf<String>()
     private var viewsList = mutableListOf<String>()
 
+    private val yandexApiKey = "85be1141-c651-4689-86f6-400b45b41289"
+
+    private lateinit var binding: ActivityMainmenuBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mainmenu)
+        binding = ActivityMainmenuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
         setupActionBarWithNavController(findNavController(R.id.fragment))
-    }
 
+        val config = YandexMetricaConfig.newConfigBuilder(yandexApiKey).build()
+        YandexMetrica.activate(applicationContext, config)
+        YandexMetrica.enableActivityAutoTracking(application)
+    }
+    
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()

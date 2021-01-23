@@ -1,18 +1,11 @@
 <resources>
     <string name="app_name">Liverpool Directory</string>
-    <string name="stop">Stop</string>
-    <string name="play">Play</string>
-    <string name="lfc_trophies">LFC Trophies</string>
-    <string name="players">Players</string>
-    <string name="news">News</string>
-    <string name="history">History</string>
+    <string name="news" translatable="false">Новости</string>
+    <string name="Social" translatable="false">Сообщество</string>
     <string name="lfc_logo" translatable="false">lfc_logo</string>
     <string name="close_button" translatable="false">X</string>
     <string name="players_image" translatable="false">players_image</string>
     <string name="stop_play_button" translatable="false">stop_play_button</string>
 
     <integer name="com_vk_sdk_AppId">7685328</integer>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="Social">Social</string>
 </resources>
