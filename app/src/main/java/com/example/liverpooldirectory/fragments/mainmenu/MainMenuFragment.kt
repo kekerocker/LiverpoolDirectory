@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,8 +19,7 @@ import com.example.liverpooldirectory.R
 import com.example.liverpooldirectory.databinding.FragmentMainMenuBinding
 import com.example.liverpooldirectory.model.CloseGames
 import com.example.liverpooldirectory.model.Table
-import com.example.liverpooldirectory.viewmodel.CloseGamesViewModel
-import com.example.liverpooldirectory.viewmodel.TableViewModel
+import com.example.liverpooldirectory.viewmodel.ViewModel
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -37,8 +35,7 @@ class MainMenuFragment : Fragment() {
     var connectivity: ConnectivityManager? = null
     var info: NetworkInfo? = null
 
-    private lateinit var mTableViewModel: TableViewModel
-    private lateinit var mCloseGamesViewModel: CloseGamesViewModel
+    private lateinit var viewModel: ViewModel
 
     private var positionList = mutableListOf<Int>()
     private var clubList = mutableListOf<String>()
@@ -67,11 +64,8 @@ class MainMenuFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_menu, container, false)
 
-        //EPL Table ViewModel
-        mTableViewModel = ViewModelProvider(this).get(TableViewModel::class.java)
-
-        //CloseGames ViewModel
-        mCloseGamesViewModel = ViewModelProvider(this).get(CloseGamesViewModel::class.java)
+        //ViewModel
+       viewModel = ViewModelProvider(this).get(ViewModel::class.java)
 
         return view
     }
@@ -97,8 +91,8 @@ class MainMenuFragment : Fragment() {
             if (info != null) {
                 if (info!!.state == NetworkInfo.State.CONNECTED) {
                     //Do when online
-                    mCloseGamesViewModel.deleteAllData()
-                    mTableViewModel.deleteAllTableData()
+                    viewModel.deleteAllCloseGamesData()
+                    viewModel.deleteAllTableData()
                     downloadDataFromInternet()
                 }
             } else {
@@ -112,10 +106,6 @@ class MainMenuFragment : Fragment() {
                 }, 1500)
             }
         }
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
     }
 
     private fun fadeInFromBlack(view: View, timer: Long) {
@@ -138,7 +128,7 @@ class MainMenuFragment : Fragment() {
         binding.indicator.setViewPager(viewPager2)
         adapter.registerAdapterDataObserver(indicator.adapterDataObserver)
 
-        mCloseGamesViewModel.readAllData.observe(viewLifecycleOwner, { closeGames ->
+        viewModel.readAllCloseGamesData.observe(viewLifecycleOwner, { closeGames ->
             adapter.setData(
                 closeGames
             )
@@ -151,7 +141,7 @@ class MainMenuFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        mTableViewModel.readAllData.observe(viewLifecycleOwner, Observer { table ->
+        viewModel.readAllEplData.observe(viewLifecycleOwner, { table ->
             adapter.setData(table)
         })
     }
@@ -224,7 +214,7 @@ class MainMenuFragment : Fragment() {
                             matchTypeList[a],
                             tournamentLogoList[a]
                         )
-                        mCloseGamesViewModel.addCloseGames(closeGames1)
+                        viewModel.addCloseGames(closeGames1)
                         a++
                     } while (a < 3)
                 }
@@ -279,7 +269,7 @@ class MainMenuFragment : Fragment() {
                             loseList[a],
                             pointsList[a]
                         )
-                        mTableViewModel.addTable(table1)
+                        viewModel.addTable(table1)
                         a++
                     } while (a < positionList.size)
                 }

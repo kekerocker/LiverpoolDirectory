@@ -4,21 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.liverpooldirectory.data.closegames.CloseGamesDao
-import com.example.liverpooldirectory.data.epltable.TableDao
 import com.example.liverpooldirectory.model.CloseGames
 import com.example.liverpooldirectory.model.Table
 
-@Database(entities = [Table::class], version = 1, exportSchema = false)
-abstract class TableDatabase : RoomDatabase() {
+@Database(entities = [Table::class, CloseGames::class], version = 1, exportSchema = false)
 
-    abstract fun tableDao(): TableDao
+abstract class LFCDatabase : RoomDatabase() {
+
+    abstract fun dataDao(): DataDao
 
     companion object {
         @Volatile
-        private var INSTANCE: TableDatabase? = null
+        private var INSTANCE: LFCDatabase? = null
 
-        fun getTableDatabase(context: Context): TableDatabase {
+        fun getTableDatabase(context: Context): LFCDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -26,8 +25,8 @@ abstract class TableDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    TableDatabase::class.java,
-                    "EPL_table"
+                    LFCDatabase::class.java,
+                    "LFC_database"
                 )
                     .allowMainThreadQueries()
                     .build()
@@ -35,33 +34,5 @@ abstract class TableDatabase : RoomDatabase() {
                 return instance
             }
         }
-    }
-}
-
-@Database(entities = [CloseGames::class], version = 1, exportSchema = false)
-abstract class CloseGamesDatabase : RoomDatabase() {
-
-    abstract fun closeGamesDao(): CloseGamesDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: CloseGamesDatabase? = null
-
-        fun getDatabase(context: Context): CloseGamesDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    CloseGamesDatabase::class.java,
-                    "CloseGames_table"
-                ).build()
-                INSTANCE = instance
-                return instance
-            }
-        }
-
     }
 }
