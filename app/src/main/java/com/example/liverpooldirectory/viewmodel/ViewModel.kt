@@ -45,7 +45,6 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
                     deleteAllCloseGamesData()
                     deleteAllTableData()
                     downloadDataFromInternet()
-                    Toast.makeText(getApplication(), "Интернет есть", Toast.LENGTH_LONG).show()
                 }
             } else {
                 //Do when offline

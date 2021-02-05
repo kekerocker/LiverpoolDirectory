@@ -49,17 +49,6 @@ class MainMenuFragment : Fragment() {
         setUpRecyclerViewTable()
     }
 
-    private fun fadeInFromBlack(view: View, timer: Long) {
-        view.animate().apply {
-            alpha(0f)
-            duration = timer
-        }.start()
-    }
-
-    private fun hideLoadingScreen(timer: Long) {
-        fadeInFromBlack(binding.mainLoadingScreen, timer)
-    }
-
     private fun setUpViewPager() {
         val viewPager2 = binding.viewPager2
         val adapter = ViewPagerAdapter()

@@ -197,47 +197,4 @@
 
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_loading_screen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#DA0C0C"
-        tools:visibility="gone">
-
-        <ImageView
-            android:id="@+id/lfc_logo"
-            android:layout_width="222dp"
-            android:layout_height="311dp"
-            android:layout_marginTop="64dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/fc_liverpool"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_wait_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/albertus"
-            android:text="Ждите, идёт загрузка..."
-            android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_progressBar" />
-
-        <ProgressBar
-            android:id="@+id/first_progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lfc_logo" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
