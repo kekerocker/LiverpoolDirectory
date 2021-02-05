@@ -44,6 +44,7 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
     implementation 'me.relex:circleindicator:2.1.4'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.21"
@@ -85,14 +86,11 @@ dependencies {
 
     // Kotlin components
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
     //Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
-
-    //Picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Lists
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
@@ -106,7 +104,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.squareup.okhttp3:logging-interceptor:4.5.0"
 
-    //Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    //Coil
+    implementation("io.coil-kt:coil:1.1.1")
 
 }

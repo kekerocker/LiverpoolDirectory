@@ -11,7 +11,7 @@ import com.example.liverpooldirectory.model.Table
 
 abstract class LFCDatabase : RoomDatabase() {
 
-    abstract fun dataDao(): DataDao
+    abstract fun tableDao(): TableDao
 
     companion object {
         @Volatile

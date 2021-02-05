@@ -1,49 +1,74 @@
 package com.example.liverpooldirectory.viewmodel
 
 import android.app.Application
+import android.app.Service
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.liverpooldirectory.data.LFCDatabase
 import com.example.liverpooldirectory.model.CloseGames
 import com.example.liverpooldirectory.model.Table
-import com.example.liverpooldirectory.repository.Repository
+import com.example.liverpooldirectory.repository.MainMenuRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ViewModel(application: Application): AndroidViewModel(application) {
+class ViewModel(application: Application) : AndroidViewModel(application) {
+
+    var connectivity: ConnectivityManager? = null
+    var info: NetworkInfo? = null
+
     val readAllEplData: LiveData<List<Table>>
     val readAllCloseGamesData: LiveData<List<CloseGames>>
-    private val repository: Repository
+    private val mainMenuRepository: MainMenuRepository
 
     init {
-        val dataDao = LFCDatabase.getTableDatabase(application).dataDao()
-        repository = Repository(dataDao)
-        readAllEplData = repository.readAllEplData
-        readAllCloseGamesData = repository.readAllCloseGamesData
+        val tableDao = LFCDatabase.getTableDatabase(application).tableDao()
+        mainMenuRepository = MainMenuRepository(tableDao)
+        readAllEplData = mainMenuRepository.readAllEplData
+        readAllCloseGamesData = mainMenuRepository.readAllCloseGamesData
+
+        connectivity = application.getSystemService(Service.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        checkInternet()
     }
 
-    fun addTable(table: Table) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.addTable(table)
+    private fun checkInternet() {
+        if (connectivity != null) {
+            info = connectivity!!.activeNetworkInfo
+
+            if (info != null) {
+                if (info!!.state == NetworkInfo.State.CONNECTED) {
+                    //Do when online0
+                    deleteAllCloseGamesData()
+                    deleteAllTableData()
+                    downloadDataFromInternet()
+                    Toast.makeText(getApplication(), "Интернет есть", Toast.LENGTH_LONG).show()
+                }
+            } else {
+                //Do when offline
+                Toast.makeText(getApplication(), "Нет соединения с интернетом.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    fun deleteAllTableData() {
-        viewModelScope.launch (Dispatchers.IO) {
-            repository.deleteAllTableData()
+    private fun downloadDataFromInternet() {
+        viewModelScope.launch(Dispatchers.IO) {
+            mainMenuRepository.downloadDataFromInternet()
         }
     }
 
-    fun addCloseGames(closeGames: CloseGames) {
+    private fun deleteAllTableData() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addCloseGames(closeGames)
+            mainMenuRepository.deleteAllTableData()
         }
     }
 
-    fun deleteAllCloseGamesData() {
+    private fun deleteAllCloseGamesData() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllCloseGamesData()
+            mainMenuRepository.deleteAllCloseGamesData()
         }
     }
 }

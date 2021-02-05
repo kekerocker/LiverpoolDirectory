@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.load
 import com.example.liverpooldirectory.R
 
 class  RecyclerAdapter(
@@ -52,9 +52,7 @@ class  RecyclerAdapter(
         holder.itemDetail.text = details[position]
         holder.itemContent.text = content[position]
 
-        Glide.with(holder.itemPicture)
-            .load(images[position])
-            .into(holder.itemPicture)
+        holder.itemPicture.load(images[position])
     }
 
     override fun getItemCount(): Int {

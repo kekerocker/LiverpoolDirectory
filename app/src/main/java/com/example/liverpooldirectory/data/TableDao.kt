@@ -9,7 +9,7 @@ import com.example.liverpooldirectory.model.CloseGames
 import com.example.liverpooldirectory.model.Table
 
 @Dao
-interface DataDao {
+interface TableDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addTable(table: Table)
 

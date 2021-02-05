@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.load
 import com.example.liverpooldirectory.R
 import com.example.liverpooldirectory.model.CloseGames
 
@@ -42,56 +42,55 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
         holder.itemDate.text = currentItem.date
         holder.itemMatchType.text = currentItem.matchType
 
-        Glide.with(holder.itemTournamentLogo)
-            .load(currentItem.tournamentLogo)
-            .into(holder.itemTournamentLogo)
+        holder.itemTournamentLogo.load(currentItem.tournamentLogo)
 
         when (holder.itemTeamName1.text) {
-            "Ливерпуль" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_liverpool)
-            "Манчестер Юнайтед" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_manutd)
-            "Лестер" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_leicester)
-            "Тоттенхэм" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_tottenham)
-            "Манчестер Сити" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_mancity_logo)
-            "Саутгемптон" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_southampton)
-            "Эвертон" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_everton)
-            "Астон Вилла" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_avilla)
-            "Челси" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_chelsea)
-            "Вест Хэм" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_westhamutd)
-            "Арсенал" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_arsenal)
-            "Лидс" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_leedsutd)
-            "Вулверхэмптон" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_wolverhampton)
-            "Кристал Пэлас" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_crystal_palace)
-            "Ньюкасл" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_newcastleutd)
-            "Бернли" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_burnley)
-            "Брайтон" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_brighton)
-            "Фулхэм" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_fullham)
-            "Вест Бромвич" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_westbrom)
-            "Шеффилд Юнайтед" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_sheffieldutd)
+            //"Ливерпуль" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_liverpool)
+            "Ливерпуль" -> holder.itemTeamLogo1.load(R.drawable.fc_liverpool)
+            "Манчестер Юнайтед" -> holder.itemTeamLogo1.load(R.drawable.fc_manutd)
+            "Лестер" -> holder.itemTeamLogo1.load(R.drawable.fc_leicester)
+            "Тоттенхэм" -> holder.itemTeamLogo1.load(R.drawable.fc_tottenham)
+            "Манчестер Сити" -> holder.itemTeamLogo1.load(R.drawable.fc_mancity_logo)
+            "Саутгемптон" -> holder.itemTeamLogo1.load(R.drawable.fc_southampton)
+            "Эвертон" -> holder.itemTeamLogo1.load(R.drawable.fc_everton)
+            "Астон Вилла" -> holder.itemTeamLogo1.load(R.drawable.fc_avilla)
+            "Челси" -> holder.itemTeamLogo1.load(R.drawable.fc_chelsea)
+            "Вест Хэм" -> holder.itemTeamLogo1.load(R.drawable.fc_westhamutd)
+            "Арсенал" -> holder.itemTeamLogo1.load(R.drawable.fc_arsenal)
+            "Лидс" -> holder.itemTeamLogo1.load(R.drawable.fc_leedsutd)
+            "Вулверхэмптон" -> holder.itemTeamLogo1.load(R.drawable.fc_wolverhampton)
+            "Кристал Пэлас" -> holder.itemTeamLogo1.load(R.drawable.fc_crystal_palace)
+            "Ньюкасл" -> holder.itemTeamLogo1.load(R.drawable.fc_newcastleutd)
+            "Бернли" -> holder.itemTeamLogo1.load(R.drawable.fc_burnley)
+            "Брайтон" -> holder.itemTeamLogo1.load(R.drawable.fc_brighton)
+            "Фулхэм" -> holder.itemTeamLogo1.load(R.drawable.fc_fullham)
+            "Вест Бромвич" -> holder.itemTeamLogo1.load(R.drawable.fc_westbrom)
+            "Шеффилд Юнайтед" -> holder.itemTeamLogo1.load(R.drawable.fc_sheffieldutd)
         }
+
         when (holder.itemTeamName2.text) {
-            "Ливерпуль" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_liverpool)
-            "Манчестер Юнайтед" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_manutd)
-            "Лестер" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_leicester)
-            "Тоттенхэм" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_tottenham)
-            "Манчестер Сити" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_mancity_logo)
-            "Саутгемптон" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_southampton)
-            "Эвертон" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_everton)
-            "Астон Вилла" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_avilla)
-            "Челси" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_chelsea)
-            "Вест Хэм" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_westhamutd)
-            "Арсенал" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_arsenal)
-            "Лидс" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_leedsutd)
-            "Вулверхэмптон" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_wolverhampton)
-            "Кристал Пэлас" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_crystal_palace)
-            "Ньюкасл" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_newcastleutd)
-            "Бернли" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_burnley)
-            "Брайтон" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_brighton)
-            "Фулхэм" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_fullham)
-            "Вест Бромвич" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_westbrom)
-            "Шеффилд Юнайтед" -> holder.itemTeamLogo2.setImageResource(R.drawable.fc_sheffieldutd)
+            "Ливерпуль" -> holder.itemTeamLogo2.load(R.drawable.fc_liverpool)
+            "Манчестер Юнайтед" -> holder.itemTeamLogo2.load(R.drawable.fc_manutd)
+            "Лестер" -> holder.itemTeamLogo2.load(R.drawable.fc_leicester)
+            "Тоттенхэм" -> holder.itemTeamLogo2.load(R.drawable.fc_tottenham)
+            "Манчестер Сити" -> holder.itemTeamLogo2.load(R.drawable.fc_mancity_logo)
+            "Саутгемптон" -> holder.itemTeamLogo2.load(R.drawable.fc_southampton)
+            "Эвертон" -> holder.itemTeamLogo2.load(R.drawable.fc_everton)
+            "Астон Вилла" -> holder.itemTeamLogo2.load(R.drawable.fc_avilla)
+            "Челси" -> holder.itemTeamLogo2.load(R.drawable.fc_chelsea)
+            "Вест Хэм" -> holder.itemTeamLogo2.load(R.drawable.fc_westhamutd)
+            "Арсенал" -> holder.itemTeamLogo2.load(R.drawable.fc_arsenal)
+            "Лидс" -> holder.itemTeamLogo2.load(R.drawable.fc_leedsutd)
+            "Вулверхэмптон" -> holder.itemTeamLogo2.load(R.drawable.fc_wolverhampton)
+            "Кристал Пэлас" -> holder.itemTeamLogo2.load(R.drawable.fc_crystal_palace)
+            "Ньюкасл" -> holder.itemTeamLogo2.load(R.drawable.fc_newcastleutd)
+            "Бернли" -> holder.itemTeamLogo2.load(R.drawable.fc_burnley)
+            "Брайтон" -> holder.itemTeamLogo2.load(R.drawable.fc_brighton)
+            "Фулхэм" -> holder.itemTeamLogo2.load(R.drawable.fc_fullham)
+            "Вест Бромвич" -> holder.itemTeamLogo2.load(R.drawable.fc_westbrom)
+            "Шеффилд Юнайтед" -> holder.itemTeamLogo2.load(R.drawable.fc_sheffieldutd)
         }
     }
-
 
     override fun getItemCount(): Int {
         return closeGames.size
