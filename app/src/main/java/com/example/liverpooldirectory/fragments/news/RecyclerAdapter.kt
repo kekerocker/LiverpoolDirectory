@@ -5,57 +5,53 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.liverpooldirectory.R
+import com.example.liverpooldirectory.model.News
+import kotlinx.android.synthetic.main.item_news.view.*
 
-class  RecyclerAdapter(
-    private var titles: List<String>,
-    private var details: List<String>,
-    private var content: List<String>,
-    private var images: List<String>,
-    private var links: List<String>
-) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+
+class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+
+    private var newsList = emptyList<News>()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val itemTitle: TextView = itemView.findViewById(R.id.tv_title)
-        val itemDetail: TextView = itemView.findViewById(R.id.tv_description)
-        val itemContent: TextView = itemView.findViewById(R.id.tv_content)
-        val itemPicture: ImageView = itemView.findViewById(R.id.iv_image)
+        private val url = "http://www.myliverpool.ru/"
 
         init {
-
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
 
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(links[position])
-                startActivity(itemView.context, intent, null)
+                intent.data = Uri.parse(url + newsList[position].url)
+                ContextCompat.startActivity(itemView.context, intent, null)
             }
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_news,parent, false)
-        return ViewHolder((v))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemTitle.text = titles[position]
-        holder.itemDetail.text = details[position]
-        holder.itemContent.text = content[position]
+        val currentItem = newsList[position]
+        holder.itemView.tv_title.text = currentItem.title
+        holder.itemView.tv_description.text = currentItem.description
 
-        holder.itemPicture.load(images[position])
+        holder.itemView.iv_image.load(currentItem.image)
     }
 
     override fun getItemCount(): Int {
-        return titles.size
+        return newsList.size
+    }
+
+    fun setData(news: List<News>) {
+        this.newsList = news
+        notifyDataSetChanged()
     }
 }

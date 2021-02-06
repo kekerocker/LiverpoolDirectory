@@ -25,7 +25,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     private val mainMenuRepository: MainMenuRepository
 
     init {
-        val tableDao = LFCDatabase.getTableDatabase(application).tableDao()
+        val tableDao = LFCDatabase.createDatabase(application).tableDao()
         mainMenuRepository = MainMenuRepository(tableDao)
         readAllEplData = mainMenuRepository.readAllEplData
         readAllCloseGamesData = mainMenuRepository.readAllCloseGamesData

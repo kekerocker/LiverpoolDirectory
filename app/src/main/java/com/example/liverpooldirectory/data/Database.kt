@@ -5,19 +5,21 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.liverpooldirectory.model.CloseGames
+import com.example.liverpooldirectory.model.News
 import com.example.liverpooldirectory.model.Table
 
-@Database(entities = [Table::class, CloseGames::class], version = 1, exportSchema = false)
+@Database(entities = [Table::class, CloseGames::class, News::class], version = 1, exportSchema = false)
 
 abstract class LFCDatabase : RoomDatabase() {
 
     abstract fun tableDao(): TableDao
+    abstract fun newsDao(): NewsDao
 
     companion object {
         @Volatile
         private var INSTANCE: LFCDatabase? = null
 
-        fun getTableDatabase(context: Context): LFCDatabase {
+        fun createDatabase(context: Context): LFCDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -26,8 +28,7 @@ abstract class LFCDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     LFCDatabase::class.java,
-                    "LFC_database"
-                )
+                    "LFC_database")
                     .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance

@@ -180,8 +180,9 @@ class MainMenuRepository(private val tableDao: TableDao) {
 
                         GlobalScope.launch(Dispatchers.Default) {
                             addTable(table1)
-                        }
+                            Log.d("TEST23", table1.clubName[0].toString())
 
+                        }
                         a++
                     } while (a < positionList.size)
                 }
