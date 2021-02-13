@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.example.liverpooldirectory.fragments.news.NewsFragment"
+        android:name="com.dsoft.liverpooldirectory.fragments.news.NewsFragment"
         android:label="News"
         tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/MainMenuFragment"
-        android:name="com.example.liverpooldirectory.fragments.mainmenu.MainMenuFragment"
+        android:name="com.dsoft.liverpooldirectory.fragments.mainmenu.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/socialFragment"
-        android:name="com.example.liverpooldirectory.fragments.social.SocialFragment"
+        android:name="com.dsoft.liverpooldirectory.fragments.social.SocialFragment"
         android:label="fragment_social"
         tools:layout="@layout/fragment_social" />
 </navigation>
