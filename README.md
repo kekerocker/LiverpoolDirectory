@@ -6,7 +6,7 @@ Android Stack, который я использовал в данном прое
 Retrofit 2,
 Navigation Component,
 Recycler View,
-ViewPager + TabLayout,
+ViewPager,
 Constraint Layout,
 Custom View,
 ViewBinding,
