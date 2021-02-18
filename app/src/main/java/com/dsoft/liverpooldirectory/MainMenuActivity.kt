@@ -10,8 +10,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dsoft.liverpooldirectory.databinding.ActivityMainmenuBinding
-import com.dsoft.liverpooldirectory.fragments.social.SocialRecyclerAdapter
-import com.dsoft.liverpooldirectory.internet.socialapi.VKAPIRequest
+import com.dsoft.liverpooldirectory.fragments.social.adapter.SocialRecyclerAdapter
+import com.dsoft.liverpooldirectory.internet.VKAPIRequest
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
@@ -25,9 +25,10 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val VK_BASE_URL = "https://api.vk.com/method/"
 
 class MainMenuActivity : AppCompatActivity() {
+
+    private val VK_BASE_URL = "https://api.vk.com/method/"
 
     private var textList = mutableListOf<String>()
     private var likesList = mutableListOf<String>()

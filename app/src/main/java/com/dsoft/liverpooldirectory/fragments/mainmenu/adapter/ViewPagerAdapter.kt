@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.mainmenu
+package com.dsoft.liverpooldirectory.fragments.mainmenu.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -28,13 +28,13 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ViewPagerAdapter.Pager2ViewHolder {
+    ): Pager2ViewHolder {
         return Pager2ViewHolder(
             ItemMatchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: ViewPagerAdapter.Pager2ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
         val currentItem = closeGames[position]
         holder.itemTeamName1.text = currentItem.teamName1
         holder.itemTeamName2.text = currentItem.teamName2
@@ -66,6 +66,9 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
             "Фулхэм" -> holder.itemTeamLogo1.load(R.drawable.fc_fullham)
             "Вест Бромвич" -> holder.itemTeamLogo1.load(R.drawable.fc_westbrom)
             "Шеффилд Юнайтед" -> holder.itemTeamLogo1.load(R.drawable.fc_sheffieldutd)
+            "РБ Лейпциг" -> holder.itemTeamLogo1.load(R.drawable.fc_rb_leipzieg)
+            "Барселона" -> holder.itemTeamLogo1.load(R.drawable.fc_barcelona)
+            "ПСЖ" -> holder.itemTeamLogo1.load(R.drawable.fc_psg)
         }
 
         when (holder.itemTeamName2.text) {
@@ -89,6 +92,9 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
             "Фулхэм" -> holder.itemTeamLogo2.load(R.drawable.fc_fullham)
             "Вест Бромвич" -> holder.itemTeamLogo2.load(R.drawable.fc_westbrom)
             "Шеффилд Юнайтед" -> holder.itemTeamLogo2.load(R.drawable.fc_sheffieldutd)
+            "РБ Лейпциг" -> holder.itemTeamLogo2.load(R.drawable.fc_rb_leipzieg)
+            "Барселона" -> holder.itemTeamLogo2.load(R.drawable.fc_barcelona)
+            "ПСЖ" -> holder.itemTeamLogo2.load(R.drawable.fc_psg)
         }
     }
 

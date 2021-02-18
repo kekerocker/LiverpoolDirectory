@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.mainmenu
+package com.dsoft.liverpooldirectory.fragments.mainmenu.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

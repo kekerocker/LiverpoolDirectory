@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentNewsBinding
-import com.dsoft.liverpooldirectory.viewmodel.NewsViewModel
+import com.dsoft.liverpooldirectory.fragments.news.adapter.RecyclerAdapter
 
 class NewsFragment : Fragment() {
 

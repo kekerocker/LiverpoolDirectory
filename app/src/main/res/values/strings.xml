@@ -6,6 +6,8 @@
     <string name="close_button" translatable="false">X</string>
     <string name="players_image" translatable="false">players_image</string>
     <string name="stop_play_button" translatable="false">stop_play_button</string>
+    <string name="publisher_btn" translatable="false">Инфо</string>
+    <string name="vk_lfc" translatable="false">- Паблику ВК Liverpool FC | Ливерпуль: https://vk.com/liverpoolfc</string>
 
     <integer name="com_vk_sdk_AppId">7685328</integer>
 </resources>

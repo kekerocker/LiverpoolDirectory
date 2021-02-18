@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.internet.socialapi
+package com.dsoft.liverpooldirectory.model.vk
 
 data class Item(
     val attachments: List<Attachment>?,

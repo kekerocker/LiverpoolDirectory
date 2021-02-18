@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentMainMenuBinding
-import com.dsoft.liverpooldirectory.viewmodel.ViewModel
+import com.dsoft.liverpooldirectory.fragments.mainmenu.adapter.RecyclerAdapterTable
+import com.dsoft.liverpooldirectory.fragments.mainmenu.adapter.ViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 
 
@@ -39,6 +40,11 @@ class MainMenuFragment : Fragment() {
 
         binding.buttonNews.setOnClickListener {
             findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
+        }
+
+        binding.infoButton?.setOnClickListener {
+            val dialog = DialogFragment()
+            dialog.show(parentFragmentManager, "customDialog")
         }
 
         binding.buttonSocial.setOnClickListener {

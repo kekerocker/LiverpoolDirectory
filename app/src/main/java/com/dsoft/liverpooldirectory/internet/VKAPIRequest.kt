@@ -1,5 +1,6 @@
-package com.dsoft.liverpooldirectory.internet.socialapi
+package com.dsoft.liverpooldirectory.internet
 
+import com.dsoft.liverpooldirectory.model.vk.VKApiJSON
 import retrofit2.http.GET
 import retrofit2.http.Query
 

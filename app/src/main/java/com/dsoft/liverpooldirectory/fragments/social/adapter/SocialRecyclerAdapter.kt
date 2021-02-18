@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.social
+package com.dsoft.liverpooldirectory.fragments.social.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

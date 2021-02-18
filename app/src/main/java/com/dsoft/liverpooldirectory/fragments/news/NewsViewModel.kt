@@ -1,9 +1,10 @@
-package com.dsoft.liverpooldirectory.viewmodel
+package com.dsoft.liverpooldirectory.fragments.news
 
 import android.app.Application
 import android.app.Service
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -26,10 +27,8 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         newsRepository = NewsRepository(newsDao)
         readAllNews = newsRepository.readAllNews
 
-        /*deleteAllNews()
-        downloadNews()*/
-
         connectivity = application.getSystemService(Service.CONNECTIVITY_SERVICE) as ConnectivityManager
+        Toast.makeText(application, "Нажмите на новость, чтобы прочитать подробнее.", Toast.LENGTH_LONG).show()
 
         checkInternet()
     }

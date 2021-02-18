@@ -12,6 +12,13 @@ import kotlinx.android.synthetic.main.fragment_social.*
 
 class SocialFragment : Fragment() {
 
+    private var textList = mutableListOf<String>()
+    private var likesList = mutableListOf<String>()
+    private var commentsList = mutableListOf<String>()
+    private var viewsList = mutableListOf<String>()
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

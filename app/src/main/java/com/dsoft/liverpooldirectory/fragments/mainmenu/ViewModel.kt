@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.viewmodel
+package com.dsoft.liverpooldirectory.fragments.mainmenu
 
 import android.app.Application
 import android.app.Service
