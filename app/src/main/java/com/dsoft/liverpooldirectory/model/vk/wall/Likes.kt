@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.model.vk
+package com.dsoft.liverpooldirectory.model.vk.wall
 
 data class Likes(
     val can_like: Int,

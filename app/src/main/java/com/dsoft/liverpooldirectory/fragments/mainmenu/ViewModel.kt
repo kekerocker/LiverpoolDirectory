@@ -15,7 +15,7 @@ import com.dsoft.liverpooldirectory.repository.MainMenuRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ViewModel(application: Application) : AndroidViewModel(application) {
+class ViewModel (application: Application) : AndroidViewModel(application) {
 
     var connectivity: ConnectivityManager? = null
     var info: NetworkInfo? = null

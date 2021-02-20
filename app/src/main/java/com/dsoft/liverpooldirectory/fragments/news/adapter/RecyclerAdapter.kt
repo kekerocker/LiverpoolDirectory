@@ -1,19 +1,22 @@
 package com.dsoft.liverpooldirectory.fragments.news.adapter
 
+import android.content.ContentProvider
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.ItemNewsBinding
 import com.dsoft.liverpooldirectory.model.News
 
 
-class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     private var newsList = emptyList<News>()
 
@@ -26,13 +29,13 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
         val itemImage: ImageView = binding.ivImage
 
         init {
-           itemView.setOnClickListener {
-                val position: Int = adapterPosition
-
+            val position: Int = adapterPosition
+            itemView.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(url + newsList[position].url)
                 ContextCompat.startActivity(itemView.context, intent, null)
             }
+
         }
     }
 

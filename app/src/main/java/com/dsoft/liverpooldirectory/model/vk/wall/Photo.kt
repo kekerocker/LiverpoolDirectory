@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.model.vk
+package com.dsoft.liverpooldirectory.model.vk.wall
 
 data class Photo(
     val access_key: String,

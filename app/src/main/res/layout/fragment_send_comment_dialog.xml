@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#592020"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recyclerView_comments"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_comment"
+        tools:itemCount="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.libizo.CustomEditText
+        android:id="@+id/customEditText"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:gravity="start"
+        android:hint="Введите ваше сообщение"
+        android:imeOptions="actionDone"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_recyclerView_comments"
+        app:libIZO_setBackgroundColor="#FFFFFF"
+        app:libIZO_setBorderColor="#FFF1DBBD"
+        app:libIZO_setBorderView="true"
+        app:libIZO_setCornerRadius="8dp"
+        tools:layout_editor_absoluteY="8dp" />
+
+    <Button
+        android:id="@+id/closeMessageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/buttonstyle"
+        android:text="Закрыть"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toStartOf="@+id/sendButton"
+        app:layout_constraintTop_toBottomOf="@+id/customEditText" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/buttonstyle"
+        android:text="Отправить"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customEditText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
