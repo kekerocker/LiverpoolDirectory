@@ -16,7 +16,7 @@ interface TableDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCloseGames(closeGames: CloseGames)
 
-    @Query("SELECT * FROM close_games_table")
+    @Query("SELECT * FROM close_games_table ORDER BY id ASC")
     fun readAllCloseGamesData(): LiveData<List<CloseGames>>
 
     @Query("SELECT * FROM epl_table ORDER BY position ASC")

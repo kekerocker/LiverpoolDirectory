@@ -29,7 +29,6 @@ class NewsRepository(private val newsDao: NewsDao) {
     }
 
     suspend fun downloadNews() {
-
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val doc = Jsoup.connect(newsUrl).get()
@@ -109,6 +108,12 @@ class NewsRepository(private val newsDao: NewsDao) {
                 getDescription(descList)
 
                 addNewsToDatabase()
+
+                //Clear lists
+                imagesList.clear()
+                linksList.clear()
+                titleList.clear()
+                descList.clear()
 
             } catch (e: Exception) {
                 Log.e("Error", e.toString())

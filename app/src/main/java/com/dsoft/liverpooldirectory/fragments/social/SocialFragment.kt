@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +30,7 @@ class SocialFragment : Fragment() {
     private var postIdList = mutableListOf<String>()
 
     private var component = DaggerComponent.create()
+    private var isExpired = true
 
     private var appPreferences: AppPreferences? = null
     private lateinit var viewModel: SocialViewModel
@@ -37,7 +39,6 @@ class SocialFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
         val view = inflater.inflate(R.layout.fragment_social, container, false)
         //ViewModel
@@ -49,9 +50,16 @@ class SocialFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkTokenActuality()
 
-        //Вызов аутентификации в ВК
-        VK.login(requireActivity(), arrayListOf(VKScope.WALL, VKScope.GROUPS, VKScope.EMAIL))
+        //Вызов аутентификации в ВК, если токен просрочен
+        if (isExpired) {
+            Toast.makeText(requireContext(), "Требуется авторизация!", Toast.LENGTH_SHORT).show()
+            VK.login(requireActivity(), arrayListOf(VKScope.WALL, VKScope.GROUPS, VKScope.EMAIL))
+        } else {
+            Toast.makeText(requireContext(), "Добро пожаловать!", Toast.LENGTH_SHORT).show()
+            fetchWallFromPublic(appPreferences?.getToken()!!)
+        }
 
         iv_vk.setOnClickListener {
             fetchWallFromPublic(appPreferences?.getToken()!!)
@@ -60,6 +68,19 @@ class SocialFragment : Fragment() {
         social_recycler_view.setOnClickListener {
             val dialog = DialogSendCommentFragment()
             dialog.show(parentFragmentManager, "customDialog")
+        }
+    }
+
+    private fun checkTokenActuality() {
+        val currentTime = System.currentTimeMillis()
+        val tokenTime = appPreferences?.getTokenTime()!!
+
+        if (currentTime > tokenTime + 86400000) {
+            isExpired = true
+            Log.d("TESTTOKEN", "TEST: Token is expired = $isExpired")
+        } else {
+            isExpired = false
+            Log.d("TESTTOKEN", "TEST: Token is expired = $isExpired")
         }
     }
 

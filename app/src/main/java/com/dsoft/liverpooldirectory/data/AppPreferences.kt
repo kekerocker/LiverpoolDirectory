@@ -14,11 +14,19 @@ class AppPreferences(context: Context) {
         data.edit().putString("POSITION", position).apply()
     }
 
+    fun saveTokenTime(time: Long) {
+        data.edit().putLong("TIME", time).apply()
+    }
+
     fun getToken(): String {
         return data.getString("TOKEN", "").toString()
     }
 
     fun getPosition(): String {
         return data.getString("POSITION", "").toString()
+    }
+
+    fun getTokenTime(): Long {
+        return data.getLong("TIME", 0)
     }
 }

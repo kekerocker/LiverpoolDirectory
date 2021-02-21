@@ -30,11 +30,7 @@ class DialogSendCommentFragment: DialogFragment() {
 
     private lateinit var viewModel: SocialViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView: View = inflater.inflate(R.layout.fragment_send_comment_dialog, container, false)
         appPreferences = AppPreferences(requireContext())
         viewModel = ViewModelProvider(this).get(SocialViewModel::class.java)
@@ -68,7 +64,6 @@ class DialogSendCommentFragment: DialogFragment() {
                 Log.e("ErrorComments", e.toString())
             }
         }
-
 
         binding.closeMessageButton.setOnClickListener {
             dismiss()

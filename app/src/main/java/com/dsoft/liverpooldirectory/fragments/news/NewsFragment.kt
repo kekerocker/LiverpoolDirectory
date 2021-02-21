@@ -32,6 +32,13 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewsBinding.bind(view)
 
+        val refreshLayout = binding.refreshLayout
+        refreshLayout.setOnRefreshListener {
+            viewModel.checkInternet()
+
+            refreshLayout.isRefreshing = false
+        }
+
         setUpRecyclerView()
     }
 

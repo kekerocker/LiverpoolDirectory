@@ -33,19 +33,19 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         checkInternet()
     }
 
-    private fun deleteAllNews() {
+    fun deleteAllNews() {
         viewModelScope.launch(Dispatchers.IO) {
             newsRepository.deleteAllNews()
         }
     }
 
-    private fun downloadNews() {
+    fun downloadNews() {
         viewModelScope.launch(Dispatchers.IO) {
             newsRepository.downloadNews()
         }
     }
 
-    private fun checkInternet() {
+    fun checkInternet() {
         viewModelScope.launch(Dispatchers.IO) {
             if (connectivity != null) {
                 info = connectivity!!.activeNetworkInfo

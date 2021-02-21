@@ -18,6 +18,8 @@ import com.yandex.metrica.YandexMetricaConfig
 
 class MainMenuActivity : AppCompatActivity() {
 
+    private val currentTimeMillis = System.currentTimeMillis()
+
     private val yandexApiKey = "85be1141-c651-4689-86f6-400b45b41289"
     private var appPreferences: AppPreferences? = null
     private lateinit var binding: ActivityMainmenuBinding
@@ -29,6 +31,7 @@ class MainMenuActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setupActionBarWithNavController(findNavController(R.id.fragment))
         appPreferences = AppPreferences(this)
+
 
         val config = YandexMetricaConfig.newConfigBuilder(yandexApiKey).build()
         YandexMetrica.activate(applicationContext, config)
@@ -47,6 +50,8 @@ class MainMenuActivity : AppCompatActivity() {
                 Log.d("TOKEN", "Access token is $accessToken")
                 Toast.makeText(applicationContext, "Авторизация прошла успешно: Welcome to Republic of Liverpool!", Toast.LENGTH_LONG).show()
                 appPreferences?.saveToken(accessToken)
+                appPreferences?.saveTokenTime(currentTimeMillis)
+                Log.d("TESTTOKEN", "TEST: $currentTimeMillis")
             }
 
             override fun onLoginFailed(errorCode: Int) {
