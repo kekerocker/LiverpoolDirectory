@@ -14,6 +14,7 @@ import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.FragmentSendCommentDialogBinding
 import com.dsoft.liverpooldirectory.di.DaggerComponent
 import com.dsoft.liverpooldirectory.fragments.social.adapter.SocialCommentsRecyclerAdapter
+import com.dsoft.liverpooldirectory.model.Comments
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -24,6 +25,8 @@ class DialogSendCommentFragment: DialogFragment() {
     private lateinit var binding: FragmentSendCommentDialogBinding
     private var component = DaggerComponent.create()
     private var appPreferences: AppPreferences? = null
+
+    private var textList = mutableListOf<String>()
 
     private lateinit var viewModel: SocialViewModel
 
@@ -43,6 +46,30 @@ class DialogSendCommentFragment: DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSendCommentDialogBinding.bind(view)
         setupRecyclerView()
+        val position = appPreferences?.getPosition().toString()
+        val token = appPreferences?.getToken().toString()
+
+        viewModel.deleteAllComments()
+        Log.d("FetchComments", position)
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = component.getVkInfo().api.getComments(position, token)
+
+                withContext(Dispatchers.Main) {
+                    //Fetch text
+                    for (item in response.response.items) {
+                        addInfo(item.text)
+                    }
+                    addInfoToDatabase(textList)
+                    textList.clear()
+                }
+            } catch(e: Exception){
+                Log.e("ErrorComments", e.toString())
+            }
+        }
+
+
         binding.closeMessageButton.setOnClickListener {
             dismiss()
         }
@@ -51,7 +78,6 @@ class DialogSendCommentFragment: DialogFragment() {
             GlobalScope.launch(Dispatchers.IO) {
                 try {
                     val postId = appPreferences?.getPosition().toString()
-                    val token = appPreferences?.getToken()!!
                     val message = binding.customEditText.text.toString()
 
                     component.getVkInfo().api.postComment(postId, token, message)
@@ -69,10 +95,6 @@ class DialogSendCommentFragment: DialogFragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     private fun setupRecyclerView() {
         val adapter = SocialCommentsRecyclerAdapter()
         val recyclerView = binding.rvRecyclerViewComments
@@ -82,5 +104,18 @@ class DialogSendCommentFragment: DialogFragment() {
         viewModel.readComments.observe(viewLifecycleOwner, { comments ->
             adapter.setData(comments)
         })
+    }
+
+    private fun addInfoToDatabase(listText: List<String>) {
+        var x = 0
+        do {
+            val comments = Comments(null, listText[x])
+            viewModel.addComments(comments)
+            x++
+        } while (x < listText.size)
+    }
+
+    private fun addInfo(text: String) {
+        textList.add(text)
     }
 }

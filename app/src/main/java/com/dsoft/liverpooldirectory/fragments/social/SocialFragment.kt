@@ -90,7 +90,7 @@ class SocialFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         social_recycler_view.layoutManager = LinearLayoutManager(requireContext())
-        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList, postIdList, requireContext(), this)
+        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList, postIdList, requireContext())
     }
 
     private fun addList(text: String, likes: String, comments: String, views: String, postId: String) {
