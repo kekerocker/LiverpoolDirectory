@@ -26,13 +26,12 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
         val itemImage: ImageView = binding.ivImage
 
         init {
-            val position: Int = adapterPosition
             itemView.setOnClickListener {
+                val position: Int = adapterPosition
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(url + newsList[position].url)
                 ContextCompat.startActivity(itemView.context, intent, null)
             }
-
         }
     }
 
