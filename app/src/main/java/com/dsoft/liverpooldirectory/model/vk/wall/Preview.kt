@@ -1,5 +1,5 @@
 package com.dsoft.liverpooldirectory.model.vk.wall
 
-data class Photo(
-    val sizes: List<Size>
+data class Preview(
+    val photo: Photo
 )

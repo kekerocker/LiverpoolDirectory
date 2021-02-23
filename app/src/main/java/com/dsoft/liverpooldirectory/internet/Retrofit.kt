@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-class VKInfo @Inject constructor() {
+class Retrofit @Inject constructor() {
 
     private val VK_BASE_URL = "https://api.vk.com/method/"
 

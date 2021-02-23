@@ -1,8 +1,8 @@
 package com.dsoft.liverpooldirectory.model.vk.wall
 
-data class Size(
+data class SizeX(
     val height: Int,
-    val src: String,
     val type: String,
+    val url: String,
     val width: Int
 )

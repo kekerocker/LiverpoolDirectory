@@ -18,8 +18,8 @@ android {
         applicationId "com.dsoft.liverpooldirectory"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 5
-        versionName "1.04"
+        versionCode 7
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

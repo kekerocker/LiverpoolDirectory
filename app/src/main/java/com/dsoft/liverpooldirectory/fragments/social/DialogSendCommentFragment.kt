@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class DialogSendCommentFragment: DialogFragment() {
 
@@ -50,7 +51,7 @@ class DialogSendCommentFragment: DialogFragment() {
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val response = component.getVkInfo().api.getComments(position, token)
+                val response = component.getRetrofit().api.getComments(position, token)
 
                 withContext(Dispatchers.Main) {
                     //Fetch text
@@ -60,7 +61,9 @@ class DialogSendCommentFragment: DialogFragment() {
                     addInfoToDatabase(textList)
                     textList.clear()
                 }
-            } catch(e: Exception){
+            } catch (e: HttpException) {
+                Log.e("Social95", e.toString())
+            }  catch(e: Exception){
                 Log.e("ErrorComments", e.toString())
             }
         }
@@ -75,7 +78,7 @@ class DialogSendCommentFragment: DialogFragment() {
                     val postId = appPreferences?.getPosition().toString()
                     val message = binding.customEditText.text.toString()
 
-                    component.getVkInfo().api.postComment(postId, token, message)
+                    component.getRetrofit().api.postComment(postId, token, message)
 
                     withContext(Dispatchers.Main){
                         Toast.makeText(requireContext(), "Комментарий отправлен!", Toast.LENGTH_SHORT).show()
@@ -85,9 +88,9 @@ class DialogSendCommentFragment: DialogFragment() {
                     Toast.makeText(requireContext(), "Ошибка!", Toast.LENGTH_SHORT).show()
                     Log.e("CommentSend", e.toString())
                 }
+
             }
         }
-
     }
 
     private fun setupRecyclerView() {

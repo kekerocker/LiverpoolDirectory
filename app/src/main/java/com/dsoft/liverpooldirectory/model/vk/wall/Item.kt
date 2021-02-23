@@ -1,10 +1,9 @@
 package com.dsoft.liverpooldirectory.model.vk.wall
 
 data class Item(
-    val attachments: List<Attachment>?,
+    val attachments: List<Attachment>,
     val carousel_offset: Int,
     val comments: Comments,
-    val copyright: Copyright,
     val date: Int,
     val donut: Donut,
     val edited: Int,
@@ -19,7 +18,6 @@ data class Item(
     val post_type: String,
     val reposts: Reposts,
     val short_text_rate: Double,
-    val signer_id: Int,
     val text: String,
     val views: Views
 )

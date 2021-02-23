@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.data.AppPreferences
+import com.dsoft.liverpooldirectory.databinding.FragmentSocialBinding
 import com.dsoft.liverpooldirectory.di.DaggerComponent
 import com.dsoft.liverpooldirectory.fragments.social.adapter.SocialRecyclerAdapter
+import com.dsoft.liverpooldirectory.model.vk.wall.Item
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import kotlinx.android.synthetic.main.fragment_social.*
@@ -20,18 +22,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class SocialFragment : Fragment() {
 
-    private var textList = mutableListOf<String>()
-    private var likesList = mutableListOf<String>()
-    private var commentsList = mutableListOf<String>()
-    private var viewsList = mutableListOf<String>()
-    private var postIdList = mutableListOf<String>()
-
+    private var listOfWall: List<Item> = emptyList()
     private var component = DaggerComponent.create()
     private var isExpired = true
-
+    private lateinit var binding: FragmentSocialBinding
     private var appPreferences: AppPreferences? = null
     private lateinit var viewModel: SocialViewModel
 
@@ -50,6 +48,7 @@ class SocialFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentSocialBinding.bind(view)
         checkTokenActuality()
 
         //Вызов аутентификации в ВК, если токен просрочен
@@ -61,11 +60,11 @@ class SocialFragment : Fragment() {
             fetchWallFromPublic(appPreferences?.getToken()!!)
         }
 
-        iv_vk.setOnClickListener {
+        binding.ivVk.setOnClickListener {
             fetchWallFromPublic(appPreferences?.getToken()!!)
         }
 
-        social_recycler_view.setOnClickListener {
+        binding.socialRecyclerView.setOnClickListener {
             val dialog = DialogSendCommentFragment()
             dialog.show(parentFragmentManager, "customDialog")
         }
@@ -85,41 +84,32 @@ class SocialFragment : Fragment() {
     }
 
     private fun fetchWallFromPublic(token: String) {
-        val api = component.getVkInfo().api
+        val api = component.getRetrofit().api
 
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getWall(token)
                 withContext(Dispatchers.Main) {
-                    for (item in response.response.items) {
-                        addList(
-                            item.text,
-                            item.likes.count.toString(),
-                            item.comments.count.toString(),
-                            item.views.count.toString(),
-                            item.id.toString()
-                        )
-                    }
+                    listOfWall = response.response.items
                     removeLoginViews()
                     setUpRecyclerView()
+                    Log.d("TestRetrofit", listOfWall.toString())
                 }
-            } catch (e: Exception) {
+            } catch (e: HttpException) {
                 Log.e("Social95", e.toString())
+            } catch (e: Exception) {
+                    Log.e("Social95", e.toString())
+                }
             }
         }
-    }
+
 
     private fun setUpRecyclerView() {
-        social_recycler_view.layoutManager = LinearLayoutManager(requireContext())
-        social_recycler_view.adapter = SocialRecyclerAdapter(textList, likesList, commentsList, viewsList, postIdList, requireContext())
-    }
-
-    private fun addList(text: String, likes: String, comments: String, views: String, postId: String) {
-        textList.add(text)
-        likesList.add(likes)
-        commentsList.add(comments)
-        viewsList.add(views)
-        postIdList.add(postId)
+        val adapter = SocialRecyclerAdapter(requireContext())
+        val recyclerView = binding.socialRecyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter.list = listOfWall
     }
 
     private fun removeLoginViews() {

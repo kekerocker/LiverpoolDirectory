@@ -1,6 +1,9 @@
 package com.dsoft.liverpooldirectory.model.vk.wall
 
 data class Attachment(
-    val photo: Photo,
-    val type: String
+    val doc: Doc,
+    val link: Link,
+    val photo: PhotoX,
+    val type: String,
+    val video: Video
 )
