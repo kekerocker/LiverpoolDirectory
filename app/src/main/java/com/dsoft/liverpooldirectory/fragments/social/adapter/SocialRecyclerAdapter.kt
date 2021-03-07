@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,7 @@ class SocialRecyclerAdapter(private val context: Context) :
         init {
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
+                Log.d("PositionComment", list[position].id.toString())
                 appPreferences?.savePosition(list[position].id.toString())
 
                 val manager = (context as AppCompatActivity).supportFragmentManager
@@ -60,7 +62,7 @@ class SocialRecyclerAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = list[position]
-        val attachments = currentItem.attachments
+        val attachments = currentItem.attachments!!
 
         Log.d("TestImage", "TEST: $position")
 
@@ -69,11 +71,12 @@ class SocialRecyclerAdapter(private val context: Context) :
         holder.itemComments.text = currentItem.comments.count.toString()
         holder.itemViews.text = currentItem.views.count.toString()
 
-        if (currentItem.marked_as_ads == 1 || attachments.size > 1 || attachments.flatMap { it.photo.sizes }.isEmpty()) {
-            holder.itemImages.visibility = View.GONE
-        } else {
-            holder.itemImages.load(attachments.flatMap { it -> it.photo.sizes.map { it.url } }.last())
-        }
+        val attachment = attachments.firstOrNull() ?: return
+        val photo = attachment.photo.sizes.firstOrNull { size -> size.type == "r" } ?: return
+        val layoutParams = holder.itemImages.layoutParams
+        layoutParams.width = photo.width
+        layoutParams.height = photo.height
+        holder.itemImages.load(photo.url)
     }
 
     override fun getItemCount(): Int {

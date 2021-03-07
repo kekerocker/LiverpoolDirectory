@@ -1,8 +1,8 @@
 package com.dsoft.liverpooldirectory.model.vk.wall
 
-data class Video(
-    val file_size: Int,
+data class SizeXX(
     val height: Int,
-    val src: String,
+    val type: String,
+    val url: String,
     val width: Int
 )

@@ -18,20 +18,22 @@ import com.dsoft.liverpooldirectory.model.vk.wall.Item
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import kotlinx.android.synthetic.main.fragment_social.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
+import kotlinx.coroutines.*
+import okhttp3.internal.wait
+
+private const val CODE_TOKEN_ERROR = 5
 
 class SocialFragment : Fragment() {
 
     private var listOfWall: List<Item> = emptyList()
+
     private var component = DaggerComponent.create()
     private var isExpired = true
     private lateinit var binding: FragmentSocialBinding
     private var appPreferences: AppPreferences? = null
     private lateinit var viewModel: SocialViewModel
+    private val api = component.getRetrofit().api
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,14 +51,14 @@ class SocialFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSocialBinding.bind(view)
+        val token = appPreferences?.getToken()!!
         checkTokenActuality()
 
-        //Вызов аутентификации в ВК, если токен просрочен
-        if (isExpired) {
+        if (token == "" || isExpired/* || checkForError(token) == "User authorization failed: access_token was given to another ip address."*/) {
             Toast.makeText(requireContext(), "Требуется авторизация!", Toast.LENGTH_SHORT).show()
             VK.login(requireActivity(), arrayListOf(VKScope.WALL, VKScope.GROUPS, VKScope.EMAIL))
         } else {
-            Toast.makeText(requireContext(), "Добро пожаловать!", Toast.LENGTH_SHORT).show()
+            Log.d("VKLogin", "Authentication went successful")
             fetchWallFromPublic(appPreferences?.getToken()!!)
         }
 
@@ -70,6 +72,25 @@ class SocialFragment : Fragment() {
         }
     }
 
+    private fun fetchWallFromPublic(token: String) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val wall = api.getWall(token)
+
+            if (wall.error?.error_code == CODE_TOKEN_ERROR) {
+                VK.login(requireActivity(), arrayListOf(VKScope.WALL, VKScope.GROUPS, VKScope.EMAIL))
+                return@launch
+            }
+            val response = wall.response!!
+
+            withContext(Dispatchers.Main) {
+                listOfWall = response.items
+                removeLoginViews()
+                setUpRecyclerView()
+                Log.d("Token", listOfWall.toString())
+            }
+        }
+    }
+
     private fun checkTokenActuality() {
         val currentTime = System.currentTimeMillis()
         val tokenTime = appPreferences?.getTokenTime()!!
@@ -77,39 +98,18 @@ class SocialFragment : Fragment() {
         if (currentTime > tokenTime + 86400000) {
             isExpired = true
             Log.d("TESTTOKEN", "TEST: Token is expired = $isExpired")
-        } else {
+        } else if (currentTime < tokenTime + 86400000) {
             isExpired = false
             Log.d("TESTTOKEN", "TEST: Token is expired = $isExpired")
         }
     }
-
-    private fun fetchWallFromPublic(token: String) {
-        val api = component.getRetrofit().api
-
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val response = api.getWall(token)
-                withContext(Dispatchers.Main) {
-                    listOfWall = response.response.items
-                    removeLoginViews()
-                    setUpRecyclerView()
-                    Log.d("TestRetrofit", listOfWall.toString())
-                }
-            } catch (e: HttpException) {
-                Log.e("Social95", e.toString())
-            } catch (e: Exception) {
-                    Log.e("Social95", e.toString())
-                }
-            }
-        }
-
 
     private fun setUpRecyclerView() {
         val adapter = SocialRecyclerAdapter(requireContext())
         val recyclerView = binding.socialRecyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter.list = listOfWall
+        adapter.list = listOfWall.filter { it.attachments != null }
     }
 
     private fun removeLoginViews() {

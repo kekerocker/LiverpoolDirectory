@@ -29,4 +29,8 @@ class AppPreferences(context: Context) {
     fun getTokenTime(): Long {
         return data.getLong("TIME", 0)
     }
+
+    fun deleteToken() {
+        data.edit().remove("TOKEN").apply()
+    }
 }

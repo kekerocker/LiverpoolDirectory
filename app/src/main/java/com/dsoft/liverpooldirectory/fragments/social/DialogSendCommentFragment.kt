@@ -14,7 +14,7 @@ import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.FragmentSendCommentDialogBinding
 import com.dsoft.liverpooldirectory.di.DaggerComponent
 import com.dsoft.liverpooldirectory.fragments.social.adapter.SocialCommentsRecyclerAdapter
-import com.dsoft.liverpooldirectory.model.Comments
+import com.dsoft.liverpooldirectory.model.vk.comments.Item
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ class DialogSendCommentFragment: DialogFragment() {
     private var component = DaggerComponent.create()
     private var appPreferences: AppPreferences? = null
 
-    private var textList = mutableListOf<String>()
+    private var listOfComments: List<Item> = emptyList()
 
     private lateinit var viewModel: SocialViewModel
 
@@ -42,7 +42,6 @@ class DialogSendCommentFragment: DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSendCommentDialogBinding.bind(view)
-        setupRecyclerView()
         val position = appPreferences?.getPosition().toString()
         val token = appPreferences?.getToken().toString()
 
@@ -54,12 +53,8 @@ class DialogSendCommentFragment: DialogFragment() {
                 val response = component.getRetrofit().api.getComments(position, token)
 
                 withContext(Dispatchers.Main) {
-                    //Fetch text
-                    for (item in response.response.items) {
-                        addInfo(item.text)
-                    }
-                    addInfoToDatabase(textList)
-                    textList.clear()
+                   listOfComments = response.response.items
+                    setupRecyclerView()
                 }
             } catch (e: HttpException) {
                 Log.e("Social95", e.toString())
@@ -98,22 +93,7 @@ class DialogSendCommentFragment: DialogFragment() {
         val recyclerView = binding.rvRecyclerViewComments
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter.commentsList = listOfComments
 
-        viewModel.readComments.observe(viewLifecycleOwner, { comments ->
-            adapter.setData(comments)
-        })
-    }
-
-    private fun addInfoToDatabase(listText: List<String>) {
-        var x = 0
-        do {
-            val comments = Comments(null, listText[x])
-            viewModel.addComments(comments)
-            x++
-        } while (x < listText.size)
-    }
-
-    private fun addInfo(text: String) {
-        textList.add(text)
     }
 }

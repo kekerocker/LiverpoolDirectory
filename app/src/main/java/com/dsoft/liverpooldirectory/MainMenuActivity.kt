@@ -47,11 +47,9 @@ class MainMenuActivity : AppCompatActivity() {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
                 val accessToken = token.accessToken
-                Log.d("TOKEN", "Access token is $accessToken")
-                Toast.makeText(applicationContext, "Авторизация прошла успешно: Welcome to Republic of Liverpool!", Toast.LENGTH_LONG).show()
+                Log.d("Token", "Access token is $accessToken")
                 appPreferences?.saveToken(accessToken)
                 appPreferences?.saveTokenTime(currentTimeMillis)
-                Log.d("TESTTOKEN", "TEST: $currentTimeMillis")
             }
 
             override fun onLoginFailed(errorCode: Int) {

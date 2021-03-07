@@ -5,11 +5,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dsoft.liverpooldirectory.databinding.ItemCommentBinding
-import com.dsoft.liverpooldirectory.model.Comments
+import com.dsoft.liverpooldirectory.model.vk.comments.Item
 
 class SocialCommentsRecyclerAdapter: RecyclerView.Adapter<SocialCommentsRecyclerAdapter.ViewHolder>() {
 
-    private var commentsList = emptyList<Comments>()
+    var commentsList: List<Item> = emptyList()
+        set(value) {
+            if (value.isNotEmpty()) field = value
+        }
 
     inner class ViewHolder(binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
         val itemText: TextView = binding.tvCommentsText
@@ -32,7 +35,7 @@ class SocialCommentsRecyclerAdapter: RecyclerView.Adapter<SocialCommentsRecycler
         return commentsList.size
     }
 
-    fun setData(comments: List<Comments>) {
+    fun setData(comments: List<Item>) {
         this.commentsList = comments
         notifyDataSetChanged()
     }
