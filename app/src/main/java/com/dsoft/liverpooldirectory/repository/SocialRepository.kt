@@ -3,7 +3,7 @@ package com.dsoft.liverpooldirectory.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.CommentsDao
-import com.dsoft.liverpooldirectory.api.VKAPIRequest
+import com.dsoft.liverpooldirectory.data.api.VKAPIRequest
 import com.dsoft.liverpooldirectory.model.Comments
 import com.dsoft.liverpooldirectory.model.vk.comments.VKComments
 import com.dsoft.liverpooldirectory.model.vk.wall.VKApiJSON
