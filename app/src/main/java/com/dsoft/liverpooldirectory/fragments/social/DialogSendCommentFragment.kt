@@ -5,85 +5,50 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.R
-import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.FragmentSendCommentDialogBinding
-import com.dsoft.liverpooldirectory.di.DaggerComponent
 import com.dsoft.liverpooldirectory.fragments.social.adapter.SocialCommentsRecyclerAdapter
-import com.dsoft.liverpooldirectory.model.vk.comments.Item
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
+import dagger.hilt.android.AndroidEntryPoint
 
-class DialogSendCommentFragment: DialogFragment() {
+@AndroidEntryPoint
+class DialogSendCommentFragment : DialogFragment() {
 
-    private lateinit var binding: FragmentSendCommentDialogBinding
-    private var component = DaggerComponent.create()
-    private var appPreferences: AppPreferences? = null
+    private val viewModel by viewModels<SocialViewModel>()
+    private val binding by viewBinding(FragmentSendCommentDialogBinding::bind)
 
-    private var listOfComments: List<Item> = emptyList()
-
-    private lateinit var viewModel: SocialViewModel
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val rootView: View = inflater.inflate(R.layout.fragment_send_comment_dialog, container, false)
-        appPreferences = AppPreferences(requireContext())
-        viewModel = ViewModelProvider(this).get(SocialViewModel::class.java)
 
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentSendCommentDialogBinding.bind(view)
-        val position = appPreferences?.getPosition().toString()
-        val token = appPreferences?.getToken().toString()
+        viewModel.run {
+            val position = appPreferences.getPosition()
 
-        viewModel.deleteAllComments()
-        Log.d("FetchComments", position)
+            deleteAllComments()
+            Log.d("FetchComments", position)
 
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val response = component.getRetrofit().api.getComments(position, token)
+            getComments(position)
+            setupRecyclerView()
 
-                withContext(Dispatchers.Main) {
-                   listOfComments = response.response.items
-                    setupRecyclerView()
-                }
-            } catch (e: HttpException) {
-                Log.e("Social95", e.toString())
-            }  catch(e: Exception){
-                Log.e("ErrorComments", e.toString())
+            binding.closeMessageButton.setOnClickListener {
+                dismiss()
             }
-        }
 
-        binding.closeMessageButton.setOnClickListener {
-            dismiss()
-        }
-
-        binding.sendButton.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO) {
-                try {
-                    val postId = appPreferences?.getPosition().toString()
-                    val message = binding.customEditText.text.toString()
-
-                    component.getRetrofit().api.postComment(postId, token, message)
-
-                    withContext(Dispatchers.Main){
-                        Toast.makeText(requireContext(), "Комментарий отправлен!", Toast.LENGTH_SHORT).show()
-                        dismiss()
-                    }
-                } catch (e:Exception){
-                    Toast.makeText(requireContext(), "Ошибка!", Toast.LENGTH_SHORT).show()
-                    Log.e("CommentSend", e.toString())
-                }
-
+            binding.sendButton.setOnClickListener {
+                val comment = binding.customEditText.text.toString()
+                sendMessage(comment)
+                dismiss()
             }
         }
     }
@@ -93,7 +58,15 @@ class DialogSendCommentFragment: DialogFragment() {
         val recyclerView = binding.rvRecyclerViewComments
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter.commentsList = listOfComments
-
+        viewModel.listOfComments.observe(viewLifecycleOwner) {
+            if (it == null) {
+                return@observe
+            }
+            adapter.commentsList = it
+        }
     }
 }
+
+
+
+

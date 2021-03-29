@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentNewsBinding
 import com.dsoft.liverpooldirectory.fragments.news.adapter.RecyclerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewsFragment : Fragment() {
 
     private lateinit var binding: FragmentNewsBinding

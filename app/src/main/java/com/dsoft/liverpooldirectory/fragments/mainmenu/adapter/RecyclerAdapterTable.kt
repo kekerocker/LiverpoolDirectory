@@ -36,6 +36,11 @@ class RecyclerAdapterTable : RecyclerView.Adapter<RecyclerAdapterTable.MyViewHol
         holder.itemDraws.text = currentItem.draw
         holder.itemLoses.text = currentItem.lose
         holder.itemPoints.text = currentItem.points
+
+        when (holder.itemClub.text) {
+            "Манчестер Сити" -> holder.itemClub.text = "Ман Сити"
+            "Манчестер Юнайтед" -> holder.itemClub.text = "Ман Юнайтед"
+        }
     }
 
     override fun getItemCount(): Int {

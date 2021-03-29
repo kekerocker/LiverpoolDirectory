@@ -5,21 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentMainMenuBinding
 import com.dsoft.liverpooldirectory.fragments.mainmenu.adapter.RecyclerAdapterTable
 import com.dsoft.liverpooldirectory.fragments.mainmenu.adapter.ViewPagerAdapter
-import kotlinx.android.synthetic.main.fragment_main_menu.*
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainMenuFragment : Fragment() {
 
-    private lateinit var binding: FragmentMainMenuBinding
-    private lateinit var viewModel: ViewModel
+    private val viewModel by viewModels<MainMenuViewModel>()
+    private val binding by viewBinding(FragmentMainMenuBinding::bind)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,15 +29,11 @@ class MainMenuFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_menu, container, false)
 
-        //ViewModel
-        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentMainMenuBinding.bind(view)
 
         binding.buttonNews.setOnClickListener {
             findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
@@ -62,7 +59,7 @@ class MainMenuFragment : Fragment() {
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         binding.indicator.setViewPager(viewPager2)
-        adapter.registerAdapterDataObserver(indicator.adapterDataObserver)
+        adapter.registerAdapterDataObserver(binding.indicator.adapterDataObserver)
 
         viewModel.readAllCloseGamesData.observe(viewLifecycleOwner, { closeGames -> adapter.setData(closeGames) })
     }
@@ -73,8 +70,6 @@ class MainMenuFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.readAllEplData.observe(viewLifecycleOwner, { table ->
-            adapter.setData(table)
-        })
+        viewModel.readAllEplData.observe(viewLifecycleOwner, { table -> adapter.setData(table) })
     }
 }

@@ -3,18 +3,17 @@ package com.dsoft.liverpooldirectory.fragments.social.adapter
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.ItemSocialNewsBinding
 import com.dsoft.liverpooldirectory.fragments.social.DialogSendCommentFragment
 import com.dsoft.liverpooldirectory.model.vk.wall.Item
+import com.dsoft.liverpooldirectory.repository.AppPreferences
+
 
 class SocialRecyclerAdapter(private val context: Context) :
     RecyclerView.Adapter<SocialRecyclerAdapter.ViewHolder>() {
@@ -22,6 +21,7 @@ class SocialRecyclerAdapter(private val context: Context) :
     var list: List<Item> = emptyList()
         set(value) {
             if (value.isNotEmpty()) field = value
+            notifyDataSetChanged()
         }
 
     private var appPreferences: AppPreferences? = null
@@ -50,7 +50,6 @@ class SocialRecyclerAdapter(private val context: Context) :
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        appPreferences = AppPreferences(context)
         return ViewHolder(
             ItemSocialNewsBinding.inflate(
                 LayoutInflater.from(parent.context),

@@ -4,24 +4,26 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.ActivityMainmenuBinding
+import com.dsoft.liverpooldirectory.fragments.social.SocialViewModel
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainMenuActivity : AppCompatActivity() {
 
     private val currentTimeMillis = System.currentTimeMillis()
 
-    private val yandexApiKey = "85be1141-c651-4689-86f6-400b45b41289"
-    private var appPreferences: AppPreferences? = null
+    private val viewModel by viewModels<SocialViewModel>()
+
     private lateinit var binding: ActivityMainmenuBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,14 +32,13 @@ class MainMenuActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         setupActionBarWithNavController(findNavController(R.id.fragment))
-        appPreferences = AppPreferences(this)
 
 
-        val config = YandexMetricaConfig.newConfigBuilder(yandexApiKey).build()
+        val config = YandexMetricaConfig.newConfigBuilder(BuildConfig.YANDEX_API_KEY).build()
         YandexMetrica.activate(applicationContext, config)
         YandexMetrica.enableActivityAutoTracking(application)
     }
-    
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
@@ -48,12 +49,15 @@ class MainMenuActivity : AppCompatActivity() {
             override fun onLogin(token: VKAccessToken) {
                 val accessToken = token.accessToken
                 Log.d("Token", "Access token is $accessToken")
-                appPreferences?.saveToken(accessToken)
-                appPreferences?.saveTokenTime(currentTimeMillis)
+                viewModel.appPreferences.run {
+                    saveToken(accessToken)
+                    saveTokenTime(currentTimeMillis)
+                }
             }
 
             override fun onLoginFailed(errorCode: Int) {
-                Toast.makeText(applicationContext, "Неудачная попытка авторизации", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext, "Неудачная попытка авторизации", Toast.LENGTH_LONG).show()
             }
         }
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {

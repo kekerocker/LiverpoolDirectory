@@ -1,34 +1,36 @@
 package com.dsoft.liverpooldirectory.fragments.news
 
-import android.app.Application
 import android.app.Service
+import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dsoft.liverpooldirectory.data.LFCDatabase
 import com.dsoft.liverpooldirectory.model.News
 import com.dsoft.liverpooldirectory.repository.NewsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NewsViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class NewsViewModel @Inject constructor(
+    private val newsRepository: NewsRepository,
+    @ApplicationContext context: Context
+) : ViewModel() {
 
     var connectivity: ConnectivityManager? = null
     var info: NetworkInfo? = null
 
-    val readAllNews: LiveData<List<News>>
-    private val newsRepository: NewsRepository
+    val readAllNews: LiveData<List<News>> = newsRepository.readAllNews
 
     init {
-        val newsDao = LFCDatabase.createDatabase(application).newsDao()
-        newsRepository = NewsRepository(newsDao)
-        readAllNews = newsRepository.readAllNews
 
-        connectivity = application.getSystemService(Service.CONNECTIVITY_SERVICE) as ConnectivityManager
-        Toast.makeText(application, "Нажмите на новость, чтобы прочитать подробнее.", Toast.LENGTH_LONG).show()
+        connectivity = context.getSystemService(Service.CONNECTIVITY_SERVICE) as ConnectivityManager
+        Toast.makeText(context, "Нажмите на новость, чтобы прочитать подробнее.", Toast.LENGTH_LONG).show()
 
         checkInternet()
     }

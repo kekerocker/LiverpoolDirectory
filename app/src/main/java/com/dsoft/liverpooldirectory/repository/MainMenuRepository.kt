@@ -1,19 +1,30 @@
 package com.dsoft.liverpooldirectory.repository
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.TableDao
 import com.dsoft.liverpooldirectory.model.CloseGames
 import com.dsoft.liverpooldirectory.model.Table
+import com.dsoft.liverpooldirectory.other.Constants.CLOSE_GAME_URL
+import com.dsoft.liverpooldirectory.other.Constants.TABLE_URL
+import com.dsoft.liverpooldirectory.utility.InternetConnection
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MainMenuRepository(private val tableDao: TableDao) {
+@Singleton
+class MainMenuRepository @Inject constructor(
+    private val tableDao: TableDao,
+    internetConnection: InternetConnection,
+    @ApplicationContext context: Context
+) {
 
-    private val urlTable = "https://www.sports.ru/epl/table"
-    private val urlCloseGame = "http://www.myliverpool.ru"
+    val isOnline = internetConnection.isOnline(context)
 
     private val positionList = mutableListOf<Int>()
     private val clubList = mutableListOf<String>()
@@ -56,7 +67,7 @@ class MainMenuRepository(private val tableDao: TableDao) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 //Downloading CloseGames Data
-                val doc = Jsoup.connect(urlCloseGame).get()
+                val doc = Jsoup.connect(CLOSE_GAME_URL).get()
 
                 val td = doc.select("tr td")
                 val teamImgInfo = doc.select(".embl img")
@@ -139,7 +150,7 @@ class MainMenuRepository(private val tableDao: TableDao) {
 
                 //Downloading Table Data
 
-                val tdTable = Jsoup.connect(urlTable).get()
+                val tdTable = Jsoup.connect(TABLE_URL).get()
                     .select("tbody tr td")
 
                 fun getPosition(startPositionInTable: Int, list: MutableList<Int>) {

@@ -1,6 +1,6 @@
 package com.dsoft.liverpooldirectory.model.vk.comments
 
-data class Item(
+data class ItemComments(
     val date: Int,
     val from_id: Int,
     val id: Int,

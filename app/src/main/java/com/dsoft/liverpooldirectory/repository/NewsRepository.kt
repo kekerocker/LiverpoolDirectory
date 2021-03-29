@@ -4,14 +4,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.NewsDao
 import com.dsoft.liverpooldirectory.model.News
+import com.dsoft.liverpooldirectory.other.Constants.NEWS_URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NewsRepository(private val newsDao: NewsDao) {
-
-    private val newsUrl = "http://www.myliverpool.ru/news"
+@Singleton
+class NewsRepository @Inject constructor(
+    private val newsDao: NewsDao
+) {
 
     private var titleList = mutableListOf<String>()
     private var descList = mutableListOf<String>()
@@ -31,7 +35,7 @@ class NewsRepository(private val newsDao: NewsDao) {
     suspend fun downloadNews() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val doc = Jsoup.connect(newsUrl).get()
+                val doc = Jsoup.connect(NEWS_URL).get()
                 val allEntries = doc.getElementById("allEntries")
                 val title = allEntries
                     .getElementsByClass("titlenews")

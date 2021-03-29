@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.dsoft.liverpooldirectory.databinding.ItemNewsBinding
@@ -30,7 +30,7 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
                 val position: Int = adapterPosition
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(url + newsList[position].url)
-                ContextCompat.startActivity(itemView.context, intent, null)
+                startActivity(itemView.context, intent, null)
             }
         }
     }

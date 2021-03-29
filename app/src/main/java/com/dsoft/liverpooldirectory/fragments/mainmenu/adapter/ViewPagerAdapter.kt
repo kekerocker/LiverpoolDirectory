@@ -45,7 +45,6 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
         holder.itemTournamentLogo.load(currentItem.tournamentLogo)
 
         when (holder.itemTeamName1.text) {
-            //"Ливерпуль" -> holder.itemTeamLogo1.setImageResource(R.drawable.fc_liverpool)
             "Ливерпуль" -> holder.itemTeamLogo1.load(R.drawable.fc_liverpool)
             "Манчестер Юнайтед" -> holder.itemTeamLogo1.load(R.drawable.fc_manutd)
             "Лестер" -> holder.itemTeamLogo1.load(R.drawable.fc_leicester)
@@ -69,6 +68,7 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
             "РБ Лейпциг" -> holder.itemTeamLogo1.load(R.drawable.fc_rb_leipzieg)
             "Барселона" -> holder.itemTeamLogo1.load(R.drawable.fc_barcelona)
             "ПСЖ" -> holder.itemTeamLogo1.load(R.drawable.fc_psg)
+            "Реал Мадрид" -> holder.itemTeamLogo1.load(R.drawable.fc_rm)
         }
 
         when (holder.itemTeamName2.text) {
@@ -95,6 +95,7 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
             "РБ Лейпциг" -> holder.itemTeamLogo2.load(R.drawable.fc_rb_leipzieg)
             "Барселона" -> holder.itemTeamLogo2.load(R.drawable.fc_barcelona)
             "ПСЖ" -> holder.itemTeamLogo2.load(R.drawable.fc_psg)
+            "Реал Мадрид" -> holder.itemTeamLogo2.load(R.drawable.fc_rm)
         }
     }
 
