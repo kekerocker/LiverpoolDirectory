@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.internet
+package com.dsoft.liverpooldirectory.api
 
 import com.dsoft.liverpooldirectory.model.vk.comments.VKComments
 import com.dsoft.liverpooldirectory.model.vk.error.VKError

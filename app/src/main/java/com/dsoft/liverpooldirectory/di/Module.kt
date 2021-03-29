@@ -3,7 +3,7 @@ package com.dsoft.liverpooldirectory.di
 import android.content.Context
 import androidx.room.Room
 import com.dsoft.liverpooldirectory.data.LFCDatabase
-import com.dsoft.liverpooldirectory.internet.VKAPIRequest
+import com.dsoft.liverpooldirectory.api.VKAPIRequest
 import com.dsoft.liverpooldirectory.other.Constants.DATABASE_NAME
 import com.dsoft.liverpooldirectory.other.Constants.VK_API_BASE_URL
 import dagger.Module

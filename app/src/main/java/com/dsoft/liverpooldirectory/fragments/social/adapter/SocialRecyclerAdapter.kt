@@ -13,7 +13,7 @@ import com.dsoft.liverpooldirectory.databinding.ItemSocialNewsBinding
 import com.dsoft.liverpooldirectory.fragments.social.DialogSendCommentFragment
 import com.dsoft.liverpooldirectory.model.vk.wall.Item
 import com.dsoft.liverpooldirectory.repository.AppPreferences
-
+import dagger.hilt.android.AndroidEntryPoint
 
 class SocialRecyclerAdapter(private val context: Context) :
     RecyclerView.Adapter<SocialRecyclerAdapter.ViewHolder>() {
