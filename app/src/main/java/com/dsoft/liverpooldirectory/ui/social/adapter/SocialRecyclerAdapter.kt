@@ -36,7 +36,7 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
                 Log.d("PositionComment", list[position].id.toString())
-                appPreferences.savePosition(list[position].id.toString())
+                appPreferences.savePostId(list[position].id.toString())
 
                 val manager = (activityContext() as AppCompatActivity).supportFragmentManager
                 val dialog = DialogSendCommentFragment()

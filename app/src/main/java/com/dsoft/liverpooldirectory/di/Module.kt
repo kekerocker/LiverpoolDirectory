@@ -11,9 +11,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -22,9 +25,13 @@ class Module {
     @Singleton
     @Provides
     fun provideVkApi(): VKAPIRequest {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(VK_API_BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(VKAPIRequest::class.java)
     }
@@ -32,9 +39,10 @@ class Module {
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context.applicationContext,
-        LFCDatabase::class.java,
-        DATABASE_NAME
+        Room.databaseBuilder(
+            context.applicationContext,
+            LFCDatabase::class.java,
+            DATABASE_NAME
         ).build()
 
     @Singleton

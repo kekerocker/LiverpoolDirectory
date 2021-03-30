@@ -69,6 +69,7 @@ class SocialFragment : Fragment() {
                 return@observe
             }
             adapter.list = it.filter { it.attachments != null }
+
         }
     }
 

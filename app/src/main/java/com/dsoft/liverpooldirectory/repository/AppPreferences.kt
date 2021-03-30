@@ -11,16 +11,16 @@ class AppPreferences @Inject constructor(context: Context) {
         data.edit().putString("TOKEN", token).apply()
     }
 
-    fun savePosition(position: String) {
-        data.edit().putString("POSITION", position).apply()
+    fun savePostId(position: String) {
+        data.edit().putString("POST_ID", position).apply()
     }
 
     fun saveTokenTime(time: Long) {
         data.edit().putLong("TIME", time).apply()
     }
 
-    fun getPosition(): String {
-        return data.getString("POSITION", "").toString()
+    fun getPostId(): String {
+        return data.getString("POST_ID", "").toString()
     }
 
     fun getTokenTime(): Long? {
@@ -29,9 +29,5 @@ class AppPreferences @Inject constructor(context: Context) {
 
     fun getToken(): String? {
         return data.getString("TOKEN", null)
-    }
-
-    fun deleteToken() {
-        data.edit().remove("TOKEN").apply()
     }
 }

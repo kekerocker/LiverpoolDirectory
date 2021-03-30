@@ -36,10 +36,10 @@ class SocialViewModel @Inject constructor(private val socialRepository: SocialRe
 
     fun getComments(postId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val comments = socialRepository.getComments(postId).response
+            val comments = socialRepository.getComments(postId).response.itemComments
 
             withContext(Dispatchers.Main) {
-                _listOfComments.value = comments.itemComments
+                _listOfComments.value = comments
             }
         }
     }
@@ -82,7 +82,7 @@ class SocialViewModel @Inject constructor(private val socialRepository: SocialRe
     }
 
     fun sendMessage(comment: String, context: Context) {
-        val postId = appPreferences.getPosition()
+        val postId = appPreferences.getPostId()
         postComment(postId, comment)
         Toast.makeText(context, "Комментарий отправлен!", Toast.LENGTH_SHORT).show()
     }

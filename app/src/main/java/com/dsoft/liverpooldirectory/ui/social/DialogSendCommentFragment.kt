@@ -25,27 +25,25 @@ class DialogSendCommentFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView: View = inflater.inflate(R.layout.fragment_send_comment_dialog, container, false)
-
+        val rootView: View =
+            inflater.inflate(R.layout.fragment_send_comment_dialog, container, false)
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.run {
-            val position = appPreferences.getPosition()
-            getComments(position)
-            setupRecyclerView()
+        val postId = viewModel.appPreferences.getPostId()
+        viewModel.getComments(postId)
+        setupRecyclerView()
 
-            binding.closeMessageButton.setOnClickListener {
-                dismiss()
-            }
+        binding.closeMessageButton.setOnClickListener {
+            dismiss()
+        }
 
-            binding.sendButton.setOnClickListener {
-                val comment = binding.customEditText.text.toString()
-                sendMessage(comment, requireContext())
-                dismiss()
-            }
+        binding.sendButton.setOnClickListener {
+            val comment = binding.customEditText.text.toString()
+            viewModel.sendMessage(comment, requireContext())
+            dismiss()
         }
     }
 
@@ -56,8 +54,10 @@ class DialogSendCommentFragment : DialogFragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.listOfComments.observe(viewLifecycleOwner) {
             if (it == null) {
+                Log.d("TestComm1", "Test: $it")
                 return@observe
             }
+            Log.d("TestComm2", "Test: ${it.first().text}")
             adapter.commentsList = it
         }
     }
