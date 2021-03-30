@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.dsoft.liverpooldirectory.databinding.ActivityMainmenuBinding
-import com.dsoft.liverpooldirectory.fragments.social.SocialViewModel
+import com.dsoft.liverpooldirectory.ui.social.SocialViewModel
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback

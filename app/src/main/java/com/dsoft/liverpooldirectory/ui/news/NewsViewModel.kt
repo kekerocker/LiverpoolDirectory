@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.news
+package com.dsoft.liverpooldirectory.ui.news
 
 import android.app.Service
 import android.content.Context

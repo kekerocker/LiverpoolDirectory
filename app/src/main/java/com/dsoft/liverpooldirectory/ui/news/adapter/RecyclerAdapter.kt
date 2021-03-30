@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.news.adapter
+package com.dsoft.liverpooldirectory.ui.news.adapter
 
 import android.content.Intent
 import android.net.Uri

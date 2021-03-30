@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.social
+package com.dsoft.liverpooldirectory.ui.social
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentSendCommentDialogBinding
-import com.dsoft.liverpooldirectory.fragments.social.adapter.SocialCommentsRecyclerAdapter
+import com.dsoft.liverpooldirectory.ui.social.adapter.SocialCommentsRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,10 +34,6 @@ class DialogSendCommentFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.run {
             val position = appPreferences.getPosition()
-
-            deleteAllComments()
-            Log.d("FetchComments", position)
-
             getComments(position)
             setupRecyclerView()
 
@@ -47,7 +43,7 @@ class DialogSendCommentFragment : DialogFragment() {
 
             binding.sendButton.setOnClickListener {
                 val comment = binding.customEditText.text.toString()
-                sendMessage(comment)
+                sendMessage(comment, requireContext())
                 dismiss()
             }
         }

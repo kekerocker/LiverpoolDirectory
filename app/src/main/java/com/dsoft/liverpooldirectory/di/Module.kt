@@ -39,10 +39,6 @@ class Module {
 
     @Singleton
     @Provides
-    fun provideCommentsDao(db: LFCDatabase) = db.commentsDao()
-
-    @Singleton
-    @Provides
     fun provideNewsDao(db: LFCDatabase) = db.newsDao()
 
     @Singleton

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#DA0C0C"
     android:orientation="vertical"
-    tools:context=".fragments.social.SocialFragment">
+    tools:context=".ui.social.SocialFragment">
 
     <TextView
         android:paddingVertical="4dp"

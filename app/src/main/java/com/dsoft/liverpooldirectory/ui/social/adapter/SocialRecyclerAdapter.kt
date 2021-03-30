@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.social.adapter
+package com.dsoft.liverpooldirectory.ui.social.adapter
 
 import android.content.Context
 import android.util.Log
@@ -10,13 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.dsoft.liverpooldirectory.databinding.ItemSocialNewsBinding
-import com.dsoft.liverpooldirectory.fragments.social.DialogSendCommentFragment
 import com.dsoft.liverpooldirectory.model.vk.wall.Item
 import com.dsoft.liverpooldirectory.repository.AppPreferences
-import dagger.hilt.android.AndroidEntryPoint
+import com.dsoft.liverpooldirectory.ui.social.DialogSendCommentFragment
+import dagger.hilt.android.internal.managers.ViewComponentManager
 
-class SocialRecyclerAdapter(private val context: Context) :
-    RecyclerView.Adapter<SocialRecyclerAdapter.ViewHolder>() {
+class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Adapter<SocialRecyclerAdapter.ViewHolder>() {
 
     var list: List<Item> = emptyList()
         set(value) {
@@ -24,7 +23,7 @@ class SocialRecyclerAdapter(private val context: Context) :
             notifyDataSetChanged()
         }
 
-    private var appPreferences: AppPreferences? = null
+    val appPreferences by lazy { AppPreferences(context) }
 
     inner class ViewHolder(binding: ItemSocialNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         val itemTitle: TextView = binding.tvSocialText
@@ -37,12 +36,19 @@ class SocialRecyclerAdapter(private val context: Context) :
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
                 Log.d("PositionComment", list[position].id.toString())
-                appPreferences?.savePosition(list[position].id.toString())
+                appPreferences.savePosition(list[position].id.toString())
 
-                val manager = (context as AppCompatActivity).supportFragmentManager
+                val manager = (activityContext() as AppCompatActivity).supportFragmentManager
                 val dialog = DialogSendCommentFragment()
                 dialog.show(manager, "test")
             }
+        }
+
+        private fun activityContext(): Context? {
+            val context = itemView.context
+            return if (context is ViewComponentManager.FragmentContextWrapper) {
+                context.baseContext
+            } else context
         }
     }
 

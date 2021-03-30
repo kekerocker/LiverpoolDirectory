@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.social
+package com.dsoft.liverpooldirectory.ui.social
 
 import android.content.Context
 import android.util.Log
@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dsoft.liverpooldirectory.MainMenuActivity
-import com.dsoft.liverpooldirectory.model.Comments
 import com.dsoft.liverpooldirectory.model.vk.comments.ItemComments
 import com.dsoft.liverpooldirectory.model.vk.wall.Item
 import com.dsoft.liverpooldirectory.other.Constants.CODE_TOKEN_ERROR
@@ -16,18 +15,14 @@ import com.dsoft.liverpooldirectory.repository.SocialRepository
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class SocialViewModel @Inject constructor(private val socialRepository: SocialRepository,
-@ApplicationContext val context: Context) :
+class SocialViewModel @Inject constructor(private val socialRepository: SocialRepository) :
     ViewModel() {
-
-    val readComments: LiveData<List<Comments>> = socialRepository.readComments
 
     private var _listOfComments = MutableLiveData<List<ItemComments>>()
     val listOfComments: LiveData<List<ItemComments>> get() = _listOfComments
@@ -39,16 +34,13 @@ class SocialViewModel @Inject constructor(private val socialRepository: SocialRe
 
     val appPreferences = socialRepository.appPreferences
 
-    fun deleteAllComments() {
-        viewModelScope.launch(Dispatchers.IO) {
-            socialRepository.deleteAllComments()
-        }
-    }
-
     fun getComments(postId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            socialRepository.getComments(postId)
-            _listOfComments.value = socialRepository.getComments(postId).response.itemComments
+            val comments = socialRepository.getComments(postId).response
+
+            withContext(Dispatchers.Main) {
+                _listOfComments.value = comments.itemComments
+            }
         }
     }
 
@@ -58,28 +50,18 @@ class SocialViewModel @Inject constructor(private val socialRepository: SocialRe
         }
     }
 
-    fun addComments(comments: Comments) {
-        viewModelScope.launch(Dispatchers.IO) {
-            socialRepository.addComments(comments)
-        }
-    }
-
     fun fetchWallFromPublic() {
         viewModelScope.launch(Dispatchers.IO) {
             val wall = socialRepository.fetchWallFromPublic()
 
             if (wall.error?.error_code == CODE_TOKEN_ERROR) {
-                VK.login(
-                    activity = MainMenuActivity(),
-                    arrayListOf(VKScope.WALL, VKScope.GROUPS, VKScope.EMAIL)
-                )
+                VK.login(activity = MainMenuActivity(), arrayListOf(VKScope.WALL, VKScope.GROUPS, VKScope.EMAIL))
                 return@launch
             }
             val response = wall.response!!
 
             withContext(Dispatchers.Main) {
                 _listOfWall.value = response.items
-                Log.d("Token", listOfWall.toString())
             }
         }
     }
@@ -99,7 +81,7 @@ class SocialViewModel @Inject constructor(private val socialRepository: SocialRe
         }
     }
 
-    fun sendMessage(comment: String) {
+    fun sendMessage(comment: String, context: Context) {
         val postId = appPreferences.getPosition()
         postComment(postId, comment)
         Toast.makeText(context, "Комментарий отправлен!", Toast.LENGTH_SHORT).show()

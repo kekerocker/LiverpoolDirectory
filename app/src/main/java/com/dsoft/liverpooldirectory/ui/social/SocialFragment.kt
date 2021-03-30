@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.social
+package com.dsoft.liverpooldirectory.ui.social
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentSocialBinding
-import com.dsoft.liverpooldirectory.fragments.social.adapter.SocialRecyclerAdapter
+import com.dsoft.liverpooldirectory.ui.social.adapter.SocialRecyclerAdapter
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +49,8 @@ class SocialFragment : Fragment() {
 
         binding.ivVk.setOnClickListener {
             viewModel.fetchWallFromPublic()
+            setUpRecyclerView()
+            removeLoginViews()
         }
 
         binding.socialRecyclerView.setOnClickListener {

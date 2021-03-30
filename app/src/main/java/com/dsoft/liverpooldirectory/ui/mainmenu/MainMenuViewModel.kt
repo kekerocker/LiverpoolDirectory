@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.mainmenu
+package com.dsoft.liverpooldirectory.ui.mainmenu
 
 import android.content.Context
 import android.util.Log

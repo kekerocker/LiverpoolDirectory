@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.mainmenu
+package com.dsoft.liverpooldirectory.ui.mainmenu
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +12,8 @@ import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentMainMenuBinding
-import com.dsoft.liverpooldirectory.fragments.mainmenu.adapter.RecyclerAdapterTable
-import com.dsoft.liverpooldirectory.fragments.mainmenu.adapter.ViewPagerAdapter
+import com.dsoft.liverpooldirectory.ui.mainmenu.adapter.RecyclerAdapterTable
+import com.dsoft.liverpooldirectory.ui.mainmenu.adapter.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

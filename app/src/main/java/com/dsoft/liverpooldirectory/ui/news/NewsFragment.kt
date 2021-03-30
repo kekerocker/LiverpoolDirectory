@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.fragments.news
+package com.dsoft.liverpooldirectory.ui.news
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentNewsBinding
-import com.dsoft.liverpooldirectory.fragments.news.adapter.RecyclerAdapter
+import com.dsoft.liverpooldirectory.ui.news.adapter.RecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
