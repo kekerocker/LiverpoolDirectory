@@ -36,7 +36,7 @@ class SocialViewModel @Inject constructor(private val socialRepository: SocialRe
 
     fun getComments(postId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val comments = socialRepository.getComments(postId).response.itemComments
+            val comments = socialRepository.getComments(postId).response.items
 
             withContext(Dispatchers.Main) {
                 _listOfComments.value = comments
