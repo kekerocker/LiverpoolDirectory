@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.dsoft.liverpooldirectory.databinding.ItemSocialNewsBinding
@@ -22,6 +24,18 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
             if (value.isNotEmpty()) field = value
             notifyDataSetChanged()
         }
+
+    private val differCallback = object : DiffUtil.ItemCallback<Item>() {
+        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return oldItem.text == newItem.text
+        }
+
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+    }
+
+    val differ = AsyncListDiffer(this, differCallback)
 
     val appPreferences by lazy { AppPreferences(context) }
 
@@ -66,7 +80,7 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = list[position]
+        val currentItem = differ.currentList[position]
         val attachments = currentItem.attachments!!
 
         Log.d("TestImage", "TEST: $position")
@@ -85,6 +99,6 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return differ.currentList.size
     }
 }

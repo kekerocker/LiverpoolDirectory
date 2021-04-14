@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentDialogBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 class DialogFragment: DialogFragment() {
 

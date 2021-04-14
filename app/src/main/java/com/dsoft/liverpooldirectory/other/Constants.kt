@@ -8,4 +8,5 @@ object Constants {
     const val VK_API_BASE_URL = "https://api.vk.com/method/"
     const val CODE_TOKEN_ERROR = 5
 
+    const val QUERY_PAGE_SIZE = 10
 }

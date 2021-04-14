@@ -6,10 +6,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'dagger.hilt.android.plugin'
 
-ext {
-
-}
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -19,8 +15,8 @@ android {
         applicationId "com.dsoft.liverpooldirectory"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 7
-        versionName "1.1"
+        versionCode 8
+        versionName "1.2"
         buildConfigField("String", "YANDEX_API_KEY", YANDEX_API_KEY)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -98,7 +94,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.3.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
 
     // Kotlin components
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20"

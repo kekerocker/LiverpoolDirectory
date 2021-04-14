@@ -9,14 +9,14 @@
     tools:context=".ui.social.SocialFragment">
 
     <TextView
-        android:paddingVertical="4dp"
-        android:background="#DA0C0C"
-        android:elevation="8dp"
         android:id="@+id/tv_social_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#DA0C0C"
+        android:elevation="8dp"
         android:fontFamily="@font/albertus"
         android:gravity="center"
+        android:paddingVertical="4dp"
         android:text="Посты взяты из паблика\nLiverpool FC | Ливерпуль"
         android:textColor="@android:color/white"
         android:textSize="24sp"
@@ -39,15 +39,24 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_social_title">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:paddingTop="8dp"
-            android:clipToPadding="false"
             android:id="@+id/social_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
             tools:listitem="@layout/item_social_news" />
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBarPaginate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/iv_vk"

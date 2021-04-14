@@ -7,17 +7,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dsoft.liverpooldirectory.MainMenuActivity
 import com.dsoft.liverpooldirectory.model.vk.comments.ItemComments
 import com.dsoft.liverpooldirectory.model.vk.wall.Item
-import com.dsoft.liverpooldirectory.other.Constants.CODE_TOKEN_ERROR
 import com.dsoft.liverpooldirectory.repository.SocialRepository
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKScope
+import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,14 +28,42 @@ class SocialViewModel @Inject constructor(private val socialRepository: SocialRe
     private var _listOfWall = MutableLiveData<List<Item>>()
     val listOfWall: LiveData<List<Item>> get() = _listOfWall
 
+    val socialStatus: MutableLiveData<Resource<Item>> = MutableLiveData()
+
+    val isOnLine = socialRepository.isOnline
     var isExpired = true
 
     val appPreferences = socialRepository.appPreferences
 
+    var count = 10
+
+    fun safeCall() {
+        viewModelScope.launch {
+            socialStatus.postValue(Resource.Loading())
+            try {
+                if (isOnLine) {
+                    val response = socialRepository.fetchWallFromPublic(count).response
+                    if (response != null) {
+                        _listOfWall.value = response.items
+                        socialStatus.postValue(Resource.Success(response.items.first()))
+                        count += 10
+                    }
+                } else {
+                    socialStatus.postValue(Resource.Error("No internet connection"))
+                }
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> socialStatus.postValue(Resource.Error("Network Failure"))
+                    else -> socialStatus.postValue(Resource.Error("Conversion Error"))
+
+                }
+            }
+        }
+    }
+
     fun getComments(postId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val comments = socialRepository.getComments(postId).response.items
-
             withContext(Dispatchers.Main) {
                 _listOfComments.value = comments
             }
@@ -47,22 +73,6 @@ class SocialViewModel @Inject constructor(private val socialRepository: SocialRe
     private fun postComment(postId: String, message: String) {
         viewModelScope.launch(Dispatchers.IO) {
             socialRepository.postComment(postId, message)
-        }
-    }
-
-    fun fetchWallFromPublic() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val wall = socialRepository.fetchWallFromPublic()
-
-            if (wall.error?.error_code == CODE_TOKEN_ERROR) {
-                VK.login(activity = MainMenuActivity(), arrayListOf(VKScope.WALL, VKScope.GROUPS, VKScope.EMAIL))
-                return@launch
-            }
-            val response = wall.response!!
-
-            withContext(Dispatchers.Main) {
-                _listOfWall.value = response.items
-            }
         }
     }
 

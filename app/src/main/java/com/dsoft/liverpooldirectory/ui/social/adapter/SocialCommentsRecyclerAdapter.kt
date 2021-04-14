@@ -29,7 +29,6 @@ class SocialCommentsRecyclerAdapter: RecyclerView.Adapter<SocialCommentsRecycler
     override fun onBindViewHolder(holder: SocialCommentsRecyclerAdapter.ViewHolder, position: Int) {
         val currentItem = commentsList[position]
         holder.itemText.text = currentItem.text
-
     }
 
     override fun getItemCount(): Int {
