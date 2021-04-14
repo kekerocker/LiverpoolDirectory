@@ -19,11 +19,7 @@ import dagger.hilt.android.internal.managers.ViewComponentManager
 
 class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Adapter<SocialRecyclerAdapter.ViewHolder>() {
 
-    var list: List<Item> = emptyList()
-        set(value) {
-            if (value.isNotEmpty()) field = value
-            notifyDataSetChanged()
-        }
+    val appPreferences by lazy { AppPreferences(context) }
 
     private val differCallback = object : DiffUtil.ItemCallback<Item>() {
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
@@ -37,7 +33,6 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    val appPreferences by lazy { AppPreferences(context) }
 
     inner class ViewHolder(binding: ItemSocialNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         val itemTitle: TextView = binding.tvSocialText
@@ -49,8 +44,7 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
         init {
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
-                Log.d("PositionComment", list[position].id.toString())
-                appPreferences.savePostId(list[position].id.toString())
+                appPreferences.savePostId(differ.currentList[position].id.toString())
 
                 val manager = (activityContext() as AppCompatActivity).supportFragmentManager
                 val dialog = DialogSendCommentFragment()
