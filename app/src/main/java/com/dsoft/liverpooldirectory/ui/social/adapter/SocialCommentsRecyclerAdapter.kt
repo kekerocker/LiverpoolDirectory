@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dsoft.liverpooldirectory.databinding.ItemCommentBinding
-import com.dsoft.liverpooldirectory.model.vk.comments.ItemComments
+import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.ItemComments
 
 class SocialCommentsRecyclerAdapter: RecyclerView.Adapter<SocialCommentsRecyclerAdapter.ViewHolder>() {
 

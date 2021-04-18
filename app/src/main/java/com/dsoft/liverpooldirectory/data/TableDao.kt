@@ -11,7 +11,7 @@ import com.dsoft.liverpooldirectory.model.Table
 @Dao
 interface TableDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addTable(table: Table)
+    suspend fun addTable(table: List<Table>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCloseGames(closeGames: CloseGames)

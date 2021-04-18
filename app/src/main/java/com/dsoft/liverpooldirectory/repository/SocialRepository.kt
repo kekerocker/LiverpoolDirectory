@@ -2,8 +2,9 @@ package com.dsoft.liverpooldirectory.repository
 
 import android.content.Context
 import com.dsoft.liverpooldirectory.data.api.VKAPIRequest
-import com.dsoft.liverpooldirectory.model.vk.comments.VKComments
-import com.dsoft.liverpooldirectory.model.vk.wall.VKApiJSON
+import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKComments
+import com.dsoft.liverpooldirectory.data.mappers.toModel
+import com.dsoft.liverpooldirectory.model.VKWall
 import com.dsoft.liverpooldirectory.utility.InternetConnection
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -20,8 +21,8 @@ class SocialRepository @Inject constructor(
 
     val appPreferences by lazy { AppPreferences(context) }
 
-    suspend fun fetchWallFromPublic(count: Int): VKApiJSON {
-        return vkApi.getWall(appPreferences.getToken()!!, count)
+    suspend fun fetchWallFromPublic(count: Int): List<VKWall> {
+        return vkApi.getWall(appPreferences.getToken()!!, count).toModel()
     }
 
     suspend fun getComments(postId: String): VKComments {

@@ -6,7 +6,7 @@ object Constants {
     const val CLOSE_GAME_URL = "http://www.myliverpool.ru"
     const val NEWS_URL = "http://www.myliverpool.ru/news"
     const val VK_API_BASE_URL = "https://api.vk.com/method/"
-    const val CODE_TOKEN_ERROR = 5
+    const val CODE_TOKEN_ERROR_IP = 5
 
-    const val QUERY_PAGE_SIZE = 10
+    const val QUERY_PAGE_SIZE = 15
 }

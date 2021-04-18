@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dsoft.liverpooldirectory.model.vk.comments.ItemComments
-import com.dsoft.liverpooldirectory.model.vk.wall.Item
+import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.ItemComments
+import com.dsoft.liverpooldirectory.model.VKWall
 import com.dsoft.liverpooldirectory.repository.SocialRepository
 import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,34 +19,35 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class SocialViewModel @Inject constructor(private val socialRepository: SocialRepository) :
-    ViewModel() {
+class SocialViewModel @Inject constructor(
+    private val socialRepository: SocialRepository,
+) : ViewModel() {
 
     private var _listOfComments = MutableLiveData<List<ItemComments>>()
     val listOfComments: LiveData<List<ItemComments>> get() = _listOfComments
 
-    private var _listOfWall = MutableLiveData<List<Item>>()
-    val listOfWall: LiveData<List<Item>> get() = _listOfWall
+    private var _listOfWall = MutableLiveData<List<VKWall>>()
+    val listOfWall: LiveData<List<VKWall>> get() = _listOfWall
 
-    val socialStatus: MutableLiveData<Resource<Item>> = MutableLiveData()
+    val socialStatus: MutableLiveData<Resource<VKWall>> = MutableLiveData()
 
     val isOnLine = socialRepository.isOnline
     var isExpired = true
 
     val appPreferences = socialRepository.appPreferences
 
-    var count = 10
+    var count = 15
 
     fun safeCall() {
         viewModelScope.launch {
             socialStatus.postValue(Resource.Loading())
             try {
                 if (isOnLine) {
-                    val response = socialRepository.fetchWallFromPublic(count).response
-                    if (response != null) {
-                        _listOfWall.value = response.items
-                        socialStatus.postValue(Resource.Success(response.items.first()))
-                        count += 10
+                    val response = socialRepository.fetchWallFromPublic(count)
+                    if (response.isNotEmpty()) {
+                        _listOfWall.value = response
+                        socialStatus.postValue(Resource.Success(response.first()))
+                        count += 15
                     }
                 } else {
                     socialStatus.postValue(Resource.Error("No internet connection"))
@@ -55,6 +56,7 @@ class SocialViewModel @Inject constructor(private val socialRepository: SocialRe
                 when (t) {
                     is IOException -> socialStatus.postValue(Resource.Error("Network Failure"))
                     else -> socialStatus.postValue(Resource.Error("Conversion Error"))
+
 
                 }
             }

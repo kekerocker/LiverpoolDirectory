@@ -34,6 +34,8 @@ class MainMenuRepository @Inject constructor(
     private val loseList = mutableListOf<String>()
     private val pointsList = mutableListOf<String>()
 
+    private val tableList = mutableListOf<Table>()
+
     private val teamNameHomeList = mutableListOf<String>()
     private val teamNameAwayList = mutableListOf<String>()
     private val scoreList = mutableListOf<String>()
@@ -54,7 +56,7 @@ class MainMenuRepository @Inject constructor(
         tableDao.deleteAllCloseGamesData()
     }
 
-    private suspend fun addTable(table: Table) {
+    private suspend fun addTable(table: List<Table>) {
         tableDao.addTable(table)
     }
 
@@ -188,11 +190,13 @@ class MainMenuRepository @Inject constructor(
                             pointsList[a]
                         )
 
-                        GlobalScope.launch(Dispatchers.Default) {
-                            addTable(table1)
-                        }
+                        tableList.add(table1)
                         a++
                     } while (a < positionList.size)
+                    GlobalScope.launch(Dispatchers.Default) {
+                        //addTable(table1)
+                        addTable(tableList)
+                    }
                 }
 
                 getPosition(2, positionList)

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentSocialBinding
+import com.dsoft.liverpooldirectory.other.Constants.CODE_TOKEN_ERROR_IP
 import com.dsoft.liverpooldirectory.other.Constants.QUERY_PAGE_SIZE
 import com.dsoft.liverpooldirectory.ui.social.adapter.SocialRecyclerAdapter
 import com.dsoft.liverpooldirectory.utility.Resource
@@ -47,9 +48,14 @@ class SocialFragment : Fragment() {
         val token = viewModel.appPreferences.getToken()
         viewModel.checkTokenActuality()
 
+        viewModel.listOfWall.observe(viewLifecycleOwner) {
+            if(it.first().errorCode == CODE_TOKEN_ERROR_IP) {
+                makeAuth()
+            }
+        }
+
         if (token == "" || viewModel.isExpired) {
-            Toast.makeText(requireContext(), "Требуется авторизация!", Toast.LENGTH_SHORT).show()
-            VK.login(requireActivity(), arrayListOf(VKScope.WALL, VKScope.GROUPS, VKScope.EMAIL))
+            makeAuth()
         } else {
             Log.d("VKLogin", "Authentication went successful")
             viewModel.safeCall()
@@ -71,6 +77,11 @@ class SocialFragment : Fragment() {
         observeStatus()
     }
 
+    private fun makeAuth() {
+        Toast.makeText(requireContext(), "Требуется авторизация!", Toast.LENGTH_SHORT).show()
+        VK.login(requireActivity(), arrayListOf(VKScope.WALL, VKScope.GROUPS, VKScope.EMAIL))
+    }
+
     private fun observeStatus() {
         viewModel.socialStatus.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -80,14 +91,15 @@ class SocialFragment : Fragment() {
                         val totalCount = adapter.differ.currentList.size / QUERY_PAGE_SIZE
                         isLastPage = viewModel.count == totalCount
                         if (isLastPage) {
-                            binding.socialRecyclerView.setPadding(0,0,0,0)
+                            binding.socialRecyclerView.setPadding(0, 0, 0, 0)
                         }
                     }
                 }
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
                 is Resource.Loading -> {
@@ -145,8 +157,9 @@ class SocialFragment : Fragment() {
         recyclerView.addOnScrollListener(this@SocialFragment.scrollListener)
 
         viewModel.listOfWall.observe(viewLifecycleOwner) {
-            it?.let { data ->
-                adapter.differ.submitList(data.filter { it.attachments != null })
+            it?.let {
+                adapter.differ.submitList(it)
+                //adapter.differ.submitList(data.filter { it.attachments != null })
             }
         }
     }
