@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ЛФК Инфо</string>
-    <string name="empty_comments">В комментариях пусто, будьте первыми, кто оставит здесь комментарий.</string>
-
 </resources>
