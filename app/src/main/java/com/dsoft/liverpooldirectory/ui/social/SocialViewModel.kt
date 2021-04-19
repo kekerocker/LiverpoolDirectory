@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.ItemComments
+import com.dsoft.liverpooldirectory.model.VKComment
 import com.dsoft.liverpooldirectory.model.VKWall
 import com.dsoft.liverpooldirectory.repository.SocialRepository
 import com.dsoft.liverpooldirectory.utility.Resource
@@ -23,8 +23,8 @@ class SocialViewModel @Inject constructor(
     private val socialRepository: SocialRepository,
 ) : ViewModel() {
 
-    private var _listOfComments = MutableLiveData<List<ItemComments>>()
-    val listOfComments: LiveData<List<ItemComments>> get() = _listOfComments
+    private var _listOfComments = MutableLiveData<List<VKComment>>()
+    val listOfComments: LiveData<List<VKComment>> get() = _listOfComments
 
     private var _listOfWall = MutableLiveData<List<VKWall>>()
     val listOfWall: LiveData<List<VKWall>> get() = _listOfWall
@@ -65,7 +65,7 @@ class SocialViewModel @Inject constructor(
 
     fun getComments(postId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val comments = socialRepository.getComments(postId).response.items
+            val comments = socialRepository.getComments(postId)
             withContext(Dispatchers.Main) {
                 _listOfComments.value = comments
             }

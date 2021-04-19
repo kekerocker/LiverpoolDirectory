@@ -1,13 +1,14 @@
 package com.dsoft.liverpooldirectory.data.mappers
 
+import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKComments
 import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKApiJSON
+import com.dsoft.liverpooldirectory.model.VKComment
 import com.dsoft.liverpooldirectory.model.VKWall
 
 fun VKApiJSON.toModel(): List<VKWall> {
     val list = mutableListOf<VKWall>()
     if (error != null) {
-        list.add(
-            VKWall(
+        list.add(VKWall(
                 0,
                 "",
                 "",
@@ -16,9 +17,7 @@ fun VKApiJSON.toModel(): List<VKWall> {
                 0,
                 0,
                 0,
-                errorCode = error.error_code ?: 0
-            )
-        )
+                errorCode = error.error_code ?: 0))
         return list
     } else {
         return response?.items?.map {
@@ -37,4 +36,14 @@ fun VKApiJSON.toModel(): List<VKWall> {
             )
         }!!.toList()
     }
+}
+
+fun VKComments.toModel(): List<VKComment> {
+    return response.items.map {
+        VKComment(
+            userId = it.from_id ?: 0,
+            text = it.text ?: "",
+            date = it.date ?: 0
+        )
+    }.toList()
 }

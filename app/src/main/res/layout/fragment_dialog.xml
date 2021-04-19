@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/albertus"
+        android:gravity="center"
         android:text="Благодарность за предоставленную информацию: "
+        android:textAlignment="center"
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,9 +107,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:fontFamily="@font/albertus"
         android:text="Для связи: info@sports.ru"
         android:textColor="#fff"
-        android:fontFamily="@font/albertus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_sportsInfo" />
 

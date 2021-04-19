@@ -159,7 +159,6 @@ class SocialFragment : Fragment() {
         viewModel.listOfWall.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.differ.submitList(it)
-                //adapter.differ.submitList(data.filter { it.attachments != null })
             }
         }
     }

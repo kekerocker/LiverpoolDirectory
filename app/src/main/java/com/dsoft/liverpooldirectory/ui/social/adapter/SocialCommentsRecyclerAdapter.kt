@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dsoft.liverpooldirectory.databinding.ItemCommentBinding
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.ItemComments
+import com.dsoft.liverpooldirectory.model.VKComment
 
 class SocialCommentsRecyclerAdapter: RecyclerView.Adapter<SocialCommentsRecyclerAdapter.ViewHolder>() {
 
-    var commentsList: List<ItemComments> = emptyList()
+    var commentsList: List<VKComment> = emptyList()
         set(value) {
             if (value.isNotEmpty()) field = value
             notifyDataSetChanged()

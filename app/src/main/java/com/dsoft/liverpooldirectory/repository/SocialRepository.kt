@@ -2,8 +2,8 @@ package com.dsoft.liverpooldirectory.repository
 
 import android.content.Context
 import com.dsoft.liverpooldirectory.data.api.VKAPIRequest
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKComments
 import com.dsoft.liverpooldirectory.data.mappers.toModel
+import com.dsoft.liverpooldirectory.model.VKComment
 import com.dsoft.liverpooldirectory.model.VKWall
 import com.dsoft.liverpooldirectory.utility.InternetConnection
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -25,8 +25,8 @@ class SocialRepository @Inject constructor(
         return vkApi.getWall(appPreferences.getToken()!!, count).toModel()
     }
 
-    suspend fun getComments(postId: String): VKComments {
-        return vkApi.getComments(postId, appPreferences.getToken()!!)
+    suspend fun getComments(postId: String): List<VKComment> {
+        return vkApi.getComments(postId, appPreferences.getToken()!!).toModel()
     }
 
     suspend fun postComment(postId: String, message: String) {
