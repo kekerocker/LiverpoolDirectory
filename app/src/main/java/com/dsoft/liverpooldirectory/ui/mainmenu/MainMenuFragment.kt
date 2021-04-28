@@ -39,7 +39,7 @@ class MainMenuFragment : Fragment() {
             findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
         }
 
-        binding.infoButton?.setOnClickListener {
+        binding.buttonInfo?.setOnClickListener {
             val dialog = DialogFragment()
             dialog.show(parentFragmentManager, "customDialog")
         }
@@ -61,7 +61,9 @@ class MainMenuFragment : Fragment() {
         binding.indicator.setViewPager(viewPager2)
         adapter.registerAdapterDataObserver(binding.indicator.adapterDataObserver)
 
-        viewModel.readAllCloseGamesData.observe(viewLifecycleOwner, { closeGames -> adapter.setData(closeGames) })
+        viewModel.readAllCloseGamesData.observe(
+            viewLifecycleOwner,
+            { closeGames -> adapter.setData(closeGames) })
     }
 
     private fun setUpRecyclerViewTable() {
@@ -70,6 +72,18 @@ class MainMenuFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.readAllEplData.observe(viewLifecycleOwner, { table -> adapter.setData(table) })
+        viewModel.readAllEplData.observe(viewLifecycleOwner, { table ->
+            if (table.isEmpty()) {
+                return@observe
+            } else {
+                adapter.setData(table)
+                hideLoadingScreen()
+            }
+        })
+    }
+
+    private fun hideLoadingScreen() {
+        binding.progressBarTable?.visibility = View.GONE
+        binding.loadingBackground?.visibility = View.GONE
     }
 }

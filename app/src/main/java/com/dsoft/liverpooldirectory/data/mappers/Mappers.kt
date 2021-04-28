@@ -18,7 +18,7 @@ fun VKApiJSON.toModel(): List<VKWall> {
                 0,
                 0,
                 errorCode = error.error_code ?: 0))
-        return list
+        return list.toList()
     } else {
         return response?.items?.map {
             val image =

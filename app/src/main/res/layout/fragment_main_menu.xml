@@ -57,7 +57,7 @@
             android:textColor="@android:color/white" />
 
         <Button
-            android:id="@+id/info_button"
+            android:id="@+id/button_info"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="71dp"
             android:layout_height="wrap_content"

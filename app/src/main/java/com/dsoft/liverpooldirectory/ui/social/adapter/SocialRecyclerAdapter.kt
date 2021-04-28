@@ -17,7 +17,7 @@ import com.dsoft.liverpooldirectory.repository.AppPreferences
 import com.dsoft.liverpooldirectory.ui.social.DialogSendCommentFragment
 import dagger.hilt.android.internal.managers.ViewComponentManager
 
-class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Adapter<SocialRecyclerAdapter.ViewHolder>() {
+class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Adapter<SocialRecyclerAdapter.MyViewHolder>() {
 
     val appPreferences by lazy { AppPreferences(context) }
 
@@ -34,8 +34,7 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
 
     val differ = AsyncListDiffer(this, differCallback)
 
-
-    inner class ViewHolder(binding: ItemSocialNewsBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MyViewHolder(binding: ItemSocialNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         val itemTitle: TextView = binding.tvSocialText
         val itemLikes: TextView = binding.tvLikes
         val itemComments: TextView = binding.tvComments
@@ -61,11 +60,8 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
-        return ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        return MyViewHolder(
             ItemSocialNewsBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -74,7 +70,7 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
         )
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = differ.currentList[position]
 
         Log.d("TestImage", "TEST: $position")

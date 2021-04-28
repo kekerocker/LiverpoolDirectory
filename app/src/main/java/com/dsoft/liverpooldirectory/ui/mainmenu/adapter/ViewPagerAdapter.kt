@@ -47,6 +47,7 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
         when (holder.itemTeamName1.text) {
             "Ливерпуль" -> holder.itemTeamLogo1.load(R.drawable.fc_liverpool)
             "Манчестер Юнайтед" -> holder.itemTeamLogo1.load(R.drawable.fc_manutd)
+            "МЮ" -> holder.itemTeamLogo1.load(R.drawable.fc_manutd)
             "Лестер" -> holder.itemTeamLogo1.load(R.drawable.fc_leicester)
             "Тоттенхэм" -> holder.itemTeamLogo1.load(R.drawable.fc_tottenham)
             "Манчестер Сити" -> holder.itemTeamLogo1.load(R.drawable.fc_mancity_logo)
@@ -74,6 +75,7 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
         when (holder.itemTeamName2.text) {
             "Ливерпуль" -> holder.itemTeamLogo2.load(R.drawable.fc_liverpool)
             "Манчестер Юнайтед" -> holder.itemTeamLogo2.load(R.drawable.fc_manutd)
+            "МЮ" -> holder.itemTeamLogo1.load(R.drawable.fc_manutd)
             "Лестер" -> holder.itemTeamLogo2.load(R.drawable.fc_leicester)
             "Тоттенхэм" -> holder.itemTeamLogo2.load(R.drawable.fc_tottenham)
             "Манчестер Сити" -> holder.itemTeamLogo2.load(R.drawable.fc_mancity_logo)
