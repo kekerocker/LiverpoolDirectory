@@ -1,10 +1,12 @@
 package com.dsoft.liverpooldirectory.repository
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.NewsDao
 import com.dsoft.liverpooldirectory.model.News
-import com.dsoft.liverpooldirectory.other.Constants.NEWS_URL
+import com.dsoft.liverpooldirectory.utility.InternetConnection
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,8 +16,16 @@ import javax.inject.Singleton
 
 @Singleton
 class NewsRepository @Inject constructor(
-    private val newsDao: NewsDao
+    private val newsDao: NewsDao,
+    internetConnection: InternetConnection,
+    @ApplicationContext context: Context
 ) {
+
+    companion object {
+        const val NEWS_URL = "http://www.myliverpool.ru/news/?page"
+    }
+
+    val isOnline = internetConnection.isOnline(context)
 
     private var titleList = mutableListOf<String>()
     private var descList = mutableListOf<String>()
@@ -23,6 +33,7 @@ class NewsRepository @Inject constructor(
     private var linksList = mutableListOf<String>()
 
     val readAllNews: LiveData<List<News>> = newsDao.readAllNews()
+    var pageNumber = 1
 
     private suspend fun addNews(news: News) {
         newsDao.addNews(news)
@@ -35,7 +46,7 @@ class NewsRepository @Inject constructor(
     suspend fun downloadNews() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val doc = Jsoup.connect(NEWS_URL).get()
+                val doc = Jsoup.connect(NEWS_URL + pageNumber).get()
                 val allEntries = doc.getElementById("allEntries")
                 val title = allEntries
                     .getElementsByClass("titlenews")
@@ -119,6 +130,7 @@ class NewsRepository @Inject constructor(
                 titleList.clear()
                 descList.clear()
 
+                pageNumber++
             } catch (e: Exception) {
                 Log.e("Error", e.toString())
             }

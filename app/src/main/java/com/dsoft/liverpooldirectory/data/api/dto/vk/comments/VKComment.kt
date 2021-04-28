@@ -1,5 +1,5 @@
 package com.dsoft.liverpooldirectory.data.api.dto.vk.comments
 
-data class VKComments(
+data class VKComment(
     val response: Response
 )

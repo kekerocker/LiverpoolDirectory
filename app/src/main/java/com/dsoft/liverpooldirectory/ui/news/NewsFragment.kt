@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentNewsBinding
 import com.dsoft.liverpooldirectory.ui.news.adapter.RecyclerAdapter
@@ -15,29 +16,23 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
 
-    private lateinit var binding: FragmentNewsBinding
-    private lateinit var viewModel: NewsViewModel
+    private val viewModel by viewModels<NewsViewModel>()
+    private val binding by viewBinding(FragmentNewsBinding::bind)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view =  inflater.inflate(R.layout.fragment_news, container, false)
-
-        //ViewModel
-        viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentNewsBinding.bind(view)
 
         val refreshLayout = binding.refreshLayout
         refreshLayout.setOnRefreshListener {
-            viewModel.checkInternet()
-
+            viewModel.downloadNews()
             refreshLayout.isRefreshing = false
         }
 

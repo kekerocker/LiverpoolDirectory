@@ -1,11 +1,6 @@
 package com.dsoft.liverpooldirectory.data.mappers
 
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKComments
-import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKApiJSON
-import com.dsoft.liverpooldirectory.model.VKComment
-import com.dsoft.liverpooldirectory.model.VKWall
-
-fun VKApiJSON.toModel(): List<VKWall> {
+fun com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKWall.toModel(): List<VKWall> {
     val list = mutableListOf<VKWall>()
     if (error != null) {
         list.add(VKWall(
@@ -38,7 +33,7 @@ fun VKApiJSON.toModel(): List<VKWall> {
     }
 }
 
-fun VKComments.toModel(): List<VKComment> {
+fun com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKComment.toModel(): List<VKComment> {
     return response.items.map {
         VKComment(
             userId = it.from_id ?: 0,
