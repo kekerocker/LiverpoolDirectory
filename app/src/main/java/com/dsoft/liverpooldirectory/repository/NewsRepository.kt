@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.NewsDao
 import com.dsoft.liverpooldirectory.model.News
+import com.dsoft.liverpooldirectory.other.Constants.NEWS_URL
 import com.dsoft.liverpooldirectory.utility.InternetConnection
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -20,11 +21,6 @@ class NewsRepository @Inject constructor(
     internetConnection: InternetConnection,
     @ApplicationContext context: Context
 ) {
-
-    companion object {
-        const val NEWS_URL = "http://www.myliverpool.ru/news/?page"
-    }
-
     val isOnline = internetConnection.isOnline(context)
 
     private var titleList = mutableListOf<String>()
@@ -50,12 +46,13 @@ class NewsRepository @Inject constructor(
                 val allEntries = doc.getElementById("allEntries")
                 val title = allEntries
                     .getElementsByClass("titlenews")
-                    .select("a") //10 штук
+                    .select("a")
                 val images = allEntries.getElementsByClass("short_img")
                     .select("img")
                 val description = allEntries.getElementsByClass("eMessage")
                 val url = allEntries.getElementsByClass("titlenews")
                     .select("a")
+
 
                 fun getImages(list: MutableList<String>) {
                     val originUrl = "http://www.myliverpool.ru"

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.dsoft.liverpooldirectory.databinding.ItemNewsBinding
@@ -16,6 +18,19 @@ import com.dsoft.liverpooldirectory.model.News
 class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     private var newsList = emptyList<News>()
+
+    private val differCallback = object : DiffUtil.ItemCallback<News>() {
+        override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
+            return oldItem.url == newItem.url
+        }
+
+        override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+
+    }
+
+    var differ = AsyncListDiffer(this, differCallback)
 
     inner class ViewHolder(binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -27,9 +42,9 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
         init {
             itemView.setOnClickListener {
-                val position: Int = adapterPosition
+                val position: Int = absoluteAdapterPosition
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(url + newsList[position].url)
+                intent.data = Uri.parse(url + differ.currentList[position].url)
                 startActivity(itemView.context, intent, null)
             }
         }
@@ -41,7 +56,7 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = newsList[position]
+        val currentItem = differ.currentList[position]
         holder.itemTitle.text = currentItem.title
         holder.itemDescription.text = currentItem.description
 
@@ -49,11 +64,6 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return newsList.size
-    }
-
-    fun setData(news: List<News>) {
-        this.newsList = news
-        notifyDataSetChanged()
+        return differ.currentList.size
     }
 }

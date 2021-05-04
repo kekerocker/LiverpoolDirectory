@@ -1,6 +1,10 @@
 package com.dsoft.liverpooldirectory.data.mappers
 
-fun com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKWall.toModel(): List<VKWall> {
+import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKApiJSON
+import com.dsoft.liverpooldirectory.model.VKComment
+import com.dsoft.liverpooldirectory.model.VKWall
+
+fun VKApiJSON.toModel(): List<VKWall> {
     val list = mutableListOf<VKWall>()
     if (error != null) {
         list.add(VKWall(

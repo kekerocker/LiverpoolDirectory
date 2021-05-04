@@ -25,12 +25,14 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="5dp">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:elevation="5dp" />
 
     </RelativeLayout>
 
@@ -78,8 +80,7 @@
             android:focusable="true"
             android:fontFamily="@font/albertus"
             android:text="@string/news"
-            android:textColor="@android:color/white"
-            app:layout_constraintVertical_bias="0.937" />
+            android:textColor="@android:color/white" />
 
 
     </LinearLayout>

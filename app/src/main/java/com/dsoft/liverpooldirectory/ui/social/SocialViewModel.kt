@@ -31,7 +31,7 @@ class SocialViewModel @Inject constructor(
 
     val socialStatus: MutableLiveData<Resource<VKWall>> = MutableLiveData()
 
-    val isOnLine = socialRepository.isOnline
+    private val isOnline = socialRepository.isOnline
     var isExpired = true
 
     val appPreferences = socialRepository.appPreferences
@@ -42,7 +42,7 @@ class SocialViewModel @Inject constructor(
         viewModelScope.launch {
             socialStatus.postValue(Resource.Loading())
             try {
-                if (isOnLine) {
+                if (isOnline) {
                     val response = socialRepository.fetchWallFromPublic(count)
                     if (response.isNotEmpty()) {
                         _listOfWall.value = response
@@ -56,8 +56,6 @@ class SocialViewModel @Inject constructor(
                 when (t) {
                     is IOException -> socialStatus.postValue(Resource.Error("Network Failure"))
                     else -> socialStatus.postValue(Resource.Error("Conversion Error"))
-
-
                 }
             }
         }

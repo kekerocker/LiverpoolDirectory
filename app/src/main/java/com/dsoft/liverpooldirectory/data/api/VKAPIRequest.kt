@@ -1,7 +1,7 @@
 package com.dsoft.liverpooldirectory.data.api
 
 import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKComment
-import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKWall
+import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKApiJSON
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -11,7 +11,7 @@ interface VKAPIRequest {
     suspend fun getWall(
         @Query("access_token") token: String,
         @Query("count") count: Int
-    ): VKWall
+    ): VKApiJSON
 
     @GET("wall.getComments?owner_id=-23328324&v=5.126")
     suspend fun getComments(
