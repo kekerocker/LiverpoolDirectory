@@ -1,6 +1,5 @@
 package com.dsoft.liverpooldirectory.ui.news
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +10,7 @@ import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,9 +20,7 @@ class NewsViewModel @Inject constructor(
 
     private val isOnline = newsRepository.isOnline
     val readAllNews: LiveData<List<News>> = newsRepository.readAllNews
-
-    //val newsStatus: MutableLiveData<Resource<News>> = MutableLiveData()
-    val isLoadingNews = MutableLiveData<Boolean>()
+    val newsStatus: MutableLiveData<Resource<News>> = MutableLiveData()
     var count = 10
 
     init {
@@ -40,15 +38,17 @@ class NewsViewModel @Inject constructor(
 
     fun safeCall() {
         viewModelScope.launch(Dispatchers.IO) {
-            isLoadingNews.postValue(true)
+            newsStatus.postValue(Resource.Loading())
             try {
                 newsRepository.downloadNews()
                 val news = readAllNews.value
-                Resource.Success(news?.first()!!).let { isLoadingNews.postValue(false) }
+                Resource.Success(news?.first()!!).let { newsStatus.postValue(it) }
                 count += 10
             } catch (t: Throwable) {
-                Log.e("NewsViewModel", t.toString())
-                isLoadingNews.postValue(false)
+                when (t) {
+                    is IOException -> newsStatus.postValue(Resource.Error("No internet connection"))
+                    else -> newsStatus.postValue(Resource.Error("Conversion Error"))
+                }
             }
         }
     }

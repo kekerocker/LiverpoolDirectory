@@ -15,6 +15,7 @@ import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentNewsBinding
 import com.dsoft.liverpooldirectory.other.Constants
 import com.dsoft.liverpooldirectory.ui.news.adapter.RecyclerAdapter
+import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,24 +46,34 @@ class NewsFragment : Fragment() {
             viewModel.safeCall()
             refreshLayout.isRefreshing = false
         }
+
         observeStatus()
     }
 
     private fun observeStatus() {
-        viewModel.isLoadingNews.observe(viewLifecycleOwner) { response ->
+        viewModel.newsStatus.observe(viewLifecycleOwner) { response ->
             when (response) {
-                false -> {
+                is Resource.Success -> {
                     hideProgressBar()
-                    val totalCount = adapter.differ.currentList.size / Constants.NEWS_PAGE_SIZE
-                    isLastPage = viewModel.count == totalCount
-                    if (isLastPage) {
-                        binding.rvRecyclerView.setPadding(0, 0, 0, 0)
+                    response.data?.let {
+                        val totalCount = adapter.differ.currentList.size / Constants.NEWS_PAGE_SIZE
+                        isLastPage = viewModel.count == totalCount
+                        if (isLastPage) {
+                            binding.rvRecyclerView.setPadding(0, 0, 0, 0)
+                        }
                     }
                 }
-                true -> {
-                    showProgressBar()
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let { message ->
+                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+                is Resource.Loading -> {
                     Toast.makeText(activity, "Loading", Toast.LENGTH_SHORT)
                         .show()
+                    showProgressBar()
                 }
             }
         }
