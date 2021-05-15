@@ -13,6 +13,7 @@ fun getTime(milliSeconds: Long): String {
     val minutes = TimeUnit.MILLISECONDS.toMinutes(timeSinceCreated)
     val hours = TimeUnit.MILLISECONDS.toHours(timeSinceCreated)
     val days = TimeUnit.HOURS.toDays(hours)
+    val months = days * avgDaysInMonth
 
     if (minutes < minutesInHour) {
         return when (minutes) {
@@ -66,14 +67,14 @@ fun getTime(milliSeconds: Long): String {
         }
     }
     if (days > avgDaysInMonth) {
-        return when (days) {
-            1L -> "$days месяц назад"
-            2L -> "$days месяца назад"
-            3L -> "$days месяца назад"
-            4L -> "$days месяца назад"
-            else -> "$days месяцев назад"
+        return when (months) {
+            1L -> "$months месяц назад"
+            2L -> "$months месяца назад"
+            3L -> "$months месяца назад"
+            4L -> "$months месяца назад"
+            else -> "$months месяцев назад"
         }
-        
+
     }
     return "Something went wrong"
 }
