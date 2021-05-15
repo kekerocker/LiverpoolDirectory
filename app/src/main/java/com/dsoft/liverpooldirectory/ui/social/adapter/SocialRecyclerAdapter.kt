@@ -75,11 +75,14 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = differ.currentList[position]
 
+        //VK creating date is in seconds, so I transform it to millis
+        val currentTimeInMillis = currentItem.date * 1000
+
         holder.itemTitle.text = currentItem.text
         holder.itemLikes.text = currentItem.likesCount.toString()
         holder.itemComments.text = currentItem.commentsCount.toString()
         holder.itemViews.text = currentItem.viewCount.toString()
-        holder.itemDate.text = getTime(currentItem.date * 1000)
+        holder.itemDate.text = getTime(currentTimeInMillis)
 
         Log.d("TestImage", "TEST: ${currentItem.date}")
 
