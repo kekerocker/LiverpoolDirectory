@@ -7,16 +7,20 @@ import com.dsoft.liverpooldirectory.model.VKWall
 fun VKApiJSON.toModel(): List<VKWall> {
     val list = mutableListOf<VKWall>()
     if (error != null) {
-        list.add(VKWall(
+        list.add(
+            VKWall(
                 0,
                 "",
+                0,
                 "",
                 0,
                 0,
                 0,
                 0,
                 0,
-                errorCode = error.error_code ?: 0))
+                errorCode = error.error_code ?: 0
+            )
+        )
         return list.toList()
     } else {
         return response?.items?.map {
@@ -24,6 +28,7 @@ fun VKApiJSON.toModel(): List<VKWall> {
                 it.attachments?.firstOrNull()?.photo?.sizes?.firstOrNull { size -> size.type == "r" }
             VKWall(
                 text = it.text ?: "",
+                date = it.date ?: 0,
                 image = image?.url ?: "",
                 likesCount = it.likes?.count ?: 0,
                 commentsCount = it.comments?.count ?: 0,

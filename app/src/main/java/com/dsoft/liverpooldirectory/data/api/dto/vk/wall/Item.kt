@@ -6,7 +6,7 @@ data class Item(
     val comments: Comments?,
     val copy_history: List<CopyHistory>?,
     val copyright: Copyright?,
-    val date: Int?,
+    val date: Long?,
     val donut: Donut?,
     val edited: Int?,
     val from_id: Int?,

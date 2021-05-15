@@ -47,7 +47,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
-    implementation 'me.relex:circleindicator:2.1.4'
+    implementation 'me.relex:circleindicator:2.1.6'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -69,9 +69,9 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:2.33-beta"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-    implementation 'androidx.hilt:hilt-common:1.0.0-beta01'
+    implementation 'androidx.hilt:hilt-common:1.0.0'
     kapt "com.google.dagger:hilt-android-compiler:2.33-beta"
-    kapt "androidx.hilt:hilt-compiler:1.0.0-beta01"
+    kapt "androidx.hilt:hilt-compiler:1.0.0"
 
     //VK API
     implementation 'com.vk:androidsdk:2.4.0'
@@ -101,8 +101,8 @@ dependencies {
 
     // Kotlin components
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.32"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3-native-mt"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3-native-mt"
 
     //Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'

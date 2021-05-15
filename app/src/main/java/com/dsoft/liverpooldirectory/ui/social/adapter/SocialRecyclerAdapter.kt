@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.dsoft.liverpooldirectory.databinding.ItemSocialNewsBinding
 import com.dsoft.liverpooldirectory.model.VKWall
+import com.dsoft.liverpooldirectory.other.getTime
 import com.dsoft.liverpooldirectory.repository.AppPreferences
 import com.dsoft.liverpooldirectory.ui.social.DialogSendCommentFragment
 import dagger.hilt.android.internal.managers.ViewComponentManager
@@ -40,6 +41,7 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
         val itemComments: TextView = binding.tvComments
         val itemViews: TextView = binding.tvViews
         val itemImages: ImageView = binding.ivSocial
+        val itemDate: TextView = binding.tvDate
 
         init {
             itemView.setOnClickListener {
@@ -73,12 +75,14 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = differ.currentList[position]
 
-        Log.d("TestImage", "TEST: $position")
-
         holder.itemTitle.text = currentItem.text
         holder.itemLikes.text = currentItem.likesCount.toString()
         holder.itemComments.text = currentItem.commentsCount.toString()
         holder.itemViews.text = currentItem.viewCount.toString()
+        holder.itemDate.text = getTime(currentItem.date * 1000)
+
+        Log.d("TestImage", "TEST: ${currentItem.date}")
+
 
         val layoutParams = holder.itemImages.layoutParams
         layoutParams.width = currentItem.imageWidth
