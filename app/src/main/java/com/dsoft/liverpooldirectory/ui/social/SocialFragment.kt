@@ -22,7 +22,7 @@ import com.vk.api.sdk.auth.VKScope
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SocialFragment : Fragment() {
+class SocialFragment : Fragment(R.layout.fragment_social) {
 
     private lateinit var binding: FragmentSocialBinding
     private val viewModel by viewModels<SocialViewModel>()
@@ -32,15 +32,6 @@ class SocialFragment : Fragment() {
     var isLoading = false
     var isLastPage = false
     var isScrolling = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_social, container, false)
-
-        return view
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

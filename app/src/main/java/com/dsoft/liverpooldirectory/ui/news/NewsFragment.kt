@@ -19,7 +19,7 @@ import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NewsFragment : Fragment() {
+class NewsFragment : Fragment(R.layout.fragment_news) {
 
     private val viewModel by viewModels<NewsViewModel>()
     private val binding by viewBinding(FragmentNewsBinding::bind)
@@ -29,14 +29,6 @@ class NewsFragment : Fragment() {
     var isLoading = false
     var isLastPage = false
     var isScrolling = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_news, container, false)
-        return view
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
