@@ -1,24 +1,24 @@
 package com.dsoft.liverpooldirectory.ui.social
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.R
-import com.dsoft.liverpooldirectory.databinding.FragmentSendCommentDialogBinding
+import com.dsoft.liverpooldirectory.databinding.FragmentCommentSectionBottomsheetDialogBinding
 import com.dsoft.liverpooldirectory.ui.social.adapter.SocialCommentsRecyclerAdapter
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DialogSendCommentFragment : DialogFragment() {
+class DialogSendCommentFragment : BottomSheetDialogFragment() {
 
     private val viewModel by viewModels<SocialViewModel>()
-    private val binding by viewBinding(FragmentSendCommentDialogBinding::bind)
+    private val binding by viewBinding(FragmentCommentSectionBottomsheetDialogBinding::bind)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +26,7 @@ class DialogSendCommentFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView: View =
-            inflater.inflate(R.layout.fragment_send_comment_dialog, container, false)
+            inflater.inflate(R.layout.fragment_comment_section_bottomsheet_dialog, container, false)
         return rootView
     }
 
@@ -50,15 +50,23 @@ class DialogSendCommentFragment : DialogFragment() {
     private fun setupRecyclerView() {
         val adapter = SocialCommentsRecyclerAdapter()
         val recyclerView = binding.rvRecyclerViewComments
+        val dividerDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.divider_drawable)
+        val dividerItemDecoration = DividerItemDecoration()
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.listOfComments.observe(viewLifecycleOwner) {
-            if (it == null) {
-                Log.d("TestComm1", "Test: $it")
+        recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
+
+        viewModel.listOfComments.observe(viewLifecycleOwner) { commentsList ->
+            if (commentsList == null) {
                 return@observe
             }
-            Log.d("TestComm2", "Test: ${it.first().text}")
-            adapter.commentsList = it
+            adapter.commentsList = commentsList
+        }
+
+        if (dividerDrawable != null) {
+            dividerItemDecoration.dividerItemDecoration(dividerDrawable)
+            recyclerView.addItemDecoration(dividerItemDecoration)
         }
     }
 }

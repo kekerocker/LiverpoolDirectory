@@ -15,13 +15,8 @@
 Dagger Hilt,
 Retrofit 2,
 Navigation Component,
-Recycler View,
-ViewPager2,
-Constraint Layout,
 ViewBinding,
 LiveData + ViewModel,
 Coil (для работы с изображениями),
 JSOUP,
-Room Library,
-Yandex AppMetrica,
-VK API.
+Room Library

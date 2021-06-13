@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.dsoft.liverpooldirectory.databinding.ItemSocialNewsBinding
 import com.dsoft.liverpooldirectory.model.VKWall
 import com.dsoft.liverpooldirectory.other.getTime
 import com.dsoft.liverpooldirectory.repository.AppPreferences
 import com.dsoft.liverpooldirectory.ui.social.DialogSendCommentFragment
 import dagger.hilt.android.internal.managers.ViewComponentManager
+import kotlin.math.round
 
 class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Adapter<SocialRecyclerAdapter.MyViewHolder>() {
 
@@ -90,7 +92,11 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
         val layoutParams = holder.itemImages.layoutParams
         layoutParams.width = currentItem.imageWidth
         layoutParams.height = currentItem.imageHeight
-        holder.itemImages.load(currentItem.image)
+        holder.itemImages.load(currentItem.image) {
+            crossfade(true)
+            crossfade(250)
+            transformations(RoundedCornersTransformation(20f))
+        }
     }
 
     override fun getItemCount(): Int {

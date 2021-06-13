@@ -11,7 +11,7 @@ class SocialCommentsRecyclerAdapter: RecyclerView.Adapter<SocialCommentsRecycler
 
     var commentsList: List<VKComment> = emptyList()
         set(value) {
-            if (value.isNotEmpty()) field = value
+            field = value
             notifyDataSetChanged()
         }
 
