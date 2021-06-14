@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentDialogBinding
-import dagger.hilt.android.AndroidEntryPoint
 
 class DialogFragment: DialogFragment() {
 
@@ -26,10 +25,8 @@ class DialogFragment: DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val rootView: View = inflater.inflate(R.layout.fragment_dialog, container, false)
-
-        return rootView
+    ): View {
+        return inflater.inflate(R.layout.fragment_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

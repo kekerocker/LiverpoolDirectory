@@ -1,5 +1,6 @@
 package com.dsoft.liverpooldirectory.data.mappers
 
+import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKCommentResponse
 import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKApiJSON
 import com.dsoft.liverpooldirectory.model.VKComment
 import com.dsoft.liverpooldirectory.model.VKWall
@@ -42,7 +43,7 @@ fun VKApiJSON.toModel(): List<VKWall> {
     }
 }
 
-fun com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKComment.toModel(): List<VKComment> {
+fun VKCommentResponse.toModel(): List<VKComment> {
     return response.items.map {
         VKComment(
             userId = it.from_id ?: 0,

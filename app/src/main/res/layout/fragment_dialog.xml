@@ -14,7 +14,7 @@
         android:gravity="center"
         android:text="Благодарность за предоставленную информацию: "
         android:textAlignment="center"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="@font/albertus"
         android:text="Для связи: admin@myliverpool.ru"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_mylv_resources" />
 
@@ -38,7 +38,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/albertus"
         android:text="- Веб-ресурсу MyLiverpool: http://myliverpool.ru"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_InfoTitle" />
 
@@ -50,7 +50,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/albertus"
         android:text="@string/vk_lfc"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_contact_mylv" />
 
@@ -61,7 +61,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="@font/albertus"
         android:text="Главный редактор: Гусейн Велиев"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_contact_lfcvk" />
 
@@ -72,7 +72,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="@font/albertus"
         android:text="Для связи: https://vk.com/guseyn_veliev"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_vkInfo" />
 
@@ -84,7 +84,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/albertus"
         android:text="- Веб-ресурсу Sports.ru: http://sports.ru"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_contact_lfcvk2" />
 
@@ -96,7 +96,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/buttonstyle"
         android:text="Закрыть"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +109,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="@font/albertus"
         android:text="Для связи: info@sports.ru"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_sportsInfo" />
 
@@ -120,7 +120,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="@font/albertus"
         android:text="Главный редактор: А.Н. Аксенов"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_contact_sports" />
 

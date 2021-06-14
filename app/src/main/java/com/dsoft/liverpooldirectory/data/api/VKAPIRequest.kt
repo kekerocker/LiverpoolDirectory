@@ -1,6 +1,6 @@
 package com.dsoft.liverpooldirectory.data.api
 
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKComment
+import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKCommentResponse
 import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKApiJSON
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -17,7 +17,7 @@ interface VKAPIRequest {
     suspend fun getComments(
         @Query("post_id") postId: String,
         @Query("access_token") token: String
-    ): VKComment
+    ): VKCommentResponse
 
     @POST("wall.createComment?owner_id=-23328324&v=5.126")
     suspend fun postComment(

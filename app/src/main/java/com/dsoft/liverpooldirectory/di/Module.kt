@@ -24,16 +24,32 @@ class Module {
 
     @Singleton
     @Provides
-    fun provideVkApi(): VKAPIRequest {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+    fun provideHttpInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
+
+    @Singleton
+    @Provides
+    fun provideHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(VK_API_BASE_URL)
             .client(client)
+            .baseUrl(VK_API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(VKAPIRequest::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideVkApi(retrofit: Retrofit): VKAPIRequest {
+            return retrofit.create(VKAPIRequest::class.java)
     }
 
     @Singleton
