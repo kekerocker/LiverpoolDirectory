@@ -10,17 +10,14 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
-            tools:itemCount="1"
+            tools:itemCount="3"
             tools:listitem="@layout/item_news" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

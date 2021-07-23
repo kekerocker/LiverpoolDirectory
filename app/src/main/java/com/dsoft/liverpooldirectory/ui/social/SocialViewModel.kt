@@ -83,10 +83,8 @@ class SocialViewModel @Inject constructor(
         if (tokenTime != null) {
             if (currentTime > tokenTime + 86400000) {
                 isExpired = true
-                Log.d("TESTTOKEN", "TEST: Token is expired = $isExpired")
             } else if (currentTime < tokenTime + 86400000) {
                 isExpired = false
-                Log.d("TESTTOKEN", "TEST: Token is expired = $isExpired")
             }
         }
     }

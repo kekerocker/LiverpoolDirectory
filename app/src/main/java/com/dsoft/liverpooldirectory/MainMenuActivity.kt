@@ -32,11 +32,6 @@ class MainMenuActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         setupActionBarWithNavController(findNavController(R.id.fragment))
-
-
-        val config = YandexMetricaConfig.newConfigBuilder(BuildConfig.YANDEX_API_KEY).build()
-        YandexMetrica.activate(applicationContext, config)
-        YandexMetrica.enableActivityAutoTracking(application)
     }
 
     override fun onSupportNavigateUp(): Boolean {

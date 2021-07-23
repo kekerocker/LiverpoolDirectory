@@ -30,13 +30,17 @@ class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
             findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
         }
 
-        binding.buttonInfo?.setOnClickListener {
+        binding.buttonInfo.setOnClickListener {
             val dialog = DialogFragment()
             dialog.show(parentFragmentManager, "customDialog")
         }
 
         binding.buttonSocial.setOnClickListener {
             findNavController().navigate(R.id.action_MainMenuFragment_to_socialFragment)
+        }
+
+        binding.btnSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_MainMenuFragment_to_settingsFragment)
         }
 
         setUpViewPager()

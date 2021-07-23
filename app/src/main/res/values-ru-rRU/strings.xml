@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ЛФК Инфо</string>
+    <string name="news">Новости</string>
+    <string name="Social">Сообщество</string>
+    <string name="publisher_btn">Инфо</string>
+    <string name="vk_lfc">- Паблику ВК Liverpool FC | Ливерпуль: https://vk.com/liverpoolfc</string>
+    <string name="back">Назад</string>
+
+    <string name="language">Язык</string>
+    <string name="app_language">Язык приложения</string>
+    <string name="russian_language">Русский</string>
+    <string name="english_language">Английский</string>
+    <string name="color_scheme">Цветовая схема</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="language_change">Чтобы сменить язык необходимо перезапустить приложение</string>
+    <string name="light_theme">Светлая тема</string>
+    <string name="dark_theme">Тёмная тема</string>
+    <string name="follow_system">Как на телефоне</string>
 </resources>

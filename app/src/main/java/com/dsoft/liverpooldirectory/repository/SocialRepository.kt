@@ -18,7 +18,6 @@ class SocialRepository @Inject constructor(
 ) {
 
     val isOnline = internetConnection.isOnline(context)
-
     val appPreferences by lazy { AppPreferences(context) }
 
     suspend fun fetchWallFromPublic(count: Int): List<VKWall> {

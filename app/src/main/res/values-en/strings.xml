@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Liverpool Directory</string>
-    <string name="news">News</string>
-    <string name="Social">Social</string>
+    <string name="news" translatable="false">News</string>
+    <string name="Social" translatable="false">Social</string>
+    <string name="vk_lfc">To FC Liverpool public in VK: https://vk.com/liverpoolfc</string>
     <string name="publisher_btn">Info</string>
-    <string name="vk_lfc">- Паблику ВК Liverpool FC | Ливерпуль: https://vk.com/liverpoolfc</string>
     <string name="back">Back</string>
 
     <string name="language">Language</string>
@@ -17,6 +18,4 @@
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>
     <string name="follow_system">Follow system</string>
-
-    <integer name="com_vk_sdk_AppId">7685328</integer>
 </resources>

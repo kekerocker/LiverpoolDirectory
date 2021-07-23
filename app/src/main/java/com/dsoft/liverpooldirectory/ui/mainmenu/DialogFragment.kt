@@ -2,6 +2,8 @@ package com.dsoft.liverpooldirectory.ui.mainmenu
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,5 +37,10 @@ class DialogFragment: DialogFragment() {
         binding.closeButton.setOnClickListener {
             dismiss()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 }

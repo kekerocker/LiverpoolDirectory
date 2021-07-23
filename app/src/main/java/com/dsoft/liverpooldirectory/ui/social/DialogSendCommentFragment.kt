@@ -1,5 +1,7 @@
 package com.dsoft.liverpooldirectory.ui.social
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +47,11 @@ class DialogSendCommentFragment : BottomSheetDialogFragment() {
             viewModel.sendMessage(comment, requireContext())
             dismiss()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     private fun setupRecyclerView() {
