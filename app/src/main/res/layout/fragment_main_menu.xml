@@ -8,44 +8,20 @@
     android:overScrollMode="never"
     tools:context=".ui.mainmenu.MainMenuFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/relative_layout" />
-
-        <Button
-            android:id="@+id/btn_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/buttonstyle"
-            android:fontFamily="@font/albertus"
-            android:text="@string/settings"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menu_layout" />
+        android:layout_gravity="center"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/relative_layout"
-            android:layout_width="350dp"
-            android:layout_height="250dp"
-            android:layout_above="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:elevation="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:elevation="5dp">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager2"
@@ -55,15 +31,17 @@
 
         </RelativeLayout>
 
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
         <LinearLayout
             android:id="@+id/menu_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/indicator">
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_social"
@@ -101,8 +79,18 @@
                 android:text="@string/news"
                 android:textColor="@android:color/white" />
 
-
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/buttonstyle"
+            android:fontFamily="@font/albertus"
+            android:text="@string/settings"
+            android:textColor="@color/colorWhite" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -110,11 +98,7 @@
             android:layout_height="240dp"
             android:layout_margin="8dp"
             android:background="@android:color/white"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_settings">
+            android:orientation="vertical">
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -246,6 +230,6 @@
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
