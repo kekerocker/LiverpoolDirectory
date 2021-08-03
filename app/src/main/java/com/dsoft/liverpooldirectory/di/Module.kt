@@ -2,6 +2,7 @@ package com.dsoft.liverpooldirectory.di
 
 import android.content.Context
 import androidx.room.Room
+import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.data.LFCDatabase
 import com.dsoft.liverpooldirectory.data.api.VKAPIRequest
 import com.dsoft.liverpooldirectory.other.Constants.DATABASE_NAME
@@ -68,5 +69,11 @@ class Module {
     @Singleton
     @Provides
     fun provideTableDao(db: LFCDatabase) = db.tableDao()
+
+    @Singleton
+    @Provides
+    fun provideAppPreferences(@ApplicationContext context: Context): AppPreferences {
+        return AppPreferences(context)
+    }
 
 }

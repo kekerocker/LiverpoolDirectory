@@ -4,13 +4,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
+import com.dsoft.liverpooldirectory.data.AppPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class NightModeService @Inject constructor(
-    val sharedPrefs: SharedPreferences,
+    val sharedPrefs: AppPreferences,
     @ApplicationContext val context: Context
 ) {
 
@@ -35,7 +36,7 @@ class NightModeService @Inject constructor(
 
     fun getSavedNightMode(): Int {
         val defaultValue = getDefaultNightMode()
-        return when (sharedPrefs.getInt(PREF_KEY_NIGHT_MODE, 0)) {
+        return when (sharedPrefs.data.getInt(PREF_KEY_NIGHT_MODE, 0)) {
             AppCompatDelegate.MODE_NIGHT_YES -> 2
             AppCompatDelegate.MODE_NIGHT_NO -> 1
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> -1
@@ -69,6 +70,6 @@ class NightModeService @Inject constructor(
     }
 
     private fun saveNightModeInSharedPreferences(nightMode: Int) {
-        sharedPrefs.edit().putInt(PREF_KEY_NIGHT_MODE, nightMode).apply()
+        sharedPrefs.data.edit().putInt(PREF_KEY_NIGHT_MODE, nightMode).apply()
     }
 }

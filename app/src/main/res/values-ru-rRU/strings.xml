@@ -4,6 +4,7 @@
     <string name="news">Новости</string>
     <string name="Social">Сообщество</string>
     <string name="publisher_btn">Инфо</string>
+    <string name="settings">Настройки</string>
     <string name="vk_lfc">- Паблику ВК Liverpool FC | Ливерпуль: https://vk.com/liverpoolfc</string>
     <string name="back">Назад</string>
 
@@ -14,8 +15,13 @@
     <string name="color_scheme">Цветовая схема</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="language_change">Чтобы сменить язык необходимо перезапустить приложение</string>
+    <string name="app_language_restart">Чтобы сменить язык необходимо перезапустить приложение</string>
     <string name="light_theme">Светлая тема</string>
     <string name="dark_theme">Тёмная тема</string>
     <string name="follow_system">Как на телефоне</string>
+    <string name="app_theme">Цветовая Схема</string>
+    <string name="app_theme_restart">Чтобы сменить тему необходимо перезапустить приложение</string>
+    <string name="authorize">Для продолжение Вам нужно авторизоваться</string>
+    <string name="social_fragment_top_title">Посты взяты из паблика Liverpool FC | Ливерпуль</string>
+
 </resources>

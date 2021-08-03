@@ -16,8 +16,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="com.dsoft.liverpooldirectory.MainMenuActivity"
-            android:screenOrientation="portrait">
+            android:name="com.dsoft.liverpooldirectory.MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -3,6 +3,7 @@ package com.dsoft.liverpooldirectory.ui.mainmenu
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class MainMenuViewModel @Inject constructor(
     private val mainMenuRepository: MainMenuRepository,
     @ApplicationContext context: Context
-) : ViewModel() {
+) : ViewModel(), LifecycleObserver {
 
     private val isOnline = mainMenuRepository.isOnline
     val readAllEplData: LiveData<List<Table>> = mainMenuRepository.readAllEplData

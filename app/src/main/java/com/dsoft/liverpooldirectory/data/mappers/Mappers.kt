@@ -19,36 +19,41 @@ fun VKApiJSON.toModel(): List<VKWall> {
                 0,
                 0,
                 0,
-                errorCode = error.error_code ?: 0
+                errorCode = error.error_code ?: 0,
+                attachment = VKWall.Attachment("", VKWall.Attachment.Content("", "", "", "", VKWall.Attachment.Content.Image(0, 0, 0, 0, false, VKWall.Attachment.Content.Image.Sizes(0, "", "", 0), "", 0)))
             )
         )
         return list.toList()
     } else {
-        return response?.items?.map {
-            val image =
-                it.attachments?.firstOrNull()?.photo?.sizes?.firstOrNull { size -> size.type == "r" }
+        return response?.items?.map { item ->
+            val image = item.attachments?.firstOrNull()?.photo?.sizes?.firstOrNull { size -> size.type == "r" }
+            val attachments = item.attachments?.firstOrNull()
+            val content = attachments?.link
+            val images = content?.photo
+            val sizes = images?.sizes?.firstOrNull()
             VKWall(
-                text = it.text ?: "",
-                date = it.date ?: 0,
+                text = item.text ?: "",
+                date = item.date ?: 0,
                 image = image?.url ?: "",
-                likesCount = it.likes?.count ?: 0,
-                commentsCount = it.comments?.count ?: 0,
-                viewCount = it.views?.count ?: 0,
-                postId = it.id ?: 0,
+                likesCount = item.likes?.count ?: 0,
+                commentsCount = item.comments?.count ?: 0,
+                viewCount = item.views?.count ?: 0,
+                postId = item.id ?: 0,
                 imageHeight = image?.height ?: 0,
                 imageWidth = image?.width ?: 0,
-                errorCode = 0
+                errorCode = 0,
+                attachment = VKWall.Attachment(attachments?.type ?: "", VKWall.Attachment.Content(content?.url ?: "", content?.title ?: "", content?.caption ?: "", content?.description ?: "", VKWall.Attachment.Content.Image(images?.album_id ?: 0, images?.date ?: 0, images?.id ?: 0, images?.owner_id ?: 0, images?.has_tags ?: false, VKWall.Attachment.Content.Image.Sizes(sizes?.height ?: 0, sizes?.url ?: "", sizes?.type ?: "", sizes?.width ?: 0), images?.text ?: "", images?.user_id ?: 0)))
             )
         }!!.toList()
     }
 }
 
 fun VKCommentResponse.toModel(): List<VKComment> {
-    return response.items.map {
+    return response.items.map { comment ->
         VKComment(
-            userId = it.from_id ?: 0,
-            text = it.text ?: "",
-            date = it.date ?: 0
+            userId = comment.from_id ?: 0,
+            text = comment.text ?: "",
+            date = comment.date ?: 0
         )
     }.toList()
 }

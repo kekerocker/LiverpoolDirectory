@@ -1,10 +1,9 @@
-package com.dsoft.liverpooldirectory.repository
+package com.dsoft.liverpooldirectory.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import javax.inject.Inject
 
-class AppPreferences @Inject constructor(context: Context) {
+class AppPreferences (context: Context) {
     var data: SharedPreferences = context.getSharedPreferences("APP_PREFERENCES", Context.MODE_PRIVATE)
 
     fun saveToken(token: String) {
@@ -23,7 +22,7 @@ class AppPreferences @Inject constructor(context: Context) {
         return data.getString("POST_ID", "").toString()
     }
 
-    fun getTokenTime(): Long? {
+    fun getTokenTime(): Long {
         return data.getLong("TIME", 0)
     }
 

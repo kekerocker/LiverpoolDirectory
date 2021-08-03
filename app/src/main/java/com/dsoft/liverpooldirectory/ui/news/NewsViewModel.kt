@@ -1,9 +1,7 @@
 package com.dsoft.liverpooldirectory.ui.news
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.dsoft.liverpooldirectory.model.News
 import com.dsoft.liverpooldirectory.repository.NewsRepository
 import com.dsoft.liverpooldirectory.utility.Resource
@@ -16,11 +14,12 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
-) : ViewModel() {
+) : ViewModel(), LifecycleObserver {
 
     private val isOnline = newsRepository.isOnline
     val readAllNews: LiveData<List<News>> = newsRepository.readAllNews
     val newsStatus: MutableLiveData<Resource<News>> = MutableLiveData()
+
     var count = 10
 
     init {
@@ -37,17 +36,20 @@ class NewsViewModel @Inject constructor(
     }
 
     fun safeCall() {
-        viewModelScope.launch(Dispatchers.IO) {
-            newsStatus.postValue(Resource.Loading())
-            try {
-                newsRepository.downloadNews()
-                val news = readAllNews.value
-                Resource.Success(news?.first()!!).let { newsStatus.postValue(it) }
-                count += 10
-            } catch (t: Throwable) {
-                when (t) {
-                    is IOException -> newsStatus.postValue(Resource.Error("No internet connection"))
-                    else -> newsStatus.postValue(Resource.Error("Conversion Error"))
+        newsStatus.postValue(Resource.Loading())
+        try {
+            newsRepository.downloadNews()
+            readAllNews.observeForever { list ->
+                val someList = if (!list.isNullOrEmpty()) list else return@observeForever
+                newsStatus.postValue(Resource.Success(someList.first()))
+            }
+            count += 10
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> newsStatus.postValue(Resource.Error("No internet connection"))
+                else -> {
+                    t.printStackTrace()
+                    newsStatus.postValue(Resource.Error("Conversion Error"))
                 }
             }
         }

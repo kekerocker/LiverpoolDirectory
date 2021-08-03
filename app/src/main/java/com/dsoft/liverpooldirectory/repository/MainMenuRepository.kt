@@ -1,6 +1,5 @@
 package com.dsoft.liverpooldirectory.repository
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.TableDao
@@ -9,11 +8,12 @@ import com.dsoft.liverpooldirectory.model.Table
 import com.dsoft.liverpooldirectory.other.Constants.CLOSE_GAME_URL
 import com.dsoft.liverpooldirectory.other.Constants.TABLE_URL
 import com.dsoft.liverpooldirectory.utility.InternetConnection
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,10 +21,9 @@ import javax.inject.Singleton
 class MainMenuRepository @Inject constructor(
     private val tableDao: TableDao,
     internetConnection: InternetConnection,
-    @ApplicationContext context: Context
 ) {
 
-    val isOnline = internetConnection.isOnline(context)
+    val isOnline = internetConnection.isOnline()
 
     private val positionList = mutableListOf<Int>()
     private val clubList = mutableListOf<String>()
@@ -39,7 +38,7 @@ class MainMenuRepository @Inject constructor(
     private val teamNameHomeList = mutableListOf<String>()
     private val teamNameAwayList = mutableListOf<String>()
     private val scoreList = mutableListOf<String>()
-    private val dateList = mutableListOf<String>()
+    private val dateList = mutableListOf<Long>()
     private val tournamentLogoList = mutableListOf<String>()
     private val teamLogo1List = mutableListOf<String>()
     private val teamLogo2List = mutableListOf<String>()
@@ -83,6 +82,17 @@ class MainMenuRepository @Inject constructor(
                     do {
                         y = td[a].text()
                         list.add(y)
+                        a += columnCount
+                    } while (a < 21)
+                }
+
+                fun getDateInfo(startPosition: Int, list: MutableList<Long>) {
+                    var a = startPosition
+                    var y: String
+                    val columnCount = 7
+                    do {
+                        y = td[a].text()
+                        list.add(convertStringToLong(y))
                         a += columnCount
                     } while (a < 21)
                 }
@@ -142,7 +152,7 @@ class MainMenuRepository @Inject constructor(
                 getInfo(3, teamNameHomeList)
                 getInfo(5, teamNameAwayList)
                 getInfo(4, scoreList)
-                getInfo(6, dateList)
+                getDateInfo(6, dateList)
                 getBlockTitle(0, matchTypeList)
                 getPicsInfo(0, teamLogo1List)
                 getPicsInfo(1, teamLogo2List)
@@ -194,7 +204,6 @@ class MainMenuRepository @Inject constructor(
                         a++
                     } while (a < positionList.size)
                     GlobalScope.launch(Dispatchers.Default) {
-                        //addTable(table1)
                         addTable(tableList)
                     }
                 }
@@ -213,5 +222,11 @@ class MainMenuRepository @Inject constructor(
                 Log.e("downloadTableData", e.toString())
             }
         }
+    }
+
+    private fun convertStringToLong(parsedDate: String): Long {
+        val sdf = SimpleDateFormat("dd MMMMM yyyy", Locale("ru", "RU"))
+        val date = sdf.parse(parsedDate)
+        return date!!.time
     }
 }

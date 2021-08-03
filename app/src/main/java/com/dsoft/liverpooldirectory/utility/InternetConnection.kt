@@ -2,11 +2,12 @@ package com.dsoft.liverpooldirectory.utility
 
 import android.content.Context
 import android.net.ConnectivityManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class InternetConnection @Inject constructor() {
+class InternetConnection @Inject constructor(@ApplicationContext val context: Context) {
 
-    fun isOnline(context: Context): Boolean {
+    fun isOnline(): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val wifiConnection = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)

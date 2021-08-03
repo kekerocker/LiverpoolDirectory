@@ -3,10 +3,8 @@ package com.dsoft.liverpooldirectory.ui.social
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.dsoft.liverpooldirectory.Interactor
 import com.dsoft.liverpooldirectory.model.VKComment
 import com.dsoft.liverpooldirectory.model.VKWall
 import com.dsoft.liverpooldirectory.repository.SocialRepository
@@ -21,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SocialViewModel @Inject constructor(
     private val socialRepository: SocialRepository,
-) : ViewModel() {
+    val interactor: Interactor
+) : ViewModel(), LifecycleObserver {
 
     private var _listOfComments = MutableLiveData<List<VKComment>>()
     val listOfComments: LiveData<List<VKComment>> get() = _listOfComments
@@ -55,7 +54,10 @@ class SocialViewModel @Inject constructor(
             } catch (t: Throwable) {
                 when (t) {
                     is IOException -> socialStatus.postValue(Resource.Error("Network Failure"))
-                    else -> socialStatus.postValue(Resource.Error("Conversion Error"))
+                    else -> {
+                        socialStatus.postValue(Resource.Error("Conversion Error"))
+                        t.printStackTrace()
+                    }
                 }
             }
         }

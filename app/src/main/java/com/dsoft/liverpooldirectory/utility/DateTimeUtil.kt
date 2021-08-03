@@ -1,4 +1,4 @@
-package com.dsoft.liverpooldirectory.other
+package com.dsoft.liverpooldirectory.utility
 
 import java.util.*
 import java.util.concurrent.TimeUnit

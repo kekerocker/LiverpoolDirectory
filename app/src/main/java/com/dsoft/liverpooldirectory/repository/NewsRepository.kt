@@ -1,13 +1,11 @@
 package com.dsoft.liverpooldirectory.repository
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.NewsDao
 import com.dsoft.liverpooldirectory.model.News
 import com.dsoft.liverpooldirectory.other.Constants.NEWS_URL
 import com.dsoft.liverpooldirectory.utility.InternetConnection
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -18,10 +16,9 @@ import javax.inject.Singleton
 @Singleton
 class NewsRepository @Inject constructor(
     private val newsDao: NewsDao,
-    internetConnection: InternetConnection,
-    @ApplicationContext context: Context
+    internetConnection: InternetConnection
 ) {
-    val isOnline = internetConnection.isOnline(context)
+    val isOnline = internetConnection.isOnline()
 
     private var titleList = mutableListOf<String>()
     private var descList = mutableListOf<String>()
@@ -39,7 +36,7 @@ class NewsRepository @Inject constructor(
         newsDao.deleteAllNews()
     }
 
-    suspend fun downloadNews() {
+    fun downloadNews() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val doc = Jsoup.connect(NEWS_URL + pageNumber).get()

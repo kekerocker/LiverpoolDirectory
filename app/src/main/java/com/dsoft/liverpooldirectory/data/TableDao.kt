@@ -7,6 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dsoft.liverpooldirectory.model.CloseGames
 import com.dsoft.liverpooldirectory.model.Table
+import dagger.Provides
+import javax.inject.Inject
 
 @Dao
 interface TableDao {
@@ -16,7 +18,7 @@ interface TableDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCloseGames(closeGames: CloseGames)
 
-    @Query("SELECT * FROM close_games_table ORDER BY id ASC")
+    @Query("SELECT * FROM close_games_table ORDER BY date ASC")
     fun readAllCloseGamesData(): LiveData<List<CloseGames>>
 
     @Query("SELECT * FROM epl_table ORDER BY position ASC")

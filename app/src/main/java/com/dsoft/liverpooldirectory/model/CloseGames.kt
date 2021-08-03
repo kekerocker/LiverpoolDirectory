@@ -12,7 +12,7 @@ data class CloseGames(
     val teamName1: String,
     val teamName2: String,
     val score: String,
-    val date: String,
+    val date: Long,
     val matchType: String,
     val tournamentLogo: String
 ): Parcelable

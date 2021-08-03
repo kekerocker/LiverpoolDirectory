@@ -1,12 +1,14 @@
 package com.dsoft.liverpooldirectory.ui.news
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,31 +17,44 @@ import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentNewsBinding
 import com.dsoft.liverpooldirectory.other.Constants
 import com.dsoft.liverpooldirectory.ui.news.adapter.RecyclerAdapter
+import com.dsoft.liverpooldirectory.utility.BaseFragment
 import com.dsoft.liverpooldirectory.utility.Resource
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NewsFragment : Fragment(R.layout.fragment_news) {
+class NewsFragment : BaseFragment(R.layout.fragment_news) {
 
-    private val viewModel by viewModels<NewsViewModel>()
+    private val viewModel by activityViewModels<NewsViewModel>()
     private val binding by viewBinding(FragmentNewsBinding::bind)
 
-    private lateinit var adapter: RecyclerAdapter
+    private lateinit var rvAdapter: RecyclerAdapter
 
     var isLoading = false
     var isLastPage = false
     var isScrolling = false
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return getPersistentView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpRecyclerView()
-        val refreshLayout = binding.refreshLayout
-        refreshLayout.setOnRefreshListener {
-            viewModel.safeCall()
-            refreshLayout.isRefreshing = false
+        if (!hasInitializedRootView) {
+            hasInitializedRootView = true
+            setUpRecyclerView()
+            with(binding) {
+                refreshLayout.setOnRefreshListener {
+                    viewModel.safeCall()
+                    refreshLayout.isRefreshing = false
+                }
+            }
+            observeStatus()
         }
-
-        observeStatus()
     }
 
     private fun observeStatus() {
@@ -48,7 +63,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {
-                        val totalCount = adapter.differ.currentList.size / Constants.NEWS_PAGE_SIZE
+                        val totalCount = rvAdapter.differ.currentList.size / Constants.NEWS_PAGE_SIZE
                         isLastPage = viewModel.count == totalCount
                         if (isLastPage) {
                             binding.rvRecyclerView.setPadding(0, 0, 0, 0)
@@ -58,13 +73,12 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_SHORT)
+                        Snackbar.make(requireView(), "An error occured: $message", Snackbar.LENGTH_SHORT)
                             .show()
                     }
                 }
                 is Resource.Loading -> {
-                    Toast.makeText(activity, "Loading", Toast.LENGTH_SHORT)
-                        .show()
+                    Log.d("Test222", "Loading data...")
                     showProgressBar()
                 }
             }
@@ -105,8 +119,8 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         viewModel.safeCall()
 
         viewModel.readAllNews.observe(viewLifecycleOwner) {
-            it?.let {
-                adapter.differ.submitList(it)
+            it?.let { list ->
+                rvAdapter.differ.submitList(list)
             }
         }
     }
@@ -122,14 +136,14 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     }
 
     private fun setUpRecyclerView() {
-        adapter = RecyclerAdapter()
+        rvAdapter = RecyclerAdapter()
         val recyclerView = binding.rvRecyclerView
-        recyclerView.adapter = adapter
+        recyclerView.adapter = rvAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.addOnScrollListener(this.scrollListener)
 
         viewModel.readAllNews.observe(viewLifecycleOwner, { news ->
-            adapter.differ.submitList(news)
+            rvAdapter.differ.submitList(news)
         })
     }
 }
