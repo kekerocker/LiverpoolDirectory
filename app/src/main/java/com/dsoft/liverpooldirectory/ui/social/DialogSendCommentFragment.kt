@@ -54,11 +54,6 @@ class DialogSendCommentFragment : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-    }
-
     private fun setupRecyclerView() {
         val adapter = SocialCommentsRecyclerAdapter()
         val recyclerView = binding.rvRecyclerViewComments

@@ -43,7 +43,7 @@
         android:label="fragment_comment_section"
         tools:layout="@layout/fragment_comment_section_bottomsheet_dialog" >
         <argument
-            android:name="position"
+            android:name="postId"
             app:argType="integer" />
     </dialog>
     <fragment
