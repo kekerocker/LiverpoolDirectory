@@ -58,7 +58,7 @@ class SocialFragment : BaseFragment(R.layout.fragment_social) {
                 }
             }
 
-            if (token == "" || viewModel.isExpired) {
+            if (token == null || viewModel.isExpired) {
                 makeAuth()
             } else {
                 Log.d("VKLogin", "Authentication went successful")

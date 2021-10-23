@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -66,9 +65,12 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
         binding.indicator.setViewPager(viewPager2)
         adapter.registerAdapterDataObserver(binding.indicator.adapterDataObserver)
 
-        viewModel.readAllCloseGamesData.observe(
-            viewLifecycleOwner,
-            { closeGames -> adapter.setData(closeGames) })
+        viewModel.readAllCloseGamesData.observe(viewLifecycleOwner) { closeGames ->
+            adapter.setData(closeGames)
+            binding.shimmerCloseMatches.stopShimmer()
+            binding.shimmerCloseMatches.hideShimmer()
+            binding.shimmerCloseMatches.visibility = View.GONE
+        }
     }
 
     private fun setUpRecyclerViewTable() {
@@ -77,14 +79,14 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.readAllEplData.observe(viewLifecycleOwner, { table ->
+        viewModel.readAllEplData.observe(viewLifecycleOwner) { table ->
             if (table.isEmpty()) {
                 return@observe
             } else {
                 adapter.setData(table)
                 hideLoadingScreen()
             }
-        })
+        }
     }
 
     private fun hideLoadingScreen() {

@@ -7,16 +7,32 @@ data class VKWall(
     val image: String,
     val imageWidth: Int,
     val imageHeight: Int,
-    val likesCount : Int,
+    val likesCount: Int,
     val commentsCount: Int,
     val viewCount: Int,
     val errorCode: Int,
     val attachment: Attachment
 ) {
     data class Attachment(
-        val type: String,
+        val type: AttachmentType,
         val link: Content
     ) {
+        enum class AttachmentType {
+            PHOTO,
+            VIDEO,
+            AUDIO,
+            DOC,
+            WALL,
+            WALL_REPLY,
+            STICKER,
+            LINK,
+            GIFT,
+            // Следующие только для API > 5.52
+            MARKET,
+            MARKET_ALBUM,
+            UNKNOWN
+        }
+
         data class Content(
             val url: String,
             val title: String,

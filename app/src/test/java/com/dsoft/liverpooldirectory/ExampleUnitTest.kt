@@ -1,8 +1,8 @@
 package com.dsoft.liverpooldirectory
 
+import com.dsoft.liverpooldirectory.model.Table
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -11,7 +11,11 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun `download data from internet and store it in list`() {
+        val list = mutableListOf<Table>()
+        val response = Table(1, "LFC", "4", "3", "1", "0", "10")
+
+        list.add(response)
+        assertThat(list).contains(response)
     }
 }

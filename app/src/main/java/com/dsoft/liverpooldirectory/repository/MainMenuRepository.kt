@@ -8,9 +8,7 @@ import com.dsoft.liverpooldirectory.model.Table
 import com.dsoft.liverpooldirectory.other.Constants.CLOSE_GAME_URL
 import com.dsoft.liverpooldirectory.other.Constants.TABLE_URL
 import com.dsoft.liverpooldirectory.utility.InternetConnection
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
 import java.util.*
@@ -63,9 +61,9 @@ class MainMenuRepository @Inject constructor(
         tableDao.deleteAllTableData()
     }
 
-
+    @DelicateCoroutinesApi
     fun downloadDataFromInternet() {
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch (Dispatchers.IO) {
             try {
                 //Downloading CloseGames Data
                 val doc = Jsoup.connect(CLOSE_GAME_URL).get()
@@ -225,8 +223,8 @@ class MainMenuRepository @Inject constructor(
     }
 
     private fun convertStringToLong(parsedDate: String): Long {
-        val sdf = SimpleDateFormat("dd MMMMM yyyy", Locale("ru", "RU"))
+        val sdf = SimpleDateFormat("dd MMMMM yyyy", Locale(Locale.getDefault().language))
         val date = sdf.parse(parsedDate)
-        return date!!.time
+        return date.time
     }
 }

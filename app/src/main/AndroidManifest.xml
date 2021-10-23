@@ -16,7 +16,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="com.dsoft.liverpooldirectory.MainMenuActivity">
+            android:name="com.dsoft.liverpooldirectory.MainMenuActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
