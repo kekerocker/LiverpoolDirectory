@@ -66,6 +66,7 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
         adapter.registerAdapterDataObserver(binding.indicator.adapterDataObserver)
 
         viewModel.readAllCloseGamesData.observe(viewLifecycleOwner) { closeGames ->
+            if (closeGames.isEmpty()) return@observe
             adapter.setData(closeGames)
             binding.shimmerCloseMatches.stopShimmer()
             binding.shimmerCloseMatches.hideShimmer()

@@ -10,22 +10,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:orientation="vertical">
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_close_matches"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:elevation="5dp">
-
-            <include layout="@layout/shimmer_item_close_matcher"/>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <RelativeLayout
             android:id="@+id/relative_layout"
@@ -44,6 +31,19 @@
 
         </RelativeLayout>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_close_matches"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:elevation="5dp">
+
+            <include layout="@layout/shimmer_item_close_matcher" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <me.relex.circleindicator.CircleIndicator3
             android:id="@+id/indicator"
             android:layout_width="match_parent"
@@ -56,41 +56,46 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_social"
-                android:layout_width="135dp"
-                android:layout_height="44dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/buttonstyle"
+                android:backgroundTint="#00DA0C0C"
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/albertus"
                 android:text="@string/Social"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                app:strokeColor="@color/colorWhite"
+                app:strokeWidth="1dp" />
 
             <Button
                 android:id="@+id/button_info"
-                android:layout_width="72dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/buttonstyle"
+                android:backgroundTint="#00DA0C0C"
                 android:clickable="true"
+                android:layout_marginHorizontal="8dp"
                 android:focusable="true"
                 android:text="@string/publisher_btn"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                app:strokeColor="@color/colorWhite"
+                app:strokeWidth="1dp" />
 
             <Button
                 android:id="@+id/button_news"
-                android:layout_width="135dp"
-                android:layout_height="44dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/buttonstyle"
+                android:backgroundTint="#00DA0C0C"
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/albertus"
                 android:text="@string/news"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                app:strokeColor="@color/colorWhite"
+                app:strokeWidth="1dp" />
 
         </LinearLayout>
 
@@ -99,11 +104,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/buttonstyle"
+            android:backgroundTint="#00DA0C0C"
             android:fontFamily="@font/albertus"
             android:text="@string/settings"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            app:strokeColor="@color/colorWhite"
+            app:strokeWidth="1dp" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
