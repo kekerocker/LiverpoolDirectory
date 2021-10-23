@@ -50,18 +50,20 @@
             android:layout_height="48dp" />
 
         <LinearLayout
-            android:id="@+id/menu_layout"
-            android:layout_width="wrap_content"
+            android:id="@+id/layout_news_social"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginHorizontal="8dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_social"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:backgroundTint="#00DA0C0C"
+                android:layout_weight="1"
+                android:backgroundTint="#DA0C0C"
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/albertus"
@@ -70,25 +72,13 @@
                 app:strokeColor="@color/colorWhite"
                 app:strokeWidth="1dp" />
 
-            <Button
-                android:id="@+id/button_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#00DA0C0C"
-                android:clickable="true"
-                android:layout_marginHorizontal="8dp"
-                android:focusable="true"
-                android:text="@string/publisher_btn"
-                android:textColor="#fff"
-                app:strokeColor="@color/colorWhite"
-                app:strokeWidth="1dp" />
-
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_news"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:backgroundTint="#00DA0C0C"
+                android:layout_weight="1"
+                android:backgroundTint="#DA0C0C"
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/albertus"
@@ -99,17 +89,41 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_settings"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layout_settings_info"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="#00DA0C0C"
-            android:fontFamily="@font/albertus"
-            android:text="@string/settings"
-            android:textColor="@color/colorWhite"
-            app:strokeColor="@color/colorWhite"
-            app:strokeWidth="1dp" />
+            android:layout_marginHorizontal="8dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:backgroundTint="#DA0C0C"
+                android:fontFamily="@font/albertus"
+                android:text="@string/settings"
+                android:textColor="@color/colorWhite"
+                app:strokeColor="@color/colorWhite"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#DA0C0C"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/publisher_btn"
+                android:textColor="#fff"
+                app:strokeColor="@color/colorWhite"
+                app:strokeWidth="1dp" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout"

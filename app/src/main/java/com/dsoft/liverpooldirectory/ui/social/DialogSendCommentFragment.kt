@@ -3,6 +3,7 @@ package com.dsoft.liverpooldirectory.ui.social
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,21 +23,24 @@ class DialogSendCommentFragment : BottomSheetDialogFragment() {
     private val viewModel by viewModels<SocialViewModel>()
     private val binding by viewBinding(FragmentCommentSectionBottomsheetDialogBinding::bind)
 
+    private var postId = 0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val rootView: View =
-            inflater.inflate(R.layout.fragment_comment_section_bottomsheet_dialog, container, false)
-        return rootView
+    ): View {
+        return inflater.inflate(R.layout.fragment_comment_section_bottomsheet_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val postId = viewModel.appPreferences.getPostId()
-        viewModel.getComments(postId)
         setupRecyclerView()
+
+        arguments?.let {
+            postId = it.getInt("postId")
+            viewModel.getComments(postId.toString())
+        }
 
         binding.closeMessageButton.setOnClickListener {
             dismiss()
@@ -44,7 +48,8 @@ class DialogSendCommentFragment : BottomSheetDialogFragment() {
 
         binding.sendButton.setOnClickListener {
             val comment = binding.customEditText.text.toString()
-            viewModel.sendMessage(comment, requireContext())
+            viewModel.sendMessage(comment, requireContext(), postId.toString())
+            Log.d("Test222", "postId: $postId")
             dismiss()
         }
     }

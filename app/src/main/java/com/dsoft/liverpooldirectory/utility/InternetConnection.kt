@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class InternetConnection @Inject constructor(@ApplicationContext val context: Context) {
 
-    fun isOnline(): Boolean {
+    fun isOnlineDeprecated(): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val wifiConnection = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)

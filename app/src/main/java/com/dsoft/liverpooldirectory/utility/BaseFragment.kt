@@ -27,4 +27,9 @@ open class BaseFragment(val layout: Int) : Fragment() {
         return rootView
     }
 
+    fun getScreenWidth(): Int {
+        val displayMetrics = requireContext().resources.displayMetrics
+        return (displayMetrics.widthPixels / displayMetrics.density).toInt()
+    }
+
 }

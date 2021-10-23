@@ -21,7 +21,7 @@ class MainMenuRepository @Inject constructor(
     internetConnection: InternetConnection,
 ) {
 
-    val isOnline = internetConnection.isOnline()
+    val isOnline = internetConnection.isOnlineDeprecated()
 
     private val positionList = mutableListOf<Int>()
     private val clubList = mutableListOf<String>()
@@ -223,7 +223,7 @@ class MainMenuRepository @Inject constructor(
     }
 
     private fun convertStringToLong(parsedDate: String): Long {
-        val sdf = SimpleDateFormat("dd MMMMM yyyy", Locale(Locale.getDefault().language))
+        val sdf = SimpleDateFormat("dd MMMMM yyyy", Locale("ru", "RU"))
         val date = sdf.parse(parsedDate)
         return date.time
     }

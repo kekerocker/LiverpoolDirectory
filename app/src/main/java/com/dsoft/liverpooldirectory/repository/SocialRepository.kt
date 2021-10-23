@@ -16,7 +16,7 @@ class SocialRepository @Inject constructor(
     val appPreferences: AppPreferences
 ) {
 
-    val isOnline = internetConnection.isOnline()
+    val isOnline = internetConnection.isOnlineDeprecated()
 
     suspend fun fetchWallFromPublic(count: Int): List<VKWall> {
         return vkApi.getWall(appPreferences.getToken()!!, count).toModel()

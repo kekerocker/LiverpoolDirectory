@@ -18,7 +18,7 @@ class NewsRepository @Inject constructor(
     private val newsDao: NewsDao,
     internetConnection: InternetConnection
 ) {
-    val isOnline = internetConnection.isOnline()
+    val isOnline = internetConnection.isOnlineDeprecated()
 
     private var titleList = mutableListOf<String>()
     private var descList = mutableListOf<String>()

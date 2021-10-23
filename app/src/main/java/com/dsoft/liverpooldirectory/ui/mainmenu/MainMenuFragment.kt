@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.dsoft.liverpooldirectory.databinding.FragmentMainMenuBinding
 import com.dsoft.liverpooldirectory.ui.mainmenu.adapter.RecyclerAdapterTable
 import com.dsoft.liverpooldirectory.ui.mainmenu.adapter.ViewPagerAdapter
 import com.dsoft.liverpooldirectory.utility.BaseFragment
+import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,21 +40,29 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
             hasInitializedRootView = true
         }
 
-        binding.buttonNews.setOnClickListener {
-            findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
-        }
+        with(binding) {
 
-        binding.buttonInfo.setOnClickListener {
-            val dialog = DialogFragment()
-            dialog.show(parentFragmentManager, "customDialog")
-        }
+            setButtonWidth(buttonNews, false)
+            setButtonWidth(buttonSocial, true)
+            setButtonWidth(btnSettings, true)
+            setButtonWidth(buttonInfo, false)
 
-        binding.buttonSocial.setOnClickListener {
-            findNavController().navigate(R.id.action_MainMenuFragment_to_socialFragment)
-        }
+            buttonNews.setOnClickListener {
+                findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
+            }
 
-        binding.btnSettings.setOnClickListener {
-            findNavController().navigate(R.id.action_MainMenuFragment_to_settingsFragment)
+            buttonInfo.setOnClickListener {
+                val dialog = DialogFragment()
+                dialog.show(parentFragmentManager, "customDialog")
+            }
+
+            buttonSocial.setOnClickListener {
+                findNavController().navigate(R.id.action_MainMenuFragment_to_socialFragment)
+            }
+
+            btnSettings.setOnClickListener {
+                findNavController().navigate(R.id.action_MainMenuFragment_to_settingsFragment)
+            }
         }
     }
 
@@ -88,6 +98,13 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
                 hideLoadingScreen()
             }
         }
+    }
+
+    private fun setButtonWidth(button: MaterialButton, leftSided: Boolean) {
+        val layoutParams = LinearLayout.LayoutParams(getScreenWidth(), LinearLayout.LayoutParams.WRAP_CONTENT)
+        if (leftSided) layoutParams.setMargins(0, 0, 80, 0)
+
+        button.layoutParams = layoutParams
     }
 
     private fun hideLoadingScreen() {

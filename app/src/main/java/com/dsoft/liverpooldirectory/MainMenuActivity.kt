@@ -5,33 +5,31 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.databinding.ActivityMainmenuBinding
 import com.dsoft.liverpooldirectory.ui.social.SocialViewModel
+import com.dsoft.liverpooldirectory.utility.ConnectionLiveData
 import com.dsoft.liverpooldirectory.utility.LocaleHelper
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
-import com.yandex.metrica.YandexMetrica
-import com.yandex.metrica.YandexMetricaConfig
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainMenuActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var localeHelper: LocaleHelper
+    @Inject lateinit var connectionLiveData: ConnectionLiveData
+    @Inject lateinit var localeHelper: LocaleHelper
 
     private val currentTimeMillis = System.currentTimeMillis()
 
     private val viewModel by viewModels<SocialViewModel>()
-
     private lateinit var binding: ActivityMainmenuBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +39,11 @@ class MainMenuActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         setupActionBarWithNavController(findNavController(R.id.fragment))
+
+        connectionLiveData.observe(this) { isNetworkAvailable ->
+            if (isNetworkAvailable == null) return@observe
+
+        }
 
     }
 

@@ -150,7 +150,7 @@ class SocialFragment : BaseFragment(R.layout.fragment_social) {
     }
 
     private fun setUpRecyclerView() {
-        adapter = SocialRecyclerAdapter(requireContext())
+        adapter = SocialRecyclerAdapter()
         val recyclerView = binding.socialRecyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

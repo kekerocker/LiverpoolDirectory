@@ -1,27 +1,22 @@
 package com.dsoft.liverpooldirectory.ui.social.adapter
 
-import android.content.Context
-import android.util.Log
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.ItemSocialNewsBinding
 import com.dsoft.liverpooldirectory.model.VKWall
 import com.dsoft.liverpooldirectory.utility.getTime
-import com.dsoft.liverpooldirectory.data.AppPreferences
-import com.dsoft.liverpooldirectory.ui.social.DialogSendCommentFragment
-import dagger.hilt.android.internal.managers.ViewComponentManager
 
-class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Adapter<SocialRecyclerAdapter.MyViewHolder>() {
-
-    val appPreferences by lazy { AppPreferences(context) }
+class SocialRecyclerAdapter : RecyclerView.Adapter<SocialRecyclerAdapter.MyViewHolder>() {
 
     private val differCallback = object : DiffUtil.ItemCallback<VKWall>() {
 
@@ -46,20 +41,12 @@ class SocialRecyclerAdapter constructor(val context: Context) : RecyclerView.Ada
 
         init {
             itemView.setOnClickListener {
-                val position: Int = adapterPosition
-                appPreferences.savePostId(differ.currentList[position].postId.toString())
+                val postId = differ.currentList[layoutPosition].postId
+                val bundle = Bundle()
 
-                val manager = (activityContext() as AppCompatActivity).supportFragmentManager
-                val dialog = DialogSendCommentFragment()
-                dialog.show(manager, "test")
+                bundle.putInt("postId", postId)
+                itemView.findNavController().navigate(R.id.action_socialFragment_to_commentSectionFragment, bundle)
             }
-        }
-
-        private fun activityContext(): Context? {
-            val context = itemView.context
-            return if (context is ViewComponentManager.FragmentContextWrapper) {
-                context.baseContext
-            } else context
         }
     }
 

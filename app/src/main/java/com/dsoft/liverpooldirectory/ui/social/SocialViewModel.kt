@@ -82,7 +82,7 @@ class SocialViewModel @Inject constructor(
         val currentTime = System.currentTimeMillis()
         val tokenTime = socialRepository.appPreferences.getTokenTime()
 
-        if (tokenTime != null) {
+        if (tokenTime != 0L) {
             if (currentTime > tokenTime + 86400000) {
                 isExpired = true
             } else if (currentTime < tokenTime + 86400000) {
@@ -91,8 +91,7 @@ class SocialViewModel @Inject constructor(
         }
     }
 
-    fun sendMessage(comment: String, context: Context) {
-        val postId = appPreferences.getPostId()
+    fun sendMessage(comment: String, context: Context, postId: String) {
         postComment(postId, comment)
         Toast.makeText(context, "Комментарий отправлен!", Toast.LENGTH_SHORT).show()
     }
