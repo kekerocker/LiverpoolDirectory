@@ -4,22 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="8dp"
-    android:background="#00592020">
+    android:background="#00592020"
+    android:paddingVertical="8dp">
 
     <TextView
         android:id="@+id/tvCommentsText"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
         android:fontFamily="@font/albertus"
         android:textAlignment="textStart"
         android:textColor="#fff"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile_pic"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_name"
+        tools:text="Помню как Роналду оценивающе смотрел на Салаха" />
+
+    <TextView
+        android:id="@+id/tv_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/albertus"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintStart_toEndOf="@+id/iv_profile_pic"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Deni Dzhamurzaev" />
+
+    <ImageView
+        android:id="@+id/iv_profile_pic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Хочешь отведать вкусных французских булочек?" />
+        tools:src="@drawable/fc_liverpool" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

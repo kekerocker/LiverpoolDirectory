@@ -2,12 +2,18 @@ package com.dsoft.liverpooldirectory.ui.social.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
+import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.ItemCommentBinding
 import com.dsoft.liverpooldirectory.model.VKComment
+import com.dsoft.liverpooldirectory.utility.RandomName
 
-class SocialCommentsRecyclerAdapter: RecyclerView.Adapter<SocialCommentsRecyclerAdapter.ViewHolder>() {
+class SocialCommentsRecyclerAdapter :
+    RecyclerView.Adapter<SocialCommentsRecyclerAdapter.ViewHolder>() {
 
     var commentsList: List<VKComment> = emptyList()
         set(value) {
@@ -16,6 +22,8 @@ class SocialCommentsRecyclerAdapter: RecyclerView.Adapter<SocialCommentsRecycler
         }
 
     inner class ViewHolder(binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
+        val itemUserName: TextView = binding.tvProfileName
+        val itemProfilePic: ImageView = binding.ivProfilePic
         val itemText: TextView = binding.tvCommentsText
     }
 
@@ -23,12 +31,34 @@ class SocialCommentsRecyclerAdapter: RecyclerView.Adapter<SocialCommentsRecycler
         parent: ViewGroup,
         viewType: Int
     ): SocialCommentsRecyclerAdapter.ViewHolder {
-        return ViewHolder(ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemCommentBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: SocialCommentsRecyclerAdapter.ViewHolder, position: Int) {
         val currentItem = commentsList[position]
+
         holder.itemText.text = currentItem.text
+
+        if(currentItem.firstName == "Unknown") {
+            holder.itemUserName.text = RandomName.getRandomName()
+        } else {
+            holder.itemUserName.text = "${currentItem.firstName} ${currentItem.lastName}"
+        }
+        if (currentItem.profilePic != "") {
+            holder.itemProfilePic.load(currentItem.profilePic) {
+                transformations(CircleCropTransformation())
+            }
+        } else {
+            holder.itemProfilePic.load(R.drawable.no_pic) {
+                transformations(CircleCropTransformation())
+            }
+        }
     }
 
     override fun getItemCount(): Int {

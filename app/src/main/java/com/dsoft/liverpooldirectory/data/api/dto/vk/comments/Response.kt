@@ -6,5 +6,6 @@ data class Response(
     val current_level_count: Int,
     val groups_can_post: Boolean,
     val items: List<ItemComments>,
-    val show_reply_button: Boolean
+    val show_reply_button: Boolean,
+    val profiles: List<Profiles>
 )

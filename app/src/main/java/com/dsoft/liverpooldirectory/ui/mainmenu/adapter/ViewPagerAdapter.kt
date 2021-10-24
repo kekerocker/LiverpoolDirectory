@@ -78,9 +78,9 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
         val sharedPreferences = context.getSharedPreferences("APP_PREFERENCES", Context.MODE_PRIVATE)
         val date = Date(rawDate)
         val sdf: SimpleDateFormat = if (sharedPreferences.getString("Language", "") == "ru") {
-            SimpleDateFormat("dd MMM yyyy", Locale("ru", "Ru"))
+            SimpleDateFormat("dd MMMM yyyy", Locale("ru", "Ru"))
         } else {
-            SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            SimpleDateFormat("dd MMMM yyyy", Locale("en"))
         }
         return sdf.format(date)
     }

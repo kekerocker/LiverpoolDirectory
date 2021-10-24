@@ -13,13 +13,13 @@ interface VKAPIRequest {
         @Query("count") count: Int
     ): VKApiJSON
 
-    @GET("wall.getComments?owner_id=-23328324&v=5.126")
+    @GET("wall.getComments?owner_id=-23328324&extended=1&v=5.126")
     suspend fun getComments(
         @Query("post_id") postId: String,
         @Query("access_token") token: String
     ): VKCommentResponse
 
-    @POST("wall.createComment?owner_id=-23328324&v=5.126")
+    @POST("wall.createComment?owner_id=-23328324&v=5.131")
     suspend fun postComment(
         @Query("post_id") postId: String,
         @Query("access_token") token: String,

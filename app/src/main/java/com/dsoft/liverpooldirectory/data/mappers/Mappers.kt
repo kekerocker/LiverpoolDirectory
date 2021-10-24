@@ -1,9 +1,14 @@
 package com.dsoft.liverpooldirectory.data.mappers
 
+import android.util.Log
+import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.ItemComments
+import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.Profiles
+import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.Response
 import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKCommentResponse
 import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKApiJSON
 import com.dsoft.liverpooldirectory.model.VKComment
 import com.dsoft.liverpooldirectory.model.VKWall
+import java.lang.Exception
 
 fun VKApiJSON.toModel(): List<VKWall> {
     val list = mutableListOf<VKWall>()
@@ -20,13 +25,32 @@ fun VKApiJSON.toModel(): List<VKWall> {
                 0,
                 0,
                 errorCode = error.error_code ?: 0,
-                attachment = VKWall.Attachment(mapAttachmentType(""), VKWall.Attachment.Content("", "", "", "", VKWall.Attachment.Content.Image(0, 0, 0, 0, false, VKWall.Attachment.Content.Image.Sizes(0, "", "", 0), "", 0)))
+                attachment = VKWall.Attachment(
+                    mapAttachmentType(""),
+                    VKWall.Attachment.Content(
+                        "",
+                        "",
+                        "",
+                        "",
+                        VKWall.Attachment.Content.Image(
+                            0,
+                            0,
+                            0,
+                            0,
+                            false,
+                            VKWall.Attachment.Content.Image.Sizes(0, "", "", 0),
+                            "",
+                            0
+                        )
+                    )
+                )
             )
         )
         return list.toList()
     } else {
         return response?.items!!.map { item ->
-            val image = item.attachments?.firstOrNull()?.photo?.sizes?.firstOrNull { size -> size.type == "r" }
+            val image =
+                item.attachments?.firstOrNull()?.photo?.sizes?.firstOrNull { size -> size.type == "r" }
             val attachments = item.attachments?.firstOrNull()
             val content = attachments?.link
             val images = content?.photo
@@ -42,13 +66,36 @@ fun VKApiJSON.toModel(): List<VKWall> {
                 imageHeight = image?.height ?: 0,
                 imageWidth = image?.width ?: 0,
                 errorCode = 0,
-                attachment = VKWall.Attachment(mapAttachmentType(attachments?.type ?: ""), VKWall.Attachment.Content(content?.url ?: "", content?.title ?: "", content?.caption ?: "", content?.description ?: "", VKWall.Attachment.Content.Image(images?.album_id ?: 0, images?.date ?: 0, images?.id ?: 0, images?.owner_id ?: 0, images?.has_tags ?: false, VKWall.Attachment.Content.Image.Sizes(sizes?.height ?: 0, sizes?.url ?: "", sizes?.type ?: "", sizes?.width ?: 0), images?.text ?: "", images?.user_id ?: 0)))
+                attachment = VKWall.Attachment(
+                    mapAttachmentType(attachments?.type ?: ""),
+                    VKWall.Attachment.Content(
+                        content?.url ?: "",
+                        content?.title ?: "",
+                        content?.caption ?: "",
+                        content?.description ?: "",
+                        VKWall.Attachment.Content.Image(
+                            images?.album_id ?: 0,
+                            images?.date ?: 0,
+                            images?.id ?: 0,
+                            images?.owner_id ?: 0,
+                            images?.has_tags ?: false,
+                            VKWall.Attachment.Content.Image.Sizes(
+                                sizes?.height ?: 0,
+                                sizes?.url ?: "",
+                                sizes?.type ?: "",
+                                sizes?.width ?: 0
+                            ),
+                            images?.text ?: "",
+                            images?.user_id ?: 0
+                        )
+                    )
+                )
             )
         }
     }
 }
 
-fun mapAttachmentType(type: String) : VKWall.Attachment.AttachmentType {
+fun mapAttachmentType(type: String): VKWall.Attachment.AttachmentType {
     val attachmentType = when (type) {
         "photo" -> VKWall.Attachment.AttachmentType.PHOTO
         "video" -> VKWall.Attachment.AttachmentType.VIDEO
@@ -67,11 +114,34 @@ fun mapAttachmentType(type: String) : VKWall.Attachment.AttachmentType {
 }
 
 fun VKCommentResponse.toModel(): List<VKComment> {
-    return response.items.map { comment ->
-        VKComment(
-            userId = comment.from_id ?: 0,
-            text = comment.text ?: "",
-            date = comment.date ?: 0
-        )
+    val list = mutableListOf<VKComment>()
+    for (x in response.items.indices) {
+        val currentItem = response.items[x]
+        if (response.profiles.size - 1 >= x) {
+            val currentProfile = response.profiles[x]
+            list.add(
+                VKComment(
+                    userId = currentProfile.id ?: 0,
+                    commentUserId = currentItem.from_id ?: 0,
+                    text = currentItem.text ?: "",
+                    date = currentItem.date ?: 0,
+                    firstName = currentProfile.first_name ?: "",
+                    lastName = currentProfile.last_name ?: "",
+                    profilePic = currentProfile.photo_100 ?: ""
+                )
+            )
+        } else {
+            list.add(VKComment(
+                userId = 0,
+                commentUserId = currentItem.from_id ?: 0,
+                text = currentItem.text ?: "",
+                date = currentItem.date ?: 0,
+                firstName = "Unknown",
+                lastName = "User",
+                profilePic = ""
+            ))
+        }
     }
+
+    return list
 }

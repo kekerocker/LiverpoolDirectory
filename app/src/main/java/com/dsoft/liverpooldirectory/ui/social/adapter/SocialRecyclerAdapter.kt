@@ -1,6 +1,7 @@
 package com.dsoft.liverpooldirectory.ui.social.adapter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
