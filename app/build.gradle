@@ -117,9 +117,6 @@ dependencies {
     //Phoenix library
     implementation 'com.jakewharton:process-phoenix:2.0.0'
 
-    //Custom EditText
-    implementation 'com.libizo:customedittext:1.0.7'
-
     //Facebook shimmer effect
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
