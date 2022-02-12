@@ -1,14 +1,13 @@
 package com.dsoft.liverpooldirectory.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.TableDao
-import com.dsoft.liverpooldirectory.model.CloseGames
-import com.dsoft.liverpooldirectory.model.Table
+import com.dsoft.liverpooldirectory.model.CloseGamesData
+import com.dsoft.liverpooldirectory.model.TableData
 import com.dsoft.liverpooldirectory.other.Constants.CLOSE_GAME_URL
 import com.dsoft.liverpooldirectory.other.Constants.TABLE_URL
-import com.dsoft.liverpooldirectory.utility.InternetConnection
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,10 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class MainMenuRepository @Inject constructor(
     private val tableDao: TableDao,
-    internetConnection: InternetConnection,
 ) {
-
-    val isOnline = internetConnection.isOnlineDeprecated()
 
     private val positionList = mutableListOf<Int>()
     private val clubList = mutableListOf<String>()
@@ -31,7 +27,7 @@ class MainMenuRepository @Inject constructor(
     private val loseList = mutableListOf<String>()
     private val pointsList = mutableListOf<String>()
 
-    private val tableList = mutableListOf<Table>()
+    private val tableList = mutableListOf<TableData>()
 
     private val teamNameHomeList = mutableListOf<String>()
     private val teamNameAwayList = mutableListOf<String>()
@@ -42,10 +38,10 @@ class MainMenuRepository @Inject constructor(
     private val teamLogo2List = mutableListOf<String>()
     private val matchTypeList = mutableListOf<String>()
 
-    val readAllCloseGamesData: LiveData<List<CloseGames>> = tableDao.readAllCloseGamesData()
-    val readAllEplData: LiveData<List<Table>> = tableDao.readAllEplData()
+    val readAllCloseGamesData: Flow<List<CloseGamesData>> = tableDao.readAllCloseGamesData()
+    val readAllEplData: Flow<List<TableData>> = tableDao.readAllEplData()
 
-    private suspend fun addCloseGames(closeGames: CloseGames) {
+    private suspend fun addCloseGames(closeGames: CloseGamesData) {
         tableDao.addCloseGames(closeGames)
     }
 
@@ -53,7 +49,7 @@ class MainMenuRepository @Inject constructor(
         tableDao.deleteAllCloseGamesData()
     }
 
-    private suspend fun addTable(table: List<Table>) {
+    private suspend fun addTable(table: List<TableData>) {
         tableDao.addTable(table)
     }
 
@@ -131,7 +127,7 @@ class MainMenuRepository @Inject constructor(
                 fun addCloseGamesInfoToDatabase() {
                     var a = 0
                     do {
-                        val closeGames1 = CloseGames(
+                        val closeGames1 = CloseGamesData(
                             null,
                             teamNameHomeList[a],
                             teamNameAwayList[a],
@@ -188,7 +184,7 @@ class MainMenuRepository @Inject constructor(
                 fun addInfoToDatabase() {
                     var a = 0
                     do {
-                        val table1 = Table(
+                        val table1 = TableData(
                             positionList[a],
                             clubList[a],
                             matchesList[a],

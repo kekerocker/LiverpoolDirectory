@@ -7,7 +7,6 @@ import com.dsoft.liverpooldirectory.data.LFCDatabase
 import com.dsoft.liverpooldirectory.data.api.VKAPIRequest
 import com.dsoft.liverpooldirectory.other.Constants.DATABASE_NAME
 import com.dsoft.liverpooldirectory.other.Constants.VK_API_BASE_URL
-import com.dsoft.liverpooldirectory.utility.ConnectionLiveData
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,12 +27,6 @@ class Module {
     @Provides
     fun provideHttpInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    }
-
-    @Singleton
-    @Provides
-    fun provideConnectionLiveData(@ApplicationContext context: Context): ConnectionLiveData {
-        return ConnectionLiveData(context)
     }
 
     @Singleton

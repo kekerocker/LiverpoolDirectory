@@ -3,9 +3,8 @@ package com.dsoft.liverpooldirectory.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.NewsDao
-import com.dsoft.liverpooldirectory.model.News
+import com.dsoft.liverpooldirectory.model.NewsData
 import com.dsoft.liverpooldirectory.other.Constants.NEWS_URL
-import com.dsoft.liverpooldirectory.utility.InternetConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -16,19 +15,16 @@ import javax.inject.Singleton
 @Singleton
 class NewsRepository @Inject constructor(
     private val newsDao: NewsDao,
-    internetConnection: InternetConnection
 ) {
-    val isOnline = internetConnection.isOnlineDeprecated()
-
     private var titleList = mutableListOf<String>()
     private var descList = mutableListOf<String>()
     private var imagesList = mutableListOf<String>()
     private var linksList = mutableListOf<String>()
 
-    val readAllNews: LiveData<List<News>> = newsDao.readAllNews()
+    val readAllNews: LiveData<List<NewsData>> = newsDao.readAllNews()
     var pageNumber = 1
 
-    private suspend fun addNews(news: News) {
+    private suspend fun addNews(news: NewsData) {
         newsDao.addNews(news)
     }
 
@@ -97,7 +93,7 @@ class NewsRepository @Inject constructor(
                 fun addNewsToDatabase() {
                     var a = 0
                     do {
-                        val news = News(
+                        val news = NewsData(
                             null,
                             titleList[a],
                             descList[a],

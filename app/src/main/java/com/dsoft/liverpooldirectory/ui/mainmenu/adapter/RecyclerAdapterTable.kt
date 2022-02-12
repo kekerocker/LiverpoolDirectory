@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dsoft.liverpooldirectory.databinding.ItemEplTableBinding
-import com.dsoft.liverpooldirectory.model.Table
+import com.dsoft.liverpooldirectory.model.TableData
 
 class RecyclerAdapterTable : RecyclerView.Adapter<RecyclerAdapterTable.MyViewHolder>() {
 
-    private var tableList = emptyList<Table>()
+    private var tableList = emptyList<TableData>()
 
     class MyViewHolder(binding: ItemEplTableBinding) : RecyclerView.ViewHolder(binding.root) {
         val itemPosition: TextView = binding.tvPosition
@@ -47,7 +47,7 @@ class RecyclerAdapterTable : RecyclerView.Adapter<RecyclerAdapterTable.MyViewHol
         return tableList.size
     }
 
-    fun setData(table: List<Table>) {
+    fun setData(table: List<TableData>) {
         this.tableList = table
         notifyDataSetChanged()
     }

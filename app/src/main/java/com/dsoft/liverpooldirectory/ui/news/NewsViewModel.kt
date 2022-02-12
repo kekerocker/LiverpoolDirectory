@@ -1,8 +1,7 @@
 package com.dsoft.liverpooldirectory.ui.news
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.dsoft.liverpooldirectory.model.News
+import com.dsoft.liverpooldirectory.model.NewsData
 import com.dsoft.liverpooldirectory.repository.NewsRepository
 import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,17 +15,16 @@ class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel(), LifecycleObserver {
 
-    private val isOnline = newsRepository.isOnline
-    val readAllNews: LiveData<List<News>> = newsRepository.readAllNews
-    val newsStatus: MutableLiveData<Resource<News>> = MutableLiveData()
+    val readAllNews: LiveData<List<NewsData>> = newsRepository.readAllNews
+    val newsStatus: MutableLiveData<Resource<NewsData>> = MutableLiveData()
 
     var count = 10
 
     init {
-        if (isOnline) {
+        //if (isOnline) {
             deleteAllNews()
             safeCall()
-        }
+        //}
     }
 
     private fun deleteAllNews() {

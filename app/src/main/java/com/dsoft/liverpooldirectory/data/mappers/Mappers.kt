@@ -1,20 +1,15 @@
 package com.dsoft.liverpooldirectory.data.mappers
 
-import android.util.Log
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.ItemComments
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.Profiles
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.Response
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKCommentResponse
-import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKApiJSON
-import com.dsoft.liverpooldirectory.model.VKComment
-import com.dsoft.liverpooldirectory.model.VKWall
-import java.lang.Exception
+import com.dsoft.liverpooldirectory.data.dto.comments.VKCommentResponse
+import com.dsoft.liverpooldirectory.data.dto.wall.VKApiJSON
+import com.dsoft.liverpooldirectory.model.VKCommentData
+import com.dsoft.liverpooldirectory.model.VKWallData
 
-fun VKApiJSON.toModel(): List<VKWall> {
-    val list = mutableListOf<VKWall>()
+fun VKApiJSON.toModel(): List<VKWallData> {
+    val list = mutableListOf<VKWallData>()
     if (error != null) {
         list.add(
-            VKWall(
+            VKWallData(
                 0,
                 "",
                 0,
@@ -25,20 +20,20 @@ fun VKApiJSON.toModel(): List<VKWall> {
                 0,
                 0,
                 errorCode = error.error_code ?: 0,
-                attachment = VKWall.Attachment(
+                attachment = VKWallData.Attachment(
                     mapAttachmentType(""),
-                    VKWall.Attachment.Content(
+                    VKWallData.Attachment.Content(
                         "",
                         "",
                         "",
                         "",
-                        VKWall.Attachment.Content.Image(
+                        VKWallData.Attachment.Content.Image(
                             0,
                             0,
                             0,
                             0,
                             false,
-                            VKWall.Attachment.Content.Image.Sizes(0, "", "", 0),
+                            VKWallData.Attachment.Content.Image.Sizes(0, "", "", 0),
                             "",
                             0
                         )
@@ -55,7 +50,7 @@ fun VKApiJSON.toModel(): List<VKWall> {
             val content = attachments?.link
             val images = content?.photo
             val sizes = images?.sizes?.firstOrNull()
-            VKWall(
+            VKWallData(
                 text = item.text ?: "",
                 date = item.date ?: 0,
                 image = image?.url ?: "",
@@ -66,20 +61,20 @@ fun VKApiJSON.toModel(): List<VKWall> {
                 imageHeight = image?.height ?: 0,
                 imageWidth = image?.width ?: 0,
                 errorCode = 0,
-                attachment = VKWall.Attachment(
+                attachment = VKWallData.Attachment(
                     mapAttachmentType(attachments?.type ?: ""),
-                    VKWall.Attachment.Content(
+                    VKWallData.Attachment.Content(
                         content?.url ?: "",
                         content?.title ?: "",
                         content?.caption ?: "",
                         content?.description ?: "",
-                        VKWall.Attachment.Content.Image(
+                        VKWallData.Attachment.Content.Image(
                             images?.album_id ?: 0,
                             images?.date ?: 0,
                             images?.id ?: 0,
                             images?.owner_id ?: 0,
                             images?.has_tags ?: false,
-                            VKWall.Attachment.Content.Image.Sizes(
+                            VKWallData.Attachment.Content.Image.Sizes(
                                 sizes?.height ?: 0,
                                 sizes?.url ?: "",
                                 sizes?.type ?: "",
@@ -95,32 +90,32 @@ fun VKApiJSON.toModel(): List<VKWall> {
     }
 }
 
-fun mapAttachmentType(type: String): VKWall.Attachment.AttachmentType {
+fun mapAttachmentType(type: String): VKWallData.Attachment.AttachmentType {
     val attachmentType = when (type) {
-        "photo" -> VKWall.Attachment.AttachmentType.PHOTO
-        "video" -> VKWall.Attachment.AttachmentType.VIDEO
-        "audio" -> VKWall.Attachment.AttachmentType.AUDIO
-        "doc" -> VKWall.Attachment.AttachmentType.DOC
-        "wall" -> VKWall.Attachment.AttachmentType.WALL
-        "wall_reply" -> VKWall.Attachment.AttachmentType.WALL_REPLY
-        "sticker" -> VKWall.Attachment.AttachmentType.STICKER
-        "link" -> VKWall.Attachment.AttachmentType.LINK
-        "gift" -> VKWall.Attachment.AttachmentType.GIFT
-        "market" -> VKWall.Attachment.AttachmentType.MARKET
-        "market_album" -> VKWall.Attachment.AttachmentType.MARKET_ALBUM
-        else -> VKWall.Attachment.AttachmentType.UNKNOWN
+        "photo" -> VKWallData.Attachment.AttachmentType.PHOTO
+        "video" -> VKWallData.Attachment.AttachmentType.VIDEO
+        "audio" -> VKWallData.Attachment.AttachmentType.AUDIO
+        "doc" -> VKWallData.Attachment.AttachmentType.DOC
+        "wall" -> VKWallData.Attachment.AttachmentType.WALL
+        "wall_reply" -> VKWallData.Attachment.AttachmentType.WALL_REPLY
+        "sticker" -> VKWallData.Attachment.AttachmentType.STICKER
+        "link" -> VKWallData.Attachment.AttachmentType.LINK
+        "gift" -> VKWallData.Attachment.AttachmentType.GIFT
+        "market" -> VKWallData.Attachment.AttachmentType.MARKET
+        "market_album" -> VKWallData.Attachment.AttachmentType.MARKET_ALBUM
+        else -> VKWallData.Attachment.AttachmentType.UNKNOWN
     }
     return attachmentType
 }
 
-fun VKCommentResponse.toModel(): List<VKComment> {
-    val list = mutableListOf<VKComment>()
+fun VKCommentResponse.toModel(): List<VKCommentData> {
+    val list = mutableListOf<VKCommentData>()
     for (x in response.items.indices) {
         val currentItem = response.items[x]
         if (response.profiles.size - 1 >= x) {
             val currentProfile = response.profiles[x]
             list.add(
-                VKComment(
+                VKCommentData(
                     userId = currentProfile.id ?: 0,
                     commentUserId = currentItem.from_id ?: 0,
                     text = currentItem.text ?: "",
@@ -131,7 +126,7 @@ fun VKCommentResponse.toModel(): List<VKComment> {
                 )
             )
         } else {
-            list.add(VKComment(
+            list.add(VKCommentData(
                 userId = 0,
                 commentUserId = currentItem.from_id ?: 0,
                 text = currentItem.text ?: "",

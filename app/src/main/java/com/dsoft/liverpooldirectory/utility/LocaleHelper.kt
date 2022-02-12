@@ -9,9 +9,6 @@ import javax.inject.Inject
 
 class LocaleHelper @Inject constructor() {
 
-    @Inject
-    lateinit var preferences: AppPreferences
-
     fun setLocale(context: Context, language: String): Context {
         return if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
             updateResources(context, language)

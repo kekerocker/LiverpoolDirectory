@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.dsoft.liverpooldirectory.databinding.ItemMatchBinding
-import com.dsoft.liverpooldirectory.model.CloseGames
+import com.dsoft.liverpooldirectory.model.CloseGamesData
 import com.dsoft.liverpooldirectory.service.GlobalService
 import java.text.SimpleDateFormat
 import java.util.*
@@ -17,7 +17,7 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
 
     val globalService = GlobalService()
 
-    private var closeGames = emptyList<CloseGames>()
+    private var closeGames = emptyList<CloseGamesData>()
 
     lateinit var context: Context
 
@@ -69,7 +69,7 @@ class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>
         return closeGames.size
     }
 
-    fun setData(closeGames: List<CloseGames>) {
+    fun setData(closeGames: List<CloseGamesData>) {
         this.closeGames = closeGames
         notifyDataSetChanged()
     }

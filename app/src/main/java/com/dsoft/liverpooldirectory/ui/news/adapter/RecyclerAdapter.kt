@@ -12,19 +12,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.dsoft.liverpooldirectory.databinding.ItemNewsBinding
-import com.dsoft.liverpooldirectory.model.News
+import com.dsoft.liverpooldirectory.model.NewsData
 
 
 class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
-    private var newsList = emptyList<News>()
+    private var newsList = emptyList<NewsData>()
 
-    private val differCallback = object : DiffUtil.ItemCallback<News>() {
-        override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<NewsData>() {
+        override fun areItemsTheSame(oldItem: NewsData, newItem: NewsData): Boolean {
             return oldItem.url == newItem.url
         }
 
-        override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
+        override fun areContentsTheSame(oldItem: NewsData, newItem: NewsData): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 

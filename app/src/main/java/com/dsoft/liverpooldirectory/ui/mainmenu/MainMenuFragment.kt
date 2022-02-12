@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -17,6 +18,8 @@ import com.dsoft.liverpooldirectory.ui.mainmenu.adapter.ViewPagerAdapter
 import com.dsoft.liverpooldirectory.utility.BaseFragment
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
@@ -48,7 +51,9 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
             setButtonWidth(buttonInfo, false)
 
             buttonNews.setOnClickListener {
-                findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
+                safeCall {
+                    findNavController().navigate(R.id.action_mainMenuFragment_to_newsFragment)
+                }
             }
 
             buttonInfo.setOnClickListener {
@@ -57,7 +62,9 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
             }
 
             buttonSocial.setOnClickListener {
-                findNavController().navigate(R.id.action_MainMenuFragment_to_socialFragment)
+                safeCall {
+                    findNavController().navigate(R.id.action_MainMenuFragment_to_socialFragment)
+                }
             }
 
             btnSettings.setOnClickListener {
@@ -75,12 +82,13 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
         binding.indicator.setViewPager(viewPager2)
         adapter.registerAdapterDataObserver(binding.indicator.adapterDataObserver)
 
-        viewModel.readAllCloseGamesData.observe(viewLifecycleOwner) { closeGames ->
-            if (closeGames.isEmpty()) return@observe
-            adapter.setData(closeGames)
-            binding.shimmerCloseMatches.stopShimmer()
-            binding.shimmerCloseMatches.hideShimmer()
-            binding.shimmerCloseMatches.visibility = View.GONE
+        lifecycleScope.launch {
+            viewModel.readAllCloseGamesData.collectLatest { closeGames ->
+                adapter.setData(closeGames)
+                binding.shimmerCloseMatches.stopShimmer()
+                binding.shimmerCloseMatches.hideShimmer()
+                binding.shimmerCloseMatches.visibility = View.GONE
+            }
         }
     }
 
@@ -90,10 +98,8 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.readAllEplData.observe(viewLifecycleOwner) { table ->
-            if (table.isEmpty()) {
-                return@observe
-            } else {
+        lifecycleScope.launch {
+            viewModel.readAllEplData.collectLatest { table ->
                 adapter.setData(table)
                 hideLoadingScreen()
             }
@@ -101,7 +107,8 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
     }
 
     private fun setButtonWidth(button: MaterialButton, leftSided: Boolean) {
-        val layoutParams = LinearLayout.LayoutParams(getScreenWidth(), LinearLayout.LayoutParams.WRAP_CONTENT)
+        val layoutParams =
+            LinearLayout.LayoutParams(getScreenWidth(), LinearLayout.LayoutParams.WRAP_CONTENT)
         if (leftSided) layoutParams.setMargins(0, 0, 80, 0)
 
         button.layoutParams = layoutParams

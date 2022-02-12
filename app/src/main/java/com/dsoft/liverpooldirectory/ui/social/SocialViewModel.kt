@@ -1,12 +1,11 @@
 package com.dsoft.liverpooldirectory.ui.social
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.dsoft.liverpooldirectory.Interactor
-import com.dsoft.liverpooldirectory.model.VKComment
-import com.dsoft.liverpooldirectory.model.VKWall
+import com.dsoft.liverpooldirectory.model.VKCommentData
+import com.dsoft.liverpooldirectory.model.VKWallData
 import com.dsoft.liverpooldirectory.repository.SocialRepository
 import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,15 +21,14 @@ class SocialViewModel @Inject constructor(
     val interactor: Interactor
 ) : ViewModel(), LifecycleObserver {
 
-    private var _listOfComments = MutableLiveData<List<VKComment>>()
-    val listOfComments: LiveData<List<VKComment>> get() = _listOfComments
+    private var _listOfComments = MutableLiveData<List<VKCommentData>>()
+    val listOfComments: LiveData<List<VKCommentData>> get() = _listOfComments
 
-    private var _listOfWall = MutableLiveData<List<VKWall>>()
-    val listOfWall: LiveData<List<VKWall>> get() = _listOfWall
+    private var _listOfWall = MutableLiveData<List<VKWallData>>()
+    val listOfWall: LiveData<List<VKWallData>> get() = _listOfWall
 
-    val socialStatus: MutableLiveData<Resource<VKWall>> = MutableLiveData()
+    val socialStatus: MutableLiveData<Resource<VKWallData>> = MutableLiveData()
 
-    private val isOnline = socialRepository.isOnline
     var isExpired = true
 
     val appPreferences = socialRepository.appPreferences
@@ -41,16 +39,16 @@ class SocialViewModel @Inject constructor(
         viewModelScope.launch {
             socialStatus.postValue(Resource.Loading())
             try {
-                if (isOnline) {
+                //if (isOnline) {
                     val response = socialRepository.fetchWallFromPublic(count)
                     if (response.isNotEmpty()) {
                         _listOfWall.value = response
                         socialStatus.postValue(Resource.Success(response.first()))
                         count += 15
                     }
-                } else {
+                /*} else {
                     socialStatus.postValue(Resource.Error("No internet connection"))
-                }
+                }*/
             } catch (t: Throwable) {
                 when (t) {
                     is IOException -> socialStatus.postValue(Resource.Error("Network Failure"))
