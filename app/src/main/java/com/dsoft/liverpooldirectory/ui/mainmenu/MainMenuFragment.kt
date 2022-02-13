@@ -27,21 +27,10 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
     private val viewModel by activityViewModels<MainMenuViewModel>()
     private val binding by viewBinding(FragmentMainMenuBinding::bind)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return getPersistentView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!hasInitializedRootView) {
-            setUpViewPager()
-            setUpRecyclerViewTable()
-            hasInitializedRootView = true
-        }
+        setUpViewPager()
+        setUpRecyclerViewTable()
 
         with(binding) {
 

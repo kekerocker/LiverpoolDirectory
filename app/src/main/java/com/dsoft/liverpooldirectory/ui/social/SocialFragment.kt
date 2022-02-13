@@ -37,37 +37,26 @@ class SocialFragment : BaseFragment(R.layout.fragment_social) {
     var isLastPage = false
     var isScrolling = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return getPersistentView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val token = viewModel.appPreferences.getToken()
         viewModel.checkTokenActuality()
-        if (!hasInitializedRootView) {
-            setupVkSuccessListener(viewModel.interactor)
+        setupVkSuccessListener(viewModel.interactor)
 
-            viewModel.listOfWall.observe(viewLifecycleOwner) { list ->
-                if(list.first().errorCode == CODE_TOKEN_ERROR_IP) {
-                    makeAuth()
-                }
-            }
-
-            if (token == null || viewModel.isExpired) {
+        viewModel.listOfWall.observe(viewLifecycleOwner) { list ->
+            if (list.first().errorCode == CODE_TOKEN_ERROR_IP) {
                 makeAuth()
-            } else {
-                Log.d("VKLogin", "Authentication went successful")
-                viewModel.safeCall()
-                setUpRecyclerView()
-                removeLoginViews()
-                observeStatus()
             }
-            hasInitializedRootView = true
+        }
+
+        if (token == null || viewModel.isExpired) {
+            makeAuth()
+        } else {
+            Log.d("VKLogin", "Authentication went successful")
+            viewModel.safeCall()
+            setUpRecyclerView()
+            removeLoginViews()
+            observeStatus()
         }
 
         binding.socialRecyclerView.setOnClickListener {
@@ -181,7 +170,7 @@ class SocialFragment : BaseFragment(R.layout.fragment_social) {
     }
 
     private fun setupVkSuccessListener(interactor: Interactor) {
-        interactor.vkSuccessConnectionListener = object : Interactor.VkSuccessConnectionListener{
+        interactor.vkSuccessConnectionListener = object : Interactor.VkSuccessConnectionListener {
             override fun onCatch(isSuccess: Boolean) {
                 viewModel.safeCall()
                 setUpRecyclerView()

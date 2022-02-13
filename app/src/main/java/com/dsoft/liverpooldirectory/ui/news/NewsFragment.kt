@@ -34,27 +34,16 @@ class NewsFragment : BaseFragment(R.layout.fragment_news) {
     var isLastPage = false
     var isScrolling = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return getPersistentView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!hasInitializedRootView) {
-            hasInitializedRootView = true
-            setUpRecyclerView()
-            with(binding) {
-                refreshLayout.setOnRefreshListener {
-                    viewModel.safeCall()
-                    refreshLayout.isRefreshing = false
-                }
+        setUpRecyclerView()
+        with(binding) {
+            refreshLayout.setOnRefreshListener {
+                viewModel.safeCall()
+                refreshLayout.isRefreshing = false
             }
-            observeStatus()
         }
+        observeStatus()
     }
 
     private fun observeStatus() {
@@ -63,7 +52,8 @@ class NewsFragment : BaseFragment(R.layout.fragment_news) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {
-                        val totalCount = rvAdapter.differ.currentList.size / Constants.NEWS_PAGE_SIZE
+                        val totalCount =
+                            rvAdapter.differ.currentList.size / Constants.NEWS_PAGE_SIZE
                         isLastPage = viewModel.count == totalCount
                         if (isLastPage) {
                             binding.rvRecyclerView.setPadding(0, 0, 0, 0)
@@ -73,7 +63,11 @@ class NewsFragment : BaseFragment(R.layout.fragment_news) {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Snackbar.make(requireView(), "An error occured: $message", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(
+                            requireView(),
+                            "An error occured: $message",
+                            Snackbar.LENGTH_SHORT
+                        )
                             .show()
                     }
                 }
