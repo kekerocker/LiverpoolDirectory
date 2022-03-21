@@ -45,16 +45,16 @@ open class BaseFragment(@LayoutRes val layout: Int) : Fragment(layout) {
 
     private fun observeInternetStatus() {
         val state = networkStatusTracker.networkStatus.map(
-            onUnavailable = { MyState.Error },
-            onAvailable = { MyState.Fetched }
+            onUnavailable = { NetworkStatusTracker.NetworkState.Error },
+            onAvailable = { NetworkStatusTracker.NetworkState.Fetched }
         ).asLiveData(Dispatchers.IO)
 
         state.observe(this) { stateFlow ->
             if (stateFlow == null) return@observe
 
             isOnline = when (stateFlow) {
-                MyState.Fetched -> true
-                MyState.Error -> false
+                NetworkStatusTracker.NetworkState.Fetched -> true
+                NetworkStatusTracker.NetworkState.Error -> false
             }
         }
     }
