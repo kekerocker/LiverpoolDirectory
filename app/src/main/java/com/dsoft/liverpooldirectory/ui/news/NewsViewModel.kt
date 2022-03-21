@@ -2,7 +2,6 @@ package com.dsoft.liverpooldirectory.ui.news
 
 import androidx.lifecycle.*
 import com.dsoft.liverpooldirectory.model.NewsData
-import com.dsoft.liverpooldirectory.repository.NewsRepository
 import com.dsoft.liverpooldirectory.usecase.NewsUseCase
 import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

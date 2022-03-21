@@ -6,6 +6,7 @@ import com.dsoft.liverpooldirectory.model.CloseGamesData
 import com.dsoft.liverpooldirectory.model.TableData
 import com.dsoft.liverpooldirectory.other.Constants.CLOSE_GAME_URL
 import com.dsoft.liverpooldirectory.other.Constants.TABLE_URL
+import com.dsoft.liverpooldirectory.repository.intrface.MainMenuRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import org.jsoup.Jsoup
@@ -15,9 +16,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MainMenuRepository @Inject constructor(
+class MainMenuRepositoryImpl @Inject constructor(
     private val tableDao: TableDao,
-) {
+) : MainMenuRepository {
 
     private val positionList = mutableListOf<Int>()
     private val clubList = mutableListOf<String>()
@@ -38,14 +39,11 @@ class MainMenuRepository @Inject constructor(
     private val teamLogo2List = mutableListOf<String>()
     private val matchTypeList = mutableListOf<String>()
 
-    val readAllCloseGamesData: Flow<List<CloseGamesData>> = tableDao.readAllCloseGamesData()
-    val readAllEplData: Flow<List<TableData>> = tableDao.readAllEplData()
-
     private suspend fun addCloseGames(closeGames: CloseGamesData) {
         tableDao.addCloseGames(closeGames)
     }
 
-    suspend fun deleteAllCloseGamesData() {
+    override suspend fun deleteAllCloseGamesData() {
         tableDao.deleteAllCloseGamesData()
     }
 
@@ -53,11 +51,11 @@ class MainMenuRepository @Inject constructor(
         tableDao.addTable(table)
     }
 
-    suspend fun deleteAllTableData() {
+    override suspend fun deleteAllTableData() {
         tableDao.deleteAllTableData()
     }
 
-    fun downloadDataFromInternet() {
+    override fun downloadDataFromInternet() {
         GlobalScope.launch (Dispatchers.IO) {
             try {
                 //Downloading CloseGames Data
@@ -222,4 +220,8 @@ class MainMenuRepository @Inject constructor(
         val date = sdf.parse(parsedDate)
         return date.time
     }
+
+    override fun getAllCloseGamesData(): Flow<List<CloseGamesData>> = tableDao.readAllCloseGamesData()
+
+    override fun getAllEplData(): Flow<List<TableData>> = tableDao.readAllEplData()
 }

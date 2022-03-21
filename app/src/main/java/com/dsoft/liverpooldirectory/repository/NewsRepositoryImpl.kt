@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.dsoft.liverpooldirectory.data.NewsDao
 import com.dsoft.liverpooldirectory.model.NewsData
 import com.dsoft.liverpooldirectory.other.Constants.NEWS_URL
+import com.dsoft.liverpooldirectory.repository.intrface.NewsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -13,26 +14,24 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NewsRepository @Inject constructor(
+class NewsRepositoryImpl @Inject constructor(
     private val newsDao: NewsDao,
-) {
+) : NewsRepository {
+
     private var titleList = mutableListOf<String>()
     private var descList = mutableListOf<String>()
     private var imagesList = mutableListOf<String>()
     private var linksList = mutableListOf<String>()
 
-    val readAllNews: LiveData<List<NewsData>> = newsDao.readAllNews()
-    var pageNumber = 1
+    private var pageNumber = 1
 
-    private suspend fun addNews(news: NewsData) {
-        newsDao.addNews(news)
-    }
+    override fun getAllNews(): LiveData<List<NewsData>> = newsDao.readAllNews()
 
-    suspend fun deleteAllNews() {
+    override suspend fun deleteAllNews() {
         newsDao.deleteAllNews()
     }
 
-    fun downloadNews() {
+    override fun downloadNews() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val doc = Jsoup.connect(NEWS_URL + pageNumber).get()
@@ -126,4 +125,9 @@ class NewsRepository @Inject constructor(
             }
         }
     }
+
+    private suspend fun addNews(news: NewsData) {
+        newsDao.addNews(news)
+    }
+
 }
