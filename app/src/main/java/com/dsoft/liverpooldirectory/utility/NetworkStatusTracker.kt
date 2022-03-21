@@ -13,11 +13,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-sealed class NetworkStatus {
-    object Available : NetworkStatus()
-    object Unavailable : NetworkStatus()
-}
-
 class NetworkStatusTracker @Inject constructor(@ApplicationContext context: Context) {
 
     private val connectivityManager =
@@ -48,19 +43,25 @@ class NetworkStatusTracker @Inject constructor(@ApplicationContext context: Cont
             connectivityManager.unregisterNetworkCallback(networkStatusCallback)
         }
     }
+
+    sealed class NetworkStatus {
+        object Available : NetworkStatus()
+        object Unavailable : NetworkStatus()
+    }
+
+    sealed class NetworkState {
+        object Fetched : NetworkState()
+        object Error : NetworkState()
+    }
+
 }
 
-inline fun <Result> Flow<NetworkStatus>.map(
+inline fun <Result> Flow<NetworkStatusTracker.NetworkStatus>.map(
     crossinline onUnavailable: suspend () -> Result,
     crossinline onAvailable: suspend () -> Result,
 ): Flow<Result> = map { status ->
     when (status) {
-        NetworkStatus.Unavailable -> onUnavailable()
-        NetworkStatus.Available -> onAvailable()
+        NetworkStatusTracker.NetworkStatus.Unavailable -> onUnavailable()
+        NetworkStatusTracker.NetworkStatus.Available -> onAvailable()
     }
-}
-
-sealed class MyState {
-    object Fetched : MyState()
-    object Error : MyState()
 }

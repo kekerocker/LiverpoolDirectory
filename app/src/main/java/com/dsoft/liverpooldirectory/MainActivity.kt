@@ -7,13 +7,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.ActivityMainmenuBinding
 import com.dsoft.liverpooldirectory.service.NightModeService
 import com.dsoft.liverpooldirectory.usecase.SocialUseCase
-import com.dsoft.liverpooldirectory.utility.MyState
 import com.dsoft.liverpooldirectory.utility.NetworkStatusTracker
 import com.dsoft.liverpooldirectory.utility.map
 import com.vk.api.sdk.VK
@@ -65,15 +62,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeInternetStatus() {
         val state = networkStatusTracker.networkStatus.map(
-            onUnavailable = { MyState.Error },
-            onAvailable = { MyState.Fetched }
+            onUnavailable = { NetworkStatusTracker.NetworkState.Error },
+            onAvailable = { NetworkStatusTracker.NetworkState.Fetched }
         ).asLiveData(Dispatchers.IO)
 
         state.observe(this) { stateFlow ->
             val view = LayoutInflater.from(this).inflate(R.layout.fragment_no_internet_connection, null)
             when (stateFlow) {
-                MyState.Fetched -> {}
-                MyState.Error -> {
+                NetworkStatusTracker.NetworkState.Fetched -> {}
+                NetworkStatusTracker.NetworkState.Error -> {
                     lifecycleScope.launch {
                         binding.containerNetwork.addView(view)
                         delay(3000)
