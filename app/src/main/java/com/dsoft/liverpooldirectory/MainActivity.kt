@@ -55,9 +55,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
         supportActionBar?.hide()
-        setupActionBarWithNavController(findNavController(R.id.fragment))
         observeInternetStatus()
-
     }
 
     override fun onDestroy() {
@@ -72,8 +70,7 @@ class MainActivity : AppCompatActivity() {
         ).asLiveData(Dispatchers.IO)
 
         state.observe(this) { stateFlow ->
-            val view =
-                LayoutInflater.from(this).inflate(R.layout.fragment_no_internet_connection, null)
+            val view = LayoutInflater.from(this).inflate(R.layout.fragment_no_internet_connection, null)
             when (stateFlow) {
                 MyState.Fetched -> {}
                 MyState.Error -> {
@@ -87,11 +84,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.fragment)
-        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -113,9 +105,9 @@ class MainActivity : AppCompatActivity() {
         return object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
                 val accessToken = token.accessToken
-                    appPreferences.saveToken(accessToken)
-                    appPreferences.saveTokenTime(currentTimeMillis)
-                    socialUseCase.vkSuccessConnection.value = true
+                appPreferences.saveToken(accessToken)
+                appPreferences.saveTokenTime(currentTimeMillis)
+                socialUseCase.vkSuccessConnection.value = true
             }
 
             override fun onLoginFailed(errorCode: Int) {
