@@ -9,9 +9,9 @@ import android.widget.AbsListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dsoft.liverpooldirectory.Interactor
 import com.dsoft.liverpooldirectory.databinding.FragmentSocialBinding
 import com.dsoft.liverpooldirectory.other.Constants.CODE_TOKEN_ERROR_IP
 import com.dsoft.liverpooldirectory.other.Constants.QUERY_PAGE_SIZE
@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class SocialFragment : Fragment() {
@@ -50,7 +51,9 @@ class SocialFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val token = viewModel.appPreferences.getToken()
         viewModel.checkTokenActuality()
-        setupVkSuccessListener(viewModel.interactor)
+        lifecycleScope.launchWhenStarted {
+            setupVkSuccessListener()
+        }
 
         viewModel.listOfWall.observe(viewLifecycleOwner) { list ->
             if (list.first().errorCode == CODE_TOKEN_ERROR_IP) {
@@ -183,14 +186,11 @@ class SocialFragment : Fragment() {
         binding.recyclerLayout.visibility = View.VISIBLE
     }
 
-    private fun setupVkSuccessListener(interactor: Interactor) {
-        interactor.vkSuccessConnectionListener = object : Interactor.VkSuccessConnectionListener {
-            override fun onCatch(isSuccess: Boolean) {
-                viewModel.safeCall()
-                setUpRecyclerView()
-                removeLoginViews()
-            }
-
+    private suspend fun setupVkSuccessListener() {
+        viewModel.getAuthFlow().collectLatest {
+            viewModel.safeCall()
+            setUpRecyclerView()
+            removeLoginViews()
         }
     }
 }

@@ -4,14 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.ActivityMainmenuBinding
-import com.dsoft.liverpooldirectory.ui.social.SocialViewModel
+import com.dsoft.liverpooldirectory.service.NightModeService
+import com.dsoft.liverpooldirectory.usecase.SocialUseCase
 import com.dsoft.liverpooldirectory.utility.MyState
 import com.dsoft.liverpooldirectory.utility.NetworkStatusTracker
 import com.dsoft.liverpooldirectory.utility.map
@@ -27,12 +28,20 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<SocialViewModel>()
     private var _binding: ActivityMainmenuBinding? = null
     private val binding get() = _binding!!
 
     @Inject
     lateinit var networkStatusTracker: NetworkStatusTracker
+
+    @Inject
+    lateinit var socialUseCase: SocialUseCase
+
+    @Inject
+    lateinit var nightModeService: NightModeService
+
+    @Inject
+    lateinit var appPreferences: AppPreferences
 
     companion object {
         private const val VK_AUTH_REQUEST_CODE = 282
@@ -41,6 +50,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainmenuBinding.inflate(layoutInflater)
+
+        if (savedInstanceState == null) nightModeService.setCurrentNightMode()
 
         setContentView(binding.root)
         supportActionBar?.hide()
@@ -61,7 +72,8 @@ class MainActivity : AppCompatActivity() {
         ).asLiveData(Dispatchers.IO)
 
         state.observe(this) { stateFlow ->
-            val view = LayoutInflater.from(this).inflate(R.layout.fragment_no_internet_connection, null)
+            val view =
+                LayoutInflater.from(this).inflate(R.layout.fragment_no_internet_connection, null)
             when (stateFlow) {
                 MyState.Fetched -> {}
                 MyState.Error -> {
@@ -84,7 +96,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == VK_AUTH_REQUEST_CODE) {
-            if (data == null || !VK.onActivityResult(requestCode, resultCode, data, handleVkAuth())) {
+            if (data == null || !VK.onActivityResult(
+                    requestCode,
+                    resultCode,
+                    data,
+                    handleVkAuth()
+                )
+            ) {
                 super.onActivityResult(requestCode, resultCode, data)
             }
         }
@@ -95,11 +113,9 @@ class MainActivity : AppCompatActivity() {
         return object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
                 val accessToken = token.accessToken
-                with(viewModel) {
                     appPreferences.saveToken(accessToken)
                     appPreferences.saveTokenTime(currentTimeMillis)
-                    interactor.isSuccess = true
-                }
+                    socialUseCase.vkSuccessConnection.value = true
             }
 
             override fun onLoginFailed(errorCode: Int) {

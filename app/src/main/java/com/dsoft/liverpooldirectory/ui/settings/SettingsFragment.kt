@@ -15,6 +15,9 @@ import androidx.navigation.fragment.findNavController
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.FragmentSettingsBinding
+import com.dsoft.liverpooldirectory.other.Constants.DARK_THEME
+import com.dsoft.liverpooldirectory.other.Constants.FOLLOW_SYSTEM
+import com.dsoft.liverpooldirectory.other.Constants.LIGHT_THEME
 import com.dsoft.liverpooldirectory.service.NightModeService
 import com.dsoft.liverpooldirectory.utility.LocaleHelper
 import com.jakewharton.processphoenix.ProcessPhoenix
@@ -95,9 +98,9 @@ class SettingsFragment : Fragment() {
 
     private fun getNightModeForRadioButtonId(radioButtonId: Int): NightModeService.NightModes {
         return when (radioButtonId) {
-            getRadioButtonIdForNightMode(2) -> NightModeService.NightModes.NIGHT
-            getRadioButtonIdForNightMode(1) -> NightModeService.NightModes.LIGHT
-            getRadioButtonIdForNightMode(-1) -> NightModeService.NightModes.FOLLOW_SYSTEM
+            getRadioButtonIdForNightMode(DARK_THEME) -> NightModeService.NightModes.NIGHT
+            getRadioButtonIdForNightMode(LIGHT_THEME) -> NightModeService.NightModes.LIGHT
+            getRadioButtonIdForNightMode(FOLLOW_SYSTEM) -> NightModeService.NightModes.FOLLOW_SYSTEM
             else -> NightModeService.NightModes.FOLLOW_SYSTEM
         }
     }
@@ -108,9 +111,9 @@ class SettingsFragment : Fragment() {
 
     private fun getRadioButtonIdForNightMode(nightMode: Int): Int {
         return when (nightMode) {
-            2 -> R.id.rb_dark_theme
-            1 -> R.id.rb_light_theme
-            -1 -> R.id.rb_follow_system
+            DARK_THEME -> R.id.rb_dark_theme
+            LIGHT_THEME -> R.id.rb_light_theme
+            FOLLOW_SYSTEM -> R.id.rb_follow_system
             else -> R.id.rb_follow_system
         }
     }

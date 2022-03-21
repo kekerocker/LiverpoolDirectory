@@ -8,6 +8,10 @@ object Constants {
     const val NEWS_URL = "http://www.myliverpool.ru/news/?page"
     const val CODE_TOKEN_ERROR_IP = 5
 
+    const val DARK_THEME = 2
+    const val LIGHT_THEME = 1
+    const val FOLLOW_SYSTEM = -1
+
     const val QUERY_PAGE_SIZE = 15
     const val NEWS_PAGE_SIZE = 10
 }

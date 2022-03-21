@@ -22,4 +22,8 @@ class AppPreferences (private val context: Context) {
     fun getToken(): String? {
         return data.getString("TOKEN", null)
     }
+
+    fun getNightMode(): Int {
+        return data.getInt("NightModeService_NIGHT_MODE", 0)
+    }
 }

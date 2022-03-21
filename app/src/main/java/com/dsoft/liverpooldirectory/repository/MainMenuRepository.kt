@@ -57,7 +57,6 @@ class MainMenuRepository @Inject constructor(
         tableDao.deleteAllTableData()
     }
 
-    @DelicateCoroutinesApi
     fun downloadDataFromInternet() {
         GlobalScope.launch (Dispatchers.IO) {
             try {
