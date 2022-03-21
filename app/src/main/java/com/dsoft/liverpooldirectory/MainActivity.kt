@@ -1,8 +1,6 @@
 package com.dsoft.liverpooldirectory
 
-import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -14,7 +12,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.dsoft.liverpooldirectory.databinding.ActivityMainmenuBinding
 import com.dsoft.liverpooldirectory.ui.social.SocialViewModel
-import com.dsoft.liverpooldirectory.utility.LocaleHelper
 import com.dsoft.liverpooldirectory.utility.MyState
 import com.dsoft.liverpooldirectory.utility.NetworkStatusTracker
 import com.dsoft.liverpooldirectory.utility.map
@@ -30,27 +27,31 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var localeHelper: LocaleHelper
-
-    private val currentTimeMillis = System.currentTimeMillis()
-
     private val viewModel by viewModels<SocialViewModel>()
-    private lateinit var binding: ActivityMainmenuBinding
+    private var _binding: ActivityMainmenuBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var networkStatusTracker: NetworkStatusTracker
 
+    companion object {
+        private const val VK_AUTH_REQUEST_CODE = 282
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainmenuBinding.inflate(layoutInflater)
+        _binding = ActivityMainmenuBinding.inflate(layoutInflater)
 
-        configureLocale()
         setContentView(binding.root)
         supportActionBar?.hide()
         setupActionBarWithNavController(findNavController(R.id.fragment))
         observeInternetStatus()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun observeInternetStatus() {
@@ -82,29 +83,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 282) {
-            if (data == null || !VK.onActivityResult(
-                    requestCode,
-                    resultCode,
-                    data,
-                    handleVkAuth()
-                )
-            ) {
+        if (requestCode == VK_AUTH_REQUEST_CODE) {
+            if (data == null || !VK.onActivityResult(requestCode, resultCode, data, handleVkAuth())) {
                 super.onActivityResult(requestCode, resultCode, data)
             }
         }
     }
 
-    private fun configureLocale() {
-        val sharedPreferences = this.getSharedPreferences("APP_PREFERENCES", Context.MODE_PRIVATE)
-        val loc = Resources.getSystem().configuration.locale.language
-        val language = sharedPreferences.getString("Language", loc).toString()
-        sharedPreferences.edit().putString("System_language", loc).apply()
-
-        localeHelper.setLocale(this, language)
-    }
-
     private fun handleVkAuth(): VKAuthCallback {
+        val currentTimeMillis = System.currentTimeMillis()
         return object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
                 val accessToken = token.accessToken

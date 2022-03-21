@@ -7,35 +7,44 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.Interactor
-import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentSocialBinding
 import com.dsoft.liverpooldirectory.other.Constants.CODE_TOKEN_ERROR_IP
 import com.dsoft.liverpooldirectory.other.Constants.QUERY_PAGE_SIZE
 import com.dsoft.liverpooldirectory.ui.social.adapter.SocialRecyclerAdapter
-import com.dsoft.liverpooldirectory.utility.BaseFragment
 import com.dsoft.liverpooldirectory.utility.Resource
 import com.google.android.material.snackbar.Snackbar
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
-class SocialFragment : BaseFragment(R.layout.fragment_social) {
+class SocialFragment : Fragment() {
 
-    private val binding by viewBinding(FragmentSocialBinding::bind)
-    private val viewModel by activityViewModels<SocialViewModel>()
+    private var _binding: FragmentSocialBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel by viewModels<SocialViewModel>()
 
     private lateinit var adapter: SocialRecyclerAdapter
 
     var isLoading = false
     var isLastPage = false
     var isScrolling = false
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentSocialBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,6 +73,11 @@ class SocialFragment : BaseFragment(R.layout.fragment_social) {
             dialog.show(parentFragmentManager, "customDialog")
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun makeAuth() {

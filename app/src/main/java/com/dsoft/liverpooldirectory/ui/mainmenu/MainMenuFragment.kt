@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentMainMenuBinding
 import com.dsoft.liverpooldirectory.ui.mainmenu.adapter.RecyclerAdapterTable
@@ -25,7 +24,18 @@ import kotlinx.coroutines.launch
 class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
 
     private val viewModel by activityViewModels<MainMenuViewModel>()
-    private val binding by viewBinding(FragmentMainMenuBinding::bind)
+    private var _binding: FragmentMainMenuBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,6 +70,11 @@ class MainMenuFragment : BaseFragment(R.layout.fragment_main_menu) {
                 findNavController().navigate(R.id.action_MainMenuFragment_to_settingsFragment)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setUpViewPager() {

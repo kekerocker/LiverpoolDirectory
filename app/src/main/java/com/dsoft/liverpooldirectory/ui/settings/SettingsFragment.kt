@@ -6,11 +6,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.data.AppPreferences
 import com.dsoft.liverpooldirectory.databinding.FragmentSettingsBinding
@@ -21,18 +22,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment(R.layout.fragment_settings) {
+class SettingsFragment : Fragment() {
 
-    private val binding by viewBinding(FragmentSettingsBinding::bind)
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var nightModeService: NightModeService
 
     @Inject
     lateinit var sharedPreferences: AppPreferences
-
-    @Inject
-    lateinit var localeHelper: LocaleHelper
 
     companion object {
         private const val LANGUAGE_ENGLISH = "en"
@@ -41,18 +40,29 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         private const val LANGUAGE_RUSSIAN_COUNTRY = "RU"
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.btnBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
         setCurrentLanguageCheck()
         setAndRemoveListenerForLanguage(true)
         setCurrentNightModeCheck()
         setAndRemoveListenerForNightMode(true)
+        binding.btnBack.setOnClickListener { findNavController().navigateUp() }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setAndRemoveListenerForNightMode(needSet: Boolean) {
@@ -125,7 +135,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             val language: String =
                 getLanguageForRadioButtonId(binding.rgLanguage.checkedRadioButtonId)
             val country: String = getCountryForLanguage(language)
-            localeHelper.setLocale(requireContext(), country)
+            LocaleHelper.setLocale(requireContext(), country)
             setLocale(language, country)
             restart()
         }
@@ -147,7 +157,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun setLocale(language: String, country: String) {
-        localeHelper.setLocale(requireContext(), language)
+        LocaleHelper.setLocale(requireContext(), language)
         sharedPreferences.data.edit().putString("Language", language)
             .putString("Country", country).apply()
     }

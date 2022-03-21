@@ -3,11 +3,9 @@ package com.dsoft.liverpooldirectory.utility
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
-import com.dsoft.liverpooldirectory.data.AppPreferences
 import java.util.*
-import javax.inject.Inject
 
-class LocaleHelper @Inject constructor() {
+object LocaleHelper {
 
     fun setLocale(context: Context, language: String): Context {
         return if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {

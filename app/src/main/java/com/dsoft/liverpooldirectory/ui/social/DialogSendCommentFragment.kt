@@ -1,7 +1,5 @@
 package com.dsoft.liverpooldirectory.ui.social
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentCommentSectionBottomsheetDialogBinding
 import com.dsoft.liverpooldirectory.ui.social.adapter.SocialCommentsRecyclerAdapter
@@ -21,7 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class DialogSendCommentFragment : BottomSheetDialogFragment() {
 
     private val viewModel by viewModels<SocialViewModel>()
-    private val binding by viewBinding(FragmentCommentSectionBottomsheetDialogBinding::bind)
+    private var _binding: FragmentCommentSectionBottomsheetDialogBinding? = null
+    private val binding get() = _binding!!
 
     private var postId = 0
 
@@ -30,7 +28,9 @@ class DialogSendCommentFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_comment_section_bottomsheet_dialog, container, false)
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentCommentSectionBottomsheetDialogBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,6 +52,11 @@ class DialogSendCommentFragment : BottomSheetDialogFragment() {
             Log.d("Test222", "postId: $postId")
             dismiss()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setupRecyclerView() {
