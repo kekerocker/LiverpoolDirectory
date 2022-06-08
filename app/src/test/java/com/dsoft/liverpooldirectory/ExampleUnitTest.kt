@@ -1,6 +1,6 @@
 package com.dsoft.liverpooldirectory
 
-import com.dsoft.liverpooldirectory.model.Table
+import com.dsoft.liverpooldirectory.model.TableData
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -12,8 +12,8 @@ import org.junit.Test
 class ExampleUnitTest {
     @Test
     fun `download data from internet and store it in list`() {
-        val list = mutableListOf<Table>()
-        val response = Table(1, "LFC", "4", "3", "1", "0", "10")
+        val list = mutableListOf<TableData>()
+        val response = TableData(1, "LFC", "4", "3", "1", "0", "10")
 
         list.add(response)
         assertThat(list).contains(response)

@@ -1,7 +1,7 @@
 package com.dsoft.liverpooldirectory.data.api
 
-import com.dsoft.liverpooldirectory.data.api.dto.vk.comments.VKCommentResponse
-import com.dsoft.liverpooldirectory.data.api.dto.vk.wall.VKApiJSON
+import com.dsoft.liverpooldirectory.data.dto.comments.VKCommentResponse
+import com.dsoft.liverpooldirectory.data.dto.wall.VKApiJSON
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query

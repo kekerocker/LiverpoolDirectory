@@ -9,13 +9,13 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.ItemCommentBinding
-import com.dsoft.liverpooldirectory.model.VKComment
+import com.dsoft.liverpooldirectory.model.VKCommentData
 import com.dsoft.liverpooldirectory.utility.RandomName
 
 class SocialCommentsRecyclerAdapter :
     RecyclerView.Adapter<SocialCommentsRecyclerAdapter.ViewHolder>() {
 
-    var commentsList: List<VKComment> = emptyList()
+    var commentsList: List<VKCommentData> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()

@@ -1,7 +1,6 @@
 package com.dsoft.liverpooldirectory.ui.social.adapter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,18 +13,19 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.ItemSocialNewsBinding
-import com.dsoft.liverpooldirectory.model.VKWall
+import com.dsoft.liverpooldirectory.model.VKWallData
+import com.dsoft.liverpooldirectory.ui.social.SocialFragmentDirections
 import com.dsoft.liverpooldirectory.utility.getTime
 
 class SocialRecyclerAdapter : RecyclerView.Adapter<SocialRecyclerAdapter.MyViewHolder>() {
 
-    private val differCallback = object : DiffUtil.ItemCallback<VKWall>() {
+    private val differCallback = object : DiffUtil.ItemCallback<VKWallData>() {
 
-        override fun areItemsTheSame(oldItem: VKWall, newItem: VKWall): Boolean {
+        override fun areItemsTheSame(oldItem: VKWallData, newItem: VKWallData): Boolean {
             return oldItem.text == newItem.text
         }
 
-        override fun areContentsTheSame(oldItem: VKWall, newItem: VKWall): Boolean {
+        override fun areContentsTheSame(oldItem: VKWallData, newItem: VKWallData): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
@@ -43,10 +43,9 @@ class SocialRecyclerAdapter : RecyclerView.Adapter<SocialRecyclerAdapter.MyViewH
         init {
             itemView.setOnClickListener {
                 val postId = differ.currentList[layoutPosition].postId
-                val bundle = Bundle()
+                val direction = SocialFragmentDirections.actionSocialFragmentToCommentSectionFragment(postId)
 
-                bundle.putInt("postId", postId)
-                itemView.findNavController().navigate(R.id.action_socialFragment_to_commentSectionFragment, bundle)
+                itemView.findNavController().navigate(direction)
             }
         }
     }

@@ -1,9 +1,8 @@
 package com.dsoft.liverpooldirectory.ui.news
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.dsoft.liverpooldirectory.model.News
-import com.dsoft.liverpooldirectory.repository.NewsRepository
+import com.dsoft.liverpooldirectory.model.NewsData
+import com.dsoft.liverpooldirectory.usecase.NewsUseCase
 import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,32 +12,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
-    private val newsRepository: NewsRepository
+    private val useCase: NewsUseCase
 ) : ViewModel(), LifecycleObserver {
 
-    private val isOnline = newsRepository.isOnline
-    val readAllNews: LiveData<List<News>> = newsRepository.readAllNews
-    val newsStatus: MutableLiveData<Resource<News>> = MutableLiveData()
+    val readAllNews: LiveData<List<NewsData>> = useCase.readAllNews
+    val newsStatus: MutableLiveData<Resource<NewsData>> = MutableLiveData()
 
     var count = 10
 
     init {
-        if (isOnline) {
-            deleteAllNews()
-            safeCall()
-        }
+        deleteAllNews()
+        safeCall()
     }
 
     private fun deleteAllNews() {
         viewModelScope.launch(Dispatchers.IO) {
-            newsRepository.deleteAllNews()
+            useCase.deleteAllNews()
         }
     }
 
     fun safeCall() {
         newsStatus.postValue(Resource.Loading())
         try {
-            newsRepository.downloadNews()
+            useCase.downloadNews()
             readAllNews.observeForever { list ->
                 val someList = if (!list.isNullOrEmpty()) list else return@observeForever
                 newsStatus.postValue(Resource.Success(someList.first()))

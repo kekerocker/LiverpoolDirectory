@@ -6,27 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import by.kirich1409.viewbindingdelegate.viewBinding
-import com.dsoft.liverpooldirectory.R
 import com.dsoft.liverpooldirectory.databinding.FragmentNewsBinding
 import com.dsoft.liverpooldirectory.other.Constants
 import com.dsoft.liverpooldirectory.ui.news.adapter.RecyclerAdapter
-import com.dsoft.liverpooldirectory.utility.BaseFragment
 import com.dsoft.liverpooldirectory.utility.Resource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NewsFragment : BaseFragment(R.layout.fragment_news) {
+class NewsFragment : Fragment() {
 
     private val viewModel by viewModels<NewsViewModel>()
-    private val binding by viewBinding(FragmentNewsBinding::bind)
+
+    private var _binding: FragmentNewsBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var rvAdapter: RecyclerAdapter
 
@@ -38,23 +35,27 @@ class NewsFragment : BaseFragment(R.layout.fragment_news) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return getPersistentView(inflater, container, savedInstanceState)
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!hasInitializedRootView) {
-            hasInitializedRootView = true
-            setUpRecyclerView()
-            with(binding) {
-                refreshLayout.setOnRefreshListener {
-                    viewModel.safeCall()
-                    refreshLayout.isRefreshing = false
-                }
+        setUpRecyclerView()
+        with(binding) {
+            refreshLayout.setOnRefreshListener {
+                viewModel.safeCall()
+                refreshLayout.isRefreshing = false
             }
-            observeStatus()
         }
+        observeStatus()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun observeStatus() {
@@ -63,7 +64,8 @@ class NewsFragment : BaseFragment(R.layout.fragment_news) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {
-                        val totalCount = rvAdapter.differ.currentList.size / Constants.NEWS_PAGE_SIZE
+                        val totalCount =
+                            rvAdapter.differ.currentList.size / Constants.NEWS_PAGE_SIZE
                         isLastPage = viewModel.count == totalCount
                         if (isLastPage) {
                             binding.rvRecyclerView.setPadding(0, 0, 0, 0)
@@ -73,7 +75,11 @@ class NewsFragment : BaseFragment(R.layout.fragment_news) {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Snackbar.make(requireView(), "An error occured: $message", Snackbar.LENGTH_SHORT)
+                        Snackbar.make(
+                            requireView(),
+                            "An error occured: $message",
+                            Snackbar.LENGTH_SHORT
+                        )
                             .show()
                     }
                 }
@@ -142,8 +148,8 @@ class NewsFragment : BaseFragment(R.layout.fragment_news) {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.addOnScrollListener(this.scrollListener)
 
-        viewModel.readAllNews.observe(viewLifecycleOwner, { news ->
+        viewModel.readAllNews.observe(viewLifecycleOwner) { news ->
             rvAdapter.differ.submitList(news)
-        })
+        }
     }
 }
