@@ -33,7 +33,6 @@ android {
 
     buildFeatures {
         viewBinding true
-        dataBinding true
     }
 
     buildTypes {
@@ -90,14 +89,14 @@ dependencies {
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.3.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
 
     // Kotlin components
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
 
     //Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
@@ -143,5 +142,7 @@ dependencies {
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.28-alpha'
     debugImplementation "androidx.fragment:fragment-testing:1.4.0-alpha10"
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
 }

@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.dsoft.liverpooldirectory.databinding.ActivityMainmenuBinding
@@ -26,15 +27,16 @@ class MainMenuActivity : AppCompatActivity() {
 
     @Inject lateinit var connectionLiveData: ConnectionLiveData
     @Inject lateinit var localeHelper: LocaleHelper
+    private val viewModel by viewModels<SocialViewModel>()
 
     private val currentTimeMillis = System.currentTimeMillis()
 
-    private val viewModel by viewModels<SocialViewModel>()
-    private lateinit var binding: ActivityMainmenuBinding
+    private var _binding: ActivityMainmenuBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainmenuBinding.inflate(layoutInflater)
+        _binding = ActivityMainmenuBinding.inflate(layoutInflater)
         configureLocale()
         setContentView(binding.root)
         supportActionBar?.hide()
@@ -45,6 +47,11 @@ class MainMenuActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -62,7 +69,6 @@ class MainMenuActivity : AppCompatActivity() {
                     appPreferences.saveTokenTime(currentTimeMillis)
                     interactor.isSuccess = true
                 }
-
             }
 
             override fun onLoginFailed(errorCode: Int) {

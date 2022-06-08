@@ -25,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NewsFragment : BaseFragment(R.layout.fragment_news) {
 
-    private val viewModel by activityViewModels<NewsViewModel>()
+    private val viewModel by viewModels<NewsViewModel>()
     private val binding by viewBinding(FragmentNewsBinding::bind)
 
     private lateinit var rvAdapter: RecyclerAdapter

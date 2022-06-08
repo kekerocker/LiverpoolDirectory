@@ -18,7 +18,7 @@
         tools:itemCount="2"
         tools:listitem="@layout/item_comment" />
 
-    <com.libizo.CustomEditText
+    <EditText
         android:id="@+id/customEditText"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -32,10 +32,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_recyclerView_comments"
-        app:libIZO_setBackgroundColor="#FFFFFF"
-        app:libIZO_setBorderColor="#FFF1DBBD"
-        app:libIZO_setBorderView="true"
-        app:libIZO_setCornerRadius="8dp"
         tools:layout_editor_absoluteY="8dp" />
 
     <com.dsoft.liverpooldirectory.custom.MainButton
