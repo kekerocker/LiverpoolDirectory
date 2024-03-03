@@ -1,28 +1,22 @@
 package com.dsoft.liverpooldirectory.usecase
 
-import com.dsoft.liverpooldirectory.model.CloseGamesData
-import com.dsoft.liverpooldirectory.model.TableData
-import com.dsoft.liverpooldirectory.repository.MainMenuRepositoryImpl
-import kotlinx.coroutines.flow.Flow
+import androidx.lifecycle.LiveData
+import com.dsoft.liverpooldirectory.model.NewsData
+import com.dsoft.liverpooldirectory.repository.NewsRepositoryImpl
 import javax.inject.Inject
 
 class MainMenuUseCase @Inject constructor(
-    private val repository: MainMenuRepositoryImpl
+    private val newsRepository: NewsRepositoryImpl
 ) {
 
-    val readAllEplData: Flow<List<TableData>> get() = repository.getAllEplData()
-    val readAllCloseGamesData: Flow<List<CloseGamesData>> get() = repository.getAllCloseGamesData()
+    val readAllNews: LiveData<List<NewsData>> get() = newsRepository.getAllNews()
 
-    fun downloadDataFromInternet() {
-        repository.downloadDataFromInternet()
+    suspend fun deleteAllNews() {
+        newsRepository.deleteAllNews()
     }
 
-    suspend fun deleteAllTableData() {
-        repository.deleteAllTableData()
-    }
-
-    suspend fun deleteAllCloseGamesData() {
-        repository.deleteAllCloseGamesData()
+    fun downloadNews() {
+        newsRepository.downloadNews()
     }
 
 }

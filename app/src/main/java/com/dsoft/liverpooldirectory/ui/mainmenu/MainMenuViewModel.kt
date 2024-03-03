@@ -1,15 +1,17 @@
 package com.dsoft.liverpooldirectory.ui.mainmenu
 
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dsoft.liverpooldirectory.model.CloseGamesData
-import com.dsoft.liverpooldirectory.model.TableData
+import com.dsoft.liverpooldirectory.model.NewsData
 import com.dsoft.liverpooldirectory.usecase.MainMenuUseCase
+import com.dsoft.liverpooldirectory.utility.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,28 +19,39 @@ class MainMenuViewModel @Inject constructor(
     private val useCase: MainMenuUseCase,
 ) : ViewModel(), LifecycleObserver {
 
-    val readAllEplData: Flow<List<TableData>> = useCase.readAllEplData
-    val readAllCloseGamesData: Flow<List<CloseGamesData>> = useCase.readAllCloseGamesData
-
     init {
-        deleteAllCloseGamesData()
-        deleteAllTableData()
-        downloadDataFromInternet()
+        deleteAllNews()
+        safeCall()
     }
 
-    private fun downloadDataFromInternet() {
-        useCase.downloadDataFromInternet()
-    }
+    val readAllNews: LiveData<List<NewsData>> = useCase.readAllNews
+    val newsStatus: MutableLiveData<Resource<NewsData>> = MutableLiveData()
 
-    private fun deleteAllTableData() {
+    var count = 10
+
+    private fun deleteAllNews() {
         viewModelScope.launch(Dispatchers.IO) {
-            useCase.deleteAllTableData()
+            useCase.deleteAllNews()
         }
     }
 
-    private fun deleteAllCloseGamesData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            useCase.deleteAllCloseGamesData()
+    fun safeCall() {
+        newsStatus.postValue(Resource.Loading())
+        try {
+            useCase.downloadNews()
+            readAllNews.observeForever { list ->
+                val someList = if (!list.isNullOrEmpty()) list else return@observeForever
+                newsStatus.postValue(Resource.Success(someList.first()))
+            }
+            count += 10
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> newsStatus.postValue(Resource.Error("No internet connection"))
+                else -> {
+                    t.printStackTrace()
+                    newsStatus.postValue(Resource.Error("Conversion Error"))
+                }
+            }
         }
     }
 }

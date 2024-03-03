@@ -16,13 +16,6 @@
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu">
         <action
-            android:id="@+id/action_mainMenuFragment_to_newsFragment"
-            app:destination="@id/newsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
             android:id="@+id/action_MainMenuFragment_to_socialFragment"
             app:destination="@id/socialFragment"
             app:enterAnim="@anim/slide_in_left"
