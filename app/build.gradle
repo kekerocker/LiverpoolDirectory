@@ -8,14 +8,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 34
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
-        applicationId "com.dsoft.liverpooldirectory"
+        applicationId "com.dsoft.liverpooldirectory2"
         minSdkVersion 24
-        targetSdkVersion 32
+        targetSdkVersion 34
         versionCode 9
         versionName "1.3"
         buildConfigField("String", "YANDEX_API_KEY", YANDEX_API_KEY)

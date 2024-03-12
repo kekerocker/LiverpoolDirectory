@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_recyclerView_comments" />
 
-    <com.dsoft.liverpooldirectory.custom.MainButton
+    <com.dsoft.liverpooldirectory2.custom.MainButton
         android:id="@+id/closeMessageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customEditText" />
 
-    <com.dsoft.liverpooldirectory.custom.MainButton
+    <com.dsoft.liverpooldirectory2.custom.MainButton
         android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

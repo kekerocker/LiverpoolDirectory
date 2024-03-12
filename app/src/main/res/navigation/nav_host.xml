@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.dsoft.liverpooldirectory.ui.news.NewsFragment"
+        android:name="com.dsoft.liverpooldirectory2.ui.news.NewsFragment"
         android:label="News"
         tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/MainMenuFragment"
-        android:name="com.dsoft.liverpooldirectory.ui.mainmenu.MainMenuFragment"
+        android:name="com.dsoft.liverpooldirectory2.ui.mainmenu.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu">
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <dialog
         android:id="@+id/commentSectionFragment"
-        android:name="com.dsoft.liverpooldirectory.ui.social.DialogSendCommentFragment"
+        android:name="com.dsoft.liverpooldirectory2.ui.social.DialogSendCommentFragment"
         android:label="fragment_comment_section"
         tools:layout="@layout/fragment_comment_section_bottomsheet_dialog" >
         <argument
@@ -41,7 +41,7 @@
     </dialog>
     <fragment
         android:id="@+id/socialFragment"
-        android:name="com.dsoft.liverpooldirectory.ui.social.SocialFragment"
+        android:name="com.dsoft.liverpooldirectory2.ui.social.SocialFragment"
         android:label="fragment_social"
         tools:layout="@layout/fragment_social">
         <action
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.dsoft.liverpooldirectory.ui.settings.SettingsFragment"
+        android:name="com.dsoft.liverpooldirectory2.ui.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" />
 </navigation>
